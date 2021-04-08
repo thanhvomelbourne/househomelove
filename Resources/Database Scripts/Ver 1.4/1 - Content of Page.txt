@@ -1,0 +1,14 @@
+ALTER TABLE [dbo].[ApplicationSettings]
+ADD [AboutUs] [NVARCHAR](MAX) NULL;
+
+ALTER TABLE [dbo].[ApplicationSettings]
+ADD [ClickAndCollectPage] [NVARCHAR](MAX) NULL;
+
+ALTER TABLE [dbo].[ApplicationSettings]
+ADD [HomeMailPage] [NVARCHAR](MAX) NULL;
+
+ALTER TABLE [dbo].[ApplicationSettings]
+ADD [FacebookLink] [NVARCHAR](1000) NULL;
+
+ALTER TABLE [dbo].[ApplicationSettings]
+ADD [InstagramLink] [NVARCHAR](1000) NULL;

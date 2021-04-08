@@ -1,0 +1,38 @@
+﻿@model BusinessService.Models.Common.HomePageModel
+@{
+    ViewBag.Title = "About Us";
+}
+
+<!-- PAGE BANNER SECTION -->
+<div class="page-banner-section section">
+    <div class="container">
+        <div class="row">
+            <div class="page-banner-content col-xs-12">
+                <h2><img src="~/images/app/screenwriting.svg" class="icon_svg_title pb-10" />&nbsp;About Us</h2>
+                <ul class="breadcrumb">
+                    <li><a href="/">Home</a></li>
+                    <li class="active"><b>About Us</b></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- END PAGE BANNER SECTION -->
+<!-- PAGE SECTION START -->
+<div class="page-section section pt-30 pb-30">
+    <div class="container hidden-xs hidden-sm">
+        <div class="row">
+            <div class="col-lg-12 col-md-12">
+                @Html.Raw(Model.ApplicationSetting.AboutUs)
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid hidden-md hidden-lg">
+        <div class="row">
+            <div class="col-sm-12 col-xs-12">
+                @Html.Raw(Model.ApplicationSetting.AboutUs)
+            </div>
+        </div>
+    </div>
+</div>
+<!-- PAGE SECTION END -->

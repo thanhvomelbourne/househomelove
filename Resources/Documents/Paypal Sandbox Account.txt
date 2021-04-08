@@ -1,0 +1,73 @@
+Sandbox Paypal account:
+
+Personal
+--------------
+Email ID:
+thanhvo.melbourne-buyer@gmail.com
+Password:King123$
+Change password
+Phone Number:
+0369169186
+
+Bank Account
+Account Number:
+255193573
+Routing Number:
+012-395
+Credit Card
+
+Credit Card Number:
+4239532584274218
+Credit Card Type:
+VISA
+Expiration Date:
+08/2022
+PayPal
+Balance:
+9999.00 AUD
+
+=======================================
+Business
+--------------
+Email ID:
+thanhvo.melbourne-facilitator@gmail.com
+Password:
+Change password
+Phone Number:
+0364772046
+
+Classic Sandbox API Credentials
+Username:
+thanhvo.melbourne-facilitator_api1.gmail.com
+Password:
+LGB2U9UEM2BZDX8U
+Signature:
+AFcWxV21C7fd0v3bYYYRCpSSRl31Aj-khaLGQ9.07PWa75GamTk-SJ5d
+
+Bank Account
+Account Number:
+585394677
+Routing Number:
+012-395
+
+Credit Card
+Credit Card Number:
+4239537686746450
+Credit Card Type:
+VISA
+Expiration Date:
+08/2022
+PayPal
+Balance:
+.00 AUD
+
+=========================================
+App
+App display name:caterwin
+Sandbox account
+thanhvo.melbourne-facilitator@gmail.com
+Client ID
+AazqLhs8trR_kDjmnZF6DqtVVA4Qw-xPrrkf3l2JU1kfg9McTLJaiOQTDfkkX8GDwUyGTrGbAYeGAqrT
+
+Secret
+ECxO46UA8pLzbGKeRBdBkqG0dGlazqgdeg1AriRDyN94ZLvXUMhfxQRmkwZcoj5BxXRwoxTAxEqMikxq

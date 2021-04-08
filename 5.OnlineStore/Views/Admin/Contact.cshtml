@@ -1,0 +1,270 @@
+﻿@model BusinessService.Models.Common.AdminModel
+@{
+    ViewBag.Title = "Contacts";
+    Layout = "~/Views/Shared/_Admin.cshtml";
+}
+
+<div class="row"> 
+    <div class="col-lg-12">
+        <h2 class="page-header color_blue"><i class="fa fa-book fa-fw"></i> Contact Messages</h2>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-4 col-md-4 col-sm-7 col-xs-12">
+        @using (Html.BeginForm("Contact", "Admin", FormMethod.Get))
+        {
+            <div class="input-group">
+                @Html.TextBox("Search", ViewBag.CurrentSearch as string, new { @class = "form-control" })
+                <span class="input-group-addon">
+                    <i type="submit" class="fa fa-search"></i>
+                </span>
+            </div>
+        }
+    </div>
+</div>
+<br />
+<div class="row">
+    <div class="col-lg-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <span class="float_right">Total: @Model.ContactList.TotalItems items &nbsp;|&nbsp; Page @(Model.ContactList.TotalPages < Model.ContactList.CurrenPage ? 0 : Model.ContactList.CurrenPage) of @Model.ContactList.TotalPages</span>
+            </div>
+            <!-- /.panel-heading -->
+            <div class="panel-body">
+                <div class="dataTable_wrapper">
+                    <table class="table table-striped table-bordered table-hover hidden-sm hidden-xs" id="dataTables-example">
+                        <thead>
+                            <tr>
+                                <th class="text-center text-primary">Id</th>
+                                <th class="text-center text-primary">Contact Name</th>
+                                <th class="text-center text-primary">Contact Email</th>
+                                <th class="text-center text-primary">Contact Phone</th>
+                                <th class="text-center text-primary">Created By</th>
+                                <th class="text-center text-primary">Received At</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody id="bodyTable">
+                            @foreach (var m in Model.ContactList.Data)
+                            {
+                                <tr id="row_@m.Id">
+                                    <td class="text-center">@m.Id</td>
+                                    <td class="text-center">@m.ContactName</td>
+                                    <td class="text-center">@m.ContactEmail</td>
+                                    <td class="text-center">@m.ContactPhone</td>
+                                    <td class="text-center">@m.CreatedBy</td>
+                                    <td class="text-center">@m.CreatedAt</td>
+                                    <td class="text-center">
+                                        @if (m.IsRead)
+                                        {
+                                            <a onclick="openUpdateContact(@m.Id)"><i class="fa fa-envelope-o cusor_pointer"></i></a>
+                                        }
+                                        else
+                                        {
+                                            <a onclick="openUpdateContact(@m.Id)"><i class="fa fa-envelope cusor_pointer"></i></a>
+                                        }
+                                        &nbsp;
+                                        <a id="@m.Id" onclick="confirmDeleteContact(@m.Id, '@m.ContactName')"><i class="fa fa-trash-o cusor_pointer"></i></a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                    <div class="hidden-lg hidden-md">
+                        @foreach (var m in Model.ContactList.Data)
+                        {
+                            <div class="panel panel-default" id="row_@m.Id">
+                                <div class="panel-heading">@m.Id - @m.ContactName</div>
+                                <table class="table table-striped table-bordered table-hover">
+                                    <tbody>
+                                        <tr>
+                                            <td class="font-bold width_50">Email</td>
+                                            <td class="text-center">@m.ContactEmail</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="font-bold width_50">Phone</td>
+                                            <td class="text-center">@m.ContactPhone</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <div class="panel-footer">
+                                    <div class="row">
+                                        <div class="col-xs-12">
+                                            <span class="text-muted pull-right small">Created at @m.CreatedAt by @m.CreatedBy</span>
+                                        </div>
+                                        @if (!string.IsNullOrEmpty(m.UpdatedAt))
+                                        {
+                                            <div class="col-xs-12">
+                                                <span class="text-muted pull-right small">Updated at @m.UpdatedAt by @m.UpdatedBy</span>
+                                            </div>
+                                        }
+                                    </div>
+                                    <br />
+                                    <div class="row">
+                                        <div class="col-xs-6">
+                                            @if (m.IsRead)
+                                            {
+                                            <a onclick="openUpdateContact(@m.Id)" class="pull-left"><i class="fa fa-envelope-o cusor_pointer"></i>&nbsp;Open (Seen)</a>
+                                            }
+                                            else
+                                            {
+                                                <a onclick="openUpdateContact(@m.Id)" class="pull-left"><i class="fa fa-envelope cusor_pointer"></i>&nbsp;Open</a>
+                                            }
+                                        </div>
+                                        <div class="col-xs-6">
+                                            <a id="@m.Id" onclick="confirmDeleteContact(@m.Id, '@m.ContactName')" class="pull-right"><i class="fa fa-trash-o cusor_pointer"></i>&nbsp;Remove</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                    <nav aria-label="paging" class="text-center">
+                        <div class="dataTables_paginate paging_simple_numbers" id="dataTables-example_paginate">
+                            <ul class="pagination">
+                                @{
+                                    if (Model.ContactList.IsFirstPage)
+                                    {
+                                        <li class="paginate_button previous disabled" aria-controls="dataTables-example" tabindex="0" id="dataTables-example_previous">
+                                            <a>Previous</a>
+                                        </li>
+                                    }
+                                    else
+                                    {
+                                        <li class="paginate_button previous" aria-controls="dataTables-example" tabindex="0" id="dataTables-example_previous">
+                                            @Html.ActionLink("Previous", "Contact", new { PageNo = Model.ContactList.CurrenPage - 1, CurrentSearch = ViewBag.CurrentSearch })
+                                        </li>
+                                    }
+
+                                    for (int i = 1; i <= Model.ContactList.TotalPages; i++)
+                                    {
+                                        if (Model.ContactList.CurrenPage == i)
+                                        {
+                                            <li class="paginate_button active" aria-controls="dataTables-example" tabindex="0">
+                                                @Html.ActionLink(i.ToString(), "Contact", new { PageNo = i, CurrentSearch = ViewBag.CurrentSearch })
+                                            </li>
+                                        }
+                                        else
+                                        {
+                                            <li class="paginate_button" aria-controls="dataTables-example" tabindex="0">
+                                                @Html.ActionLink(i.ToString(), "Contact", new { PageNo = i, CurrentSearch = ViewBag.CurrentSearch })
+                                            </li>
+                                        }
+                                    }
+
+                                    if (Model.ContactList.IsLastPage || !Model.ContactList.Data.Any())
+                                    {
+                                        <li class="paginate_button next disabled" aria-controls="dataTables-example" tabindex="0" id="dataTables-example_next">
+                                            <a>Next</a>
+                                        </li>
+                                    }
+                                    else
+                                    {
+                                        <li class="paginate_button next" aria-controls="dataTables-example" tabindex="0" id="dataTables-example_next">
+                                            @Html.ActionLink("Next", "Contact", new { PageNo = Model.ContactList.CurrenPage + 1, CurrentSearch = ViewBag.CurrentSearch })
+                                        </li>
+                                    }
+                                }
+                            </ul>
+                        </div>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@using (Html.BeginForm("CreateUpdate", "Contact", FormMethod.Post, new { @id = "form_createContact", @class = "modal fade", @role = "dialog" }))
+{
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">View Contact Message</h4>
+            </div>
+            <div class="modal-body">
+                @Html.Hidden("Id")
+                <div class="form-group">
+                    <label>Name</label>
+                    <input id="contactName" name="Name" type="text" class="form-control" placeholder="Name" disabled />
+                </div>
+                <div class="form-group">
+                    <label>Email</label>
+                    <input id="contactEmail" name="Email" type="text" class="form-control" placeholder="Email" disabled />
+                </div>
+                <div class="form-group">
+                    <label>Phone</label>
+                    <input id="contactPhone" name="Phone" type="text" class="form-control" placeholder="Phone" disabled />
+                </div>
+                <div class="form-group">
+                    <label>Subecjt</label>
+                    <input id="subject" name="Subecjt" type="text" class="form-control" placeholder="Subecjt" disabled />
+                </div>
+                <div class="form-group">
+                    <label>Message</label>
+                    <textarea id="message" name="Message" type="text" class="form-control" placeholder="Message" disabled rows="5"></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+}
+
+@using (Html.BeginForm("Delete", "Contact", FormMethod.Post, new { @id = "form_deleteContact", @class = "modal fade", @role = "dialog" }))
+{
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Delete Contact Message</h4>
+            </div>
+            <div class="modal-body">
+                @Html.Hidden("contactIdForDelete")
+                <div id="message_confirm" style="padding-top: 5px;">Are you sure you want to delete a message from " <b id="delete_nameContact"></b> "?</div>
+            </div>
+            <div class="modal-footer">
+                <button id="delete_Contact" type="submit" class="btn btn-primary"><i class="fa fa-trash"></i>&nbsp;Delete</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+}
+
+<script type="text/javascript">
+    function confirmDeleteContact(id, name) {
+        $("#delete_nameContact").text(name);
+        $("#contactIdForDelete").val(id);
+        $('#form_deleteContact').modal('toggle');
+    };
+
+    function openUpdateContact(id) {
+        $.ajax({
+            cache: false,
+            type: "GET",
+            url: '@Url.Action("Details", "Contact")',
+            async: false,
+            data: { contactId: id },
+            dataType: "json",
+            timeout: 5000,
+            success: function (response) {
+                if (response.success == true) {
+                    $('#Id').val(response.data.Id);
+                    $("#contactName").val(response.data.ContactName);
+                    $("#contactEmail").val(response.data.ContactEmail);
+                    $("#contactPhone").val(response.data.ContactPhone);
+                    $("#subject").val(response.data.Subject);
+                    $("#message").val(response.data.Message);
+                    $('#form_createContact').modal('toggle');
+                }
+            },
+        });
+    };
+
+    function resetForm() {
+        $('#Id').val(null);
+        $("#nameContact").val(null);
+        $("#descriptionContact").val(null);
+    };
+</script>

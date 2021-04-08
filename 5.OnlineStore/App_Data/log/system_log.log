@@ -1,0 +1,54 @@
+2019-01-03 08:12:32,110       [19] INFO  OnlineStore.Controllers.UserProfileController [(null)] User is trying to login Username: admin
+2019-01-03 08:19:11,782       [17] INFO  BusinessService.Utility.EmailHelper [(null)] Sending error email in Azure by SendGrid. To: thanhvo.melbourne@gmail.com / Header: System Test
+2019-01-03 08:19:14,300       [17] INFO  BusinessService.Utility.EmailHelper [(null)] Sending email to thanhvo.melbourne@gmail.com System Test Status: Accepted
+2019-01-03 17:35:18,049       [9] INFO  OnlineStore.Controllers.UserProfileController [(null)] User is trying to login Username: admin
+2019-01-04 10:37:25,564       [10] INFO  OnlineStore.Controllers.UserProfileController [(null)] User is trying to login Username: admin
+2019-01-04 10:55:31,538       [8] INFO  OnlineStore.Controllers.UserProfileController [(null)] User is trying to login Username: admin
+2019-01-04 10:56:28,574       [7] INFO  OnlineStore.Helper.EmailHelper [(null)] Sending email in Azure by SendGrid. To: thanhvo.melbourne@gmail.com / Header: Order Confirmation
+2019-01-04 10:56:32,280       [7] DEBUG OnlineStore.Helper.EmailHelper [(null)] Cannot send email from system: One or more errors occurred.
+2019-01-04 10:56:32,299       [7] INFO  OnlineStore.Controllers.OrderController [(null)] Cannot send order confirmation email: One or more errors occurred. - CoreLibrary.Data.DataLayerException: One or more errors occurred.
+   at OnlineStore.Helper.EmailHelper.SendEmail(ApplicationSettingModel appConfig, String senderEmail, String body, String toEmail, String password, String header) in D:\Working\HouseHomeLove\SourceCode\5.OnlineStore\Helper\EmailHelper.cs:line 271
+   at OnlineStore.Helper.EmailHelper.SendConfirmationEmail(ApplicationSettingModel appConfig, OrderModel model, String[] emails) in D:\Working\HouseHomeLove\SourceCode\5.OnlineStore\Helper\EmailHelper.cs:line 171
+   at OnlineStore.Controllers.OrderController.SendInvoiceEmail(Int32 orderId, String specificEmail) in D:\Working\HouseHomeLove\SourceCode\5.OnlineStore\Controllers\OrderController.cs:line 650
+2019-01-04 20:25:45,415       [9] INFO  OnlineStore.Controllers.UserProfileController [(null)] User is trying to login Username: admin
+2019-01-04 20:26:21,350       [11] INFO  OnlineStore.Controllers.UserProfileController [(null)] User is trying to login Username: admin
+2019-01-04 21:54:05,426       [12] INFO  OnlineStore.Controllers.UserProfileController [(null)] User is trying to login Username: admin
+2019-01-04 22:18:05,168       [10] INFO  OnlineStore.Controllers.UserProfileController [(null)] User is trying to login Username: admin
+2019-01-04 22:47:17,839       [6] INFO  OnlineStore.Controllers.UserProfileController [(null)] User is trying to login Username: admin
+2019-01-04 22:59:30,105       [9] INFO  OnlineStore.Controllers.UserProfileController [(null)] User is trying to login Username: admin
+2019-01-04 23:12:00,683       [22] DEBUG BusinessService.Business.ShoppingCartBusiness [(null)] Value cannot be null.
+Parameter name: input - System.ArgumentNullException: Value cannot be null.
+Parameter name: input
+   at System.Text.RegularExpressions.Regex.Match(String input)
+   at System.Text.RegularExpressions.Regex.Match(String input, String pattern)
+   at BusinessService.Business.ShoppingCartBusiness.CalculateShoppingCart(ShoppingCart cart) in D:\Working\HouseHomeLove\SourceCode\3.BusinessService\Business\ShoppingCartBusiness.cs:line 392
+2019-01-04 23:12:00,711       [22] DEBUG BusinessService.Business.ShoppingCartBusiness [(null)] The remote name could not be resolved: 'househomelove.com.au' - System.Net.WebException: The remote name could not be resolved: 'househomelove.com.au'
+   at System.Net.HttpWebRequest.GetResponse()
+   at BusinessService.Utility.EmailHelper.GetEmailTemplate(String type) in D:\Working\HouseHomeLove\SourceCode\3.BusinessService\Utility\EmailHelper.cs:line 108
+   at BusinessService.Utility.EmailHelper.SendSystemErrorEmail(String errorMessage, String exception) in D:\Working\HouseHomeLove\SourceCode\3.BusinessService\Utility\EmailHelper.cs:line 120
+   at BusinessService.Business.ShoppingCartBusiness.CalculateShoppingCart(ShoppingCart cart) in D:\Working\HouseHomeLove\SourceCode\3.BusinessService\Business\ShoppingCartBusiness.cs:line 466
+   at BusinessService.Business.ShoppingCartBusiness.AddToCart(AddItemToShoppingCartModel param) in D:\Working\HouseHomeLove\SourceCode\3.BusinessService\Business\ShoppingCartBusiness.cs:line 106
+2019-01-04 23:12:00,730       [22] DEBUG OnlineStore.Controllers.ShoppingCartController [(null)] The remote name could not be resolved: 'househomelove.com.au' - System.Net.WebException: The remote name could not be resolved: 'househomelove.com.au'
+   at System.Net.HttpWebRequest.GetResponse()
+   at BusinessService.Utility.EmailHelper.GetEmailTemplate(String type) in D:\Working\HouseHomeLove\SourceCode\3.BusinessService\Utility\EmailHelper.cs:line 108
+   at BusinessService.Utility.EmailHelper.SendSystemErrorEmail(String errorMessage, String exception) in D:\Working\HouseHomeLove\SourceCode\3.BusinessService\Utility\EmailHelper.cs:line 120
+   at BusinessService.Business.ShoppingCartBusiness.AddToCart(AddItemToShoppingCartModel param) in D:\Working\HouseHomeLove\SourceCode\3.BusinessService\Business\ShoppingCartBusiness.cs:line 166
+   at OnlineStore.Controllers.ShoppingCartController.AddToCart(AddItemToShoppingCartModel model) in D:\Working\HouseHomeLove\SourceCode\5.OnlineStore\Controllers\ShoppingCartController.cs:line 26
+2019-01-04 23:12:12,393       [25] DEBUG BusinessService.Business.ShoppingCartBusiness [(null)] Value cannot be null.
+Parameter name: input - System.ArgumentNullException: Value cannot be null.
+Parameter name: input
+   at System.Text.RegularExpressions.Regex.Match(String input)
+   at System.Text.RegularExpressions.Regex.Match(String input, String pattern)
+   at BusinessService.Business.ShoppingCartBusiness.CalculateShoppingCart(ShoppingCart cart) in D:\Working\HouseHomeLove\SourceCode\3.BusinessService\Business\ShoppingCartBusiness.cs:line 392
+2019-01-04 23:12:12,398       [25] DEBUG BusinessService.Business.ShoppingCartBusiness [(null)] The remote name could not be resolved: 'househomelove.com.au' - System.Net.WebException: The remote name could not be resolved: 'househomelove.com.au'
+   at System.Net.HttpWebRequest.GetResponse()
+   at BusinessService.Utility.EmailHelper.GetEmailTemplate(String type) in D:\Working\HouseHomeLove\SourceCode\3.BusinessService\Utility\EmailHelper.cs:line 108
+   at BusinessService.Utility.EmailHelper.SendSystemErrorEmail(String errorMessage, String exception) in D:\Working\HouseHomeLove\SourceCode\3.BusinessService\Utility\EmailHelper.cs:line 120
+   at BusinessService.Business.ShoppingCartBusiness.CalculateShoppingCart(ShoppingCart cart) in D:\Working\HouseHomeLove\SourceCode\3.BusinessService\Business\ShoppingCartBusiness.cs:line 466
+   at BusinessService.Business.ShoppingCartBusiness.AddToCart(AddItemToShoppingCartModel param) in D:\Working\HouseHomeLove\SourceCode\3.BusinessService\Business\ShoppingCartBusiness.cs:line 106
+2019-01-04 23:12:12,401       [25] DEBUG OnlineStore.Controllers.ShoppingCartController [(null)] The remote name could not be resolved: 'househomelove.com.au' - System.Net.WebException: The remote name could not be resolved: 'househomelove.com.au'
+   at System.Net.HttpWebRequest.GetResponse()
+   at BusinessService.Utility.EmailHelper.GetEmailTemplate(String type) in D:\Working\HouseHomeLove\SourceCode\3.BusinessService\Utility\EmailHelper.cs:line 108
+   at BusinessService.Utility.EmailHelper.SendSystemErrorEmail(String errorMessage, String exception) in D:\Working\HouseHomeLove\SourceCode\3.BusinessService\Utility\EmailHelper.cs:line 120
+   at BusinessService.Business.ShoppingCartBusiness.AddToCart(AddItemToShoppingCartModel param) in D:\Working\HouseHomeLove\SourceCode\3.BusinessService\Business\ShoppingCartBusiness.cs:line 166
+   at OnlineStore.Controllers.ShoppingCartController.AddToCart(AddItemToShoppingCartModel model) in D:\Working\HouseHomeLove\SourceCode\5.OnlineStore\Controllers\ShoppingCartController.cs:line 26

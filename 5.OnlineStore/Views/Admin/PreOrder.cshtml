@@ -1,0 +1,654 @@
+﻿@model BusinessService.Models.Common.AdminModel
+@{
+    ViewBag.Title = "Pre-Orders";
+    Layout = "~/Views/Shared/_Admin.cshtml";
+}
+
+<div class="row">
+    <div class="col-lg-12">
+        <h2 class="page-header color_blue"><i class="fa fa-bookmark fa-fw"></i> Pre-Orders</h2>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-4 col-md-4 col-sm-7 col-xs-12">
+        @using (Html.BeginForm("PreOrder", "Admin", FormMethod.Get))
+        {
+            <div class="input-group">
+                @Html.TextBox("Search", ViewBag.CurrentSearch as string, new { @class = "form-control" })
+                <span class="input-group-addon">
+                    <i type="submit" class="fa fa-search"></i>
+                </span>
+            </div>
+        }
+    </div>
+</div>
+<br />
+<div class="row">
+    <div class="col-lg-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <span class="float_right">Total: @Model.PreOrderList.TotalItems items &nbsp;|&nbsp; Page @(Model.PreOrderList.TotalPages < Model.PreOrderList.CurrenPage ? 0 : Model.PreOrderList.CurrenPage) of @Model.PreOrderList.TotalPages</span>
+            </div>
+            <!-- /.panel-heading -->
+            <div class="panel-body">
+                <div class="dataTable_wrapper">
+                    <table class="table table-striped table-bordered table-hover hidden-sm hidden-xs" id="dataTables-example">
+                        <thead>
+                            <tr>
+                                <th class="text-center text-primary">Pre-Order Id</th>
+                                <th class="text-center text-primary">User</th>
+                                <th class="text-center text-primary">Product</th>
+                                <th class="text-center text-primary">First Name</th>
+                                <th class="text-center text-primary">Last Name</th>
+                                <th class="text-center text-primary">Email</th>
+                                <th class="text-center text-primary">Phone</th>
+                                <th class="text-center text-primary">Status</th>
+                                <th class="text-center text-primary">Customer Escalated</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody id="bodyTable">
+                            @foreach (var m in Model.PreOrderList.Data)
+                            {
+                                <tr id="row_@m.Id">
+                                    <td class="text-center">@m.Id</td>
+                                    <td class="text-center"><a onclick="openViewUserProfile(@m.UserId)">@m.Username</a></td>
+                                    <td class="text-center"><a onclick="openViewProduct(@m.ProductId)">@m.ProductName</a></td>
+                                    <td class="text-center">@m.FirstName</td>
+                                    <td class="text-center">@m.LastName</td>
+                                    <td class="text-center">@m.Email</td>
+                                    <td class="text-center">@m.Phone</td>
+
+                                    @if (m.Status.Equals("Received Pre-Order"))
+                                    {
+                                        <td class="text-center"><i class='fa fa-bell text-primary'></i>&nbsp;Received</td>
+                                    }
+                                    else if (m.Status.Equals("Approved Pre-Order"))
+                                    {
+                                        <td class="text-center"><i class='fa fa-check-square-o text-success'></i>&nbsp;Approved</td>
+                                    }
+                                    else if (m.Status.Equals("Declined Pre-Order"))
+                                    {
+                                        <td class="text-center"><i class='fa fa-circle-o-notch text-danger'></i>&nbsp;Declined</td>
+                                    }
+                                    else if (m.Status.Equals("Pre-Order Is Ready"))
+                                    {
+                                        <td class="text-center"><i class='fa fa-cubes text-success'></i>&nbsp;Ready</td>
+                                    }
+                                    else
+                                    {
+                                        <td class="text-center"><i class='fa fa-truck text-info'></i>&nbsp; Closed</td>
+                                    }
+
+                                    <td class="text-center">@m.CustomerEscalate</td>
+
+                                    <td class="text-center">
+                                        <a onclick="openViewPreOrder(@m.Id)"><i class="glyphicon glyphicon-eye-open cusor_pointer"></i></a>
+                                        &nbsp;
+                                        <a onclick="openUpdatePreOrder(@m.Id)"><i class="fa fa-pencil-square-o cusor_pointer"></i></a>
+                                        &nbsp;
+                                        <a onclick="confirmDeletePreOrder(@m.Id)"><i class="fa fa-trash-o cusor_pointer"></i></a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                    <div class="hidden-lg hidden-md">
+                        @foreach (var m in Model.PreOrderList.Data)
+                        {
+                            <div class="panel panel-default" id="row_@m.Id">
+                                <div class="panel-heading">@m.Id</div>
+                                <table class="table table-striped table-bordered table-hover">
+                                    <tbody>
+                                        <tr>
+                                            <td class="font-bold width_30">User</td>
+                                            <td class="text-center"><a onclick="openViewUserProfile(@m.UserId)">@m.Username</a></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="font-bold width_30">Product</td>
+                                            <td class="text-center"><a onclick="openViewProduct(@m.ProductId)">@m.ProductName</a></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="font-bold width_30">Full Name</td>
+                                            <td class="text-center">@m.FirstName @m.LastName</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="font-bold width_30">Email</td>
+                                            <td class="text-center">@m.Email</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="font-bold width_30">Phone</td>
+                                            <td class="text-center">@m.Phone</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="font-bold width_30">Status</td>
+                                            @if (m.Status.Equals("Received Pre-Order"))
+                                            {
+                                                <td class="text-center"><i class='fa fa-bell text-primary'></i>&nbsp;Received</td>
+                                            }
+                                            else if (m.Status.Equals("Approved Pre-Order"))
+                                            {
+                                                <td class="text-center"><i class='fa fa-check-square-o text-success'></i>&nbsp;Approved</td>
+                                            }
+                                            else if (m.Status.Equals("Declined Pre-Order"))
+                                            {
+                                                <td class="text-center"><i class='fa fa-circle-o-notch text-danger'></i>&nbsp;Declined</td>
+                                            }
+                                            else if (m.Status.Equals("Pre-Order Is Ready"))
+                                            {
+                                                <td class="text-center"><i class='fa fa-cubes text-success'></i>&nbsp;Ready</td>
+                                            }
+                                            else
+                                            {
+                                                <td class="text-center"><i class='fa fa-truck text-info'></i>&nbsp; Closed</td>
+                                            }
+                                        </tr>
+                                        <tr>
+                                            <td class="font-bold width_30">Escalated</td>
+                                            <td class="text-center">@m.CustomerEscalate</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <div class="panel-footer">
+                                    <div class="row">
+                                        <div class="col-xs-12">
+                                            <span class="text-muted pull-right small">Created at @m.CreatedAt by @m.CreatedBy</span>
+                                        </div>
+                                        @if (!string.IsNullOrEmpty(m.UpdatedAt))
+                                        {
+                                            <div class="col-xs-12">
+                                                <span class="text-muted pull-right small">Updated at @m.UpdatedAt by @m.UpdatedBy</span>
+                                            </div>
+                                        }
+                                    </div>
+                                    <br />
+                                    <div class="row">
+                                        <div class="col-xs-4"><a onclick="openViewPreOrder(@m.Id)" class="pull-left"><i class="glyphicon glyphicon-eye-open cusor_pointer"></i>&nbsp;View</a></div>
+                                        <div class="col-xs-4 text-center"><a onclick="openUpdatePreOrder(@m.Id)"><i class="fa fa-pencil-square-o cusor_pointer"></i>&nbsp;Update</a></div>
+                                        <div class="col-xs-4">
+                                            <a onclick="confirmDeletePreOrder(@m.Id)" class="pull-right"><i class="fa fa-trash-o cusor_pointer"></i>&nbsp;Remove</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                    <nav aria-label="paging" class="text-center">
+                        <div class="dataTables_paginate paging_simple_numbers" id="dataTables-example_paginate">
+                            <ul class="pagination">
+                                @{
+                                    if (Model.PreOrderList.IsFirstPage)
+                                    {
+                                        <li class="paginate_button previous disabled" aria-controls="dataTables-example" tabindex="0" id="dataTables-example_previous">
+                                            <a>Previous</a>
+                                        </li>
+                                    }
+                                    else
+                                    {
+                                        <li class="paginate_button previous" aria-controls="dataTables-example" tabindex="0" id="dataTables-example_previous">
+                                            @Html.ActionLink("Previous", "PreOrder", new { PageNo = Model.PreOrderList.CurrenPage - 1, CurrentSearch = ViewBag.CurrentSearch })
+                                        </li>
+                                    }
+
+                                    for (int i = 1; i <= Model.PreOrderList.TotalPages; i++)
+                                    {
+                                        if (Model.PreOrderList.CurrenPage == i)
+                                        {
+                                            <li class="paginate_button active" aria-controls="dataTables-example" tabindex="0">
+                                                @Html.ActionLink(i.ToString(), "PreOrder", new { PageNo = i, CurrentSearch = ViewBag.CurrentSearch })
+                                            </li>
+                                        }
+                                        else
+                                        {
+                                            <li class="paginate_button" aria-controls="dataTables-example" tabindex="0">
+                                                @Html.ActionLink(i.ToString(), "PreOrder", new { PageNo = i, CurrentSearch = ViewBag.CurrentSearch })
+                                            </li>
+                                        }
+                                    }
+
+                                    if (Model.PreOrderList.IsLastPage || !Model.PreOrderList.Data.Any())
+                                    {
+                                        <li class="paginate_button next disabled" aria-controls="dataTables-example" tabindex="0" id="dataTables-example_next">
+                                            <a>Next</a>
+                                        </li>
+                                    }
+                                    else
+                                    {
+                                        <li class="paginate_button next" aria-controls="dataTables-example" tabindex="0" id="dataTables-example_next">
+                                            @Html.ActionLink("Next", "PreOrder", new { PageNo = Model.PreOrderList.CurrenPage + 1, CurrentSearch = ViewBag.CurrentSearch })
+                                        </li>
+                                    }
+                                }
+                            </ul>
+                        </div>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="form_viewProduct" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title" id="viewProductName"></h4>
+            </div>
+            <div class="modal-body" id="body_viewProduct">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="form_viewUserProfile" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title" id="viewUserName"></h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div id="userAvatar" class="col-md-3">
+                    </div>
+                    <div class="col-md-9">
+                        <table class="table table-user-information">
+                            <tbody>
+                                <tr>
+                                    <td><b>Id:</b></td>
+                                    <td id="userId"></td>
+                                </tr>
+                                <tr>
+                                    <td><b>Fullname:</b></td>
+                                    <td id="userFullname"></td>
+                                </tr>
+                                <tr>
+                                    <td><b>Email:</b></td>
+                                    <td id="userEmail"></td>
+                                </tr>
+                                <tr>
+                                    <td><b>Gender:</b></td>
+                                    <td id="userGender"></td>
+                                </tr>
+                                <tr>
+                                    <td><b>Company Name:</b></td>
+                                    <td id="userCompanyName"></td>
+                                </tr>
+                                <tr>
+                                    <td><b>Home Address:</b></td>
+                                    <td id="userAddress"></td>
+                                </tr>
+                                <tr>
+                                    <td><b>Phone Numbe:</b></td>
+                                    <td id="userPhone"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="form_viewPreOrder" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Pre-Order</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div id="productImage" class="col-md-3">
+                    </div>
+                    <div class="col-md-9">
+                        <table class="table table-user-information">
+                            <tbody>
+                                <tr>
+                                    <td><b>User:</b></td>
+                                    <td id="preOrderUserName"></td>
+                                </tr>
+                                <tr>
+                                    <td><b>Product:</b></td>
+                                    <td id="preOrderProductName"></td>
+                                </tr>
+                                <tr>
+                                    <td><b>Firstname:</b></td>
+                                    <td id="preOrderFirstName"></td>
+                                </tr>
+                                <tr>
+                                    <td><b>Lastname:</b></td>
+                                    <td id="preOrderLastName"></td>
+                                </tr>
+                                <tr>
+                                    <td><b>Email:</b></td>
+                                    <td id="preOrderEmail"></td>
+                                </tr>
+                                <tr>
+                                    <td><b>Phone:</b></td>
+                                    <td id="preOrderPhone"></td>
+                                </tr>
+                                <tr>
+                                    <td><b>Status:</b></td>
+                                    <td id="preOrderStatus"></td>
+                                </tr>
+                                <tr>
+                                    <td><b>Customer Escalate:</b></td>
+                                    <td id="preOrderCustomerEscalate"></td>
+                                </tr>
+                                <tr>
+                                    <td><b>Note:</b></td>
+                                    <td id="preOrderNote"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@using (Html.BeginForm("Update", "PreOrder", FormMethod.Post, new { @id = "form_updatePreOrder", @class = "modal fade", @role = "dialog" }))
+{
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Update Pre-Order</h4>
+            </div>
+            <div class="modal-body">
+                @Html.Hidden("Id")
+                <div class="form-group">
+                    <label>Status</label>
+                    <select id="preorderStatus" name="Status" class="form-control" required>
+                        <option value="">Please choose status of pre-order</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Note</label>
+                    <textarea id="preorderNote" name="Note" type="text" class="form-control" placeholder="Note"></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button id="submit_PreOrder" type="submit" class="btn btn-primary"><i class="fa fa-check"></i>&nbsp;Save</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+}
+
+@using (Html.BeginForm("Delete", "PreOrder", FormMethod.Post, new { @id = "form_deletePreOrder", @class = "modal fade", @role = "dialog" }))
+{
+    @Html.AntiForgeryToken()
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Delete Pre-Order</h4>
+            </div>
+            <div class="modal-body">
+                @Html.Hidden("preorderIdForDelete")
+                <div id="message_confirm" style="padding-top: 5px;">Are you sure you want to delete "<b id="delete_preorderId"></b>"?</div>
+            </div>
+            <div class="modal-footer">
+                <button id="delete_PreOrder" type="submit" class="btn btn-primary"><i class="fa fa-trash"></i>&nbsp;Delete</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+}
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $.ajax({
+            cache: false,
+            type: "GET",
+            url: '@Url.Action("GetAllStatus", "PreOrder")',
+            async: false,
+            dataType: "json",
+            timeout: 5000,
+            success: function (response) {
+                if (response.success === true) {
+                    var options;
+                    $.each(response.data, function (index, value) {
+                        options += "<option value='" + value + "'>" + value + "</option>";
+                    });
+                    $("#preorderStatus").append(options);
+                }
+            },
+        });
+    });
+
+    function openViewProduct(id) {
+        $("#loading").show();
+        $.ajax({
+            cache: false,
+            type: "GET",
+            url: '@Url.Action("Details", "Product")',
+            async: true,
+            data: { productId: id },
+            dataType: "json",
+            timeout: 5000,
+            success: function (response) {
+                if (response.success === true) {
+                    $('#viewProductName').text(response.data.Name);
+
+                    var images = '<div class="row"><div class="col-md-12" ><div class="form-group"><label>Additional Images</label><br />';
+
+                    if (response.data.SubImage1 !== null) {
+                        images += '<div class="col-md-2"><img class="productImage" src="' + response.data.SubImage1+'" /></div>';
+                    }
+                    if (response.data.SubImage2 !== null) {
+                        images += '<div class="col-md-2"><img class="productImage" src="' + response.data.SubImage2 + '" /></div>';
+                    }
+                    if (response.data.SubImage3 !== null) {
+                        images += '<div class="col-md-2"><img class="productImage" src="' + response.data.SubImage3 + '" /></div>';
+                    }
+                    if (response.data.SubImage4 !== null) {
+                        images += '<div class="col-md-2"><img class="productImage" src="' + response.data.SubImage4 + '" /></div>';
+                    }
+                    if (response.data.SubImage5 !== null) {
+                        images += '<div class="col-md-2"><img class="productImage" src="' + response.data.SubImage5 + '" /></div>';
+                    }
+
+                    images += '</div></div></div>';
+
+                    var rating = "";
+
+                    for (var i = 1; i <= 5; i++) {
+                        if (i <= response.data.AverageRating) {
+                            rating += '<i class="fa fa-star checked"></i>';
+                        }
+                        else if (i > response.data.AverageRating && (response.data.AverageRating > (i - 1))) {
+                            if (response.data.AverageRating <= i - 0.5) {
+                                rating += '<i class="fa fa-star-half-full checked"></i>';
+                            }
+                            else {
+                                rating += '<i class="fa fa-star checked"></i>';
+                            }
+                        }
+                        else {
+                            rating += '<i class="fa fa-star-o checked"></i>';
+                        }
+                    }
+
+                    var content = '<div class="row"><div class="col-md-4" ><img class="productImage" src="' + response.data.PrimaryImage + '" /></div><div class="col-md-8"><div class="row"><div class="col-md-6"><div class="form-group"><label>Category</label><p class="help-block">' + response.data.CategoryName + '</p></div></div><div class="col-md-6"><div class="form-group"><label>Original Price</label><p class="help-block">$' + response.data.OriginalPrice + ' per ' + response.data.Unit + '</p></div></div></div><div class="row"><div class="col-md-6"><div class="form-group"><label>Name</label><p class="help-block">' + response.data.Name + '</p></div></div><div class="col-md-6"><div class="form-group"><label>Discount Price</label><p class="help-block">$' + response.data.DiscountPrice + ' per ' + response.data.Unit + '</p></div></div></div><div class="row"><div class="col-md-6"><div class="form-group"><label>Namekey</label><p class="help-block">' + response.data.Namekey + '</p></div></div><div class="col-md-6"><div class="form-group"><label>Dimensions</label><p class="help-block">Height: ' + response.data.Height + ' Width: ' + response.data.Width + ' Length: ' + response.data.Length + ' Weigth: ' + response.data.Weight + '</p></div></div></div><div class="row"><div class="col-md-12"><div class="form-group"><label>Evaluation</label><p class="help-block"><i class="fa fa-thumbs-o-up"></i>&nbsp;' + response.data.NumberOfLiked + ' Liked&nbsp;&nbsp;-&nbsp;&nbsp;' + rating + '&nbsp;' +response.data.AverageRating + ' average based on '+response.data.NumberOfReviewed+' reviews</p></div></div></div>' +
+
+                        '</div ></div>' +
+                        '<div class="row"><div class="col-md-12" ><div class="form-group"><label>Description</label><p class="help-block text-justify">' + response.data.Description + '</p></div></div ></div>' +
+                        '<div class="row"><div class="col-md-12" ><div class="form-group"><label>More Info</label><p class="help-block text-justify">' + response.data.MoreInfo + '</p></div></div></div>' + images;
+
+                    $("#body_viewProduct").html(null);
+                    $("#body_viewProduct").append(content);
+                    $('#form_viewProduct').modal('toggle');
+                    $("#loading").hide();
+                }
+            }
+        });
+    };
+
+    function openViewUserProfile(id) {
+        $("#loading").show();
+        $.ajax({
+            cache: false,
+            type: "GET",
+            url: '@Url.Action("GetUserById", "UserProfile")',
+            async: true,
+            data: { userId: id },
+            dataType: "json",
+            timeout: 5000,
+            success: function (response) {
+                if (response.success === true) {
+                    $('#viewUserName').text(response.data.FirstName + " " + response.data.LastName);
+
+                    $("#userId").html(null);
+                    $("#userId").append(response.data.UserId);
+
+                    $("#userFullname").html(null);
+                    $("#userFullname").append(response.data.FirstName + " " + response.data.LastName);
+
+                    $("#userDOB").html(null);
+                    $("#userDOB").append(response.data.FirstName + " " + response.data.LastName);
+
+                    $("#userEmail").html(null);
+                    $("#userEmail").append(response.data.Email);
+
+                    $("#userGender").html(null);
+                    $("#userGender").append(response.data.GenderDisplay);
+
+                    $("#userCompanyName").html(null);
+                    $("#userCompanyName").append(response.data.CompanyName);
+
+                    $("#userAvatar").html(null);
+                    $("#userAvatar").append("<img src='" + response.data.Avatar + "' style='width:100%'></img>");
+
+                    $("#userAddress").html(null);
+                    $("#userAddress").append(response.data.Address + ', ' + response.data.Suburb + ', ' + response.data.State + ', ' + response.data.Postcode + ', ' + response.data.Country);
+
+                    $("#userPhone").html(null);
+                    $("#userPhone").append(response.data.Phone);
+
+                    $('#form_viewUserProfile').modal('toggle');
+                    $("#loading").hide();
+                }
+            }
+        });
+    };
+
+    function openViewPreOrder(id) {
+        $("#loading").show();
+        $.ajax({
+            cache: false,
+            type: "GET",
+            url: '@Url.Action("Details", "PreOrder")',
+            async: true,
+            data: { preOrderId: id },
+            dataType: "json",
+            timeout: 5000,
+            success: function (response) {
+                if (response.success === true) {
+                    $("#productImage").html(null);
+                    $("#productImage").append("<img src='" + response.data.ProductImage + "' style='width:100%'></img>");
+
+                    $("#preOrderUserName").html(null);
+                    $("#preOrderUserName").append(response.data.Username);
+
+                    $("#preOrderProductName").html(null);
+                    $("#preOrderProductName").append(response.data.ProductName);
+
+                    $("#preOrderFirstName").html(null);
+                    $("#preOrderFirstName").append(response.data.FirstName);
+
+                    $("#preOrderLastName").html(null);
+                    $("#preOrderLastName").append(response.data.LastName);
+
+                    $("#preOrderEmail").html(null);
+                    $("#preOrderEmail").append(response.data.Email);
+
+                    $("#preOrderPhone").html(null);
+                    $("#preOrderPhone").append(response.data.Phone);
+
+                    $("#preOrderStatus").html(null);
+
+
+                    if (response.data.Status === "Received Pre-Order") {
+                        $("#preOrderStatus").append("<i class='fa fa-bell text-primary'></i>&nbsp;Received");
+                    }
+                    else if (response.data.Status === "Approved Pre-Order") {
+                        $("#preOrderStatus").append("<i class='fa fa-check-square-o text-success'></i>&nbsp;Approved");
+                    }
+                    else if (response.data.Status === "Declined Pre-Order") {
+                        $("#preOrderStatus").append("<i class='fa fa-circle-o-notch text-danger'></i>&nbsp;Declined");
+                    }
+                    else if (response.data.Status === "Pre-Order Is Ready") {
+                        $("#preOrderStatus").append("<i class='fa fa-cubes text-danger'></i>&nbsp;Ready");
+                    }
+                    else {
+                        $("#preOrderStatus").append("<i class='fa fa-truck text-danger'></i>&nbsp; Closed");
+                    }
+
+                    $("#preOrderCustomerEscalate").html(null);
+                    $("#preOrderCustomerEscalate").append(response.data.CustomerEscalate);
+
+                    $("#preOrderNote").html(null);
+                    $("#preOrderNote").append(response.data.Note);
+
+                    $('#form_viewPreOrder').modal('toggle');
+
+                    $("#loading").hide();
+                }
+                else {
+                    $("#loading").hide();
+                }
+            }
+        });
+    }
+
+    function confirmDeletePreOrder(id) {
+        $("#delete_preorderId").text(id);
+        $("#preorderIdForDelete").val(id);
+        $('#form_deletePreOrder').modal('toggle');
+    };
+
+    function openUpdatePreOrder(id) {
+        $("#loading").show();
+        $.ajax({
+            cache: false,
+            type: "GET",
+            url: '@Url.Action("Details", "PreOrder")',
+            async: true,
+            data: { preOrderId: id },
+            dataType: "json",
+            timeout: 5000,
+            success: function (response) {
+                if (response.success === true) {
+                    $('#Id').val(response.data.Id);
+                    $("#preorderStatus").val(response.data.Status);
+                    $("#preorderNote").val(response.data.Note);
+
+                    $('#form_updatePreOrder').modal('toggle');
+                    $("#loading").hide();
+                }
+            },
+        });
+    };
+
+    function resetForm() {
+        $('#Id').val(null);
+        $("#preorderStatus").val(null);
+        $("#preorderNote").val(null);
+    };
+</script>

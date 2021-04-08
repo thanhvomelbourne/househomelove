@@ -1,0 +1,755 @@
+﻿@using CoreLibrary.Data
+@model BusinessService.Models.Common.AdminModel
+@{
+    ViewBag.Title = "Product Details";
+    Layout = "~/Views/Shared/_Admin.cshtml";
+}
+
+<div class="row">
+    <div class="col-lg-12">
+        <h2 class="page-header color_blue">
+            <i class="fa fa-tag fa-fw"></i> Product Details
+            <div class="float-right">
+                <a id="previousProduct"><i class="fa fa-arrow-circle-left"></i></a>
+                &nbsp;<span id="currentProductId"></span>&nbsp;
+                <a id="nextProduct"><i class="fa fa-arrow-circle-right"></i></a>
+            </div>
+        </h2>
+
+    </div>
+</div>
+<div class="row">
+    <div class="container-fluid">
+        @using (Html.BeginForm("CreateUpdate", "Product", FormMethod.Post, new { enctype = "multipart/form-data", @id = "form_createProduct", validateRequest = "false" }))
+        {
+            @Html.Hidden("Id")
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <label>Category</label>
+                                <select id="categoryProduct" name="CategoryId" class="form-control" required>
+                                    <option value="">Please choose category</option>
+                                </select>
+                            </div>
+                            <div class="col-md-4">
+                                <label>Sub Category 1</label>
+                                <select id="subCategoryProduct1" name="SubCategoryId1" class="form-control">
+                                    <option value="">Please choose category</option>
+                                </select>
+                            </div>
+                            <div class="col-md-4">
+                                <label>Sub Category 2</label>
+                                <select id="subCategoryProduct2" name="SubCategoryId2" class="form-control">
+                                    <option value="">Please choose category</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <label>Group by Size</label>
+                                <select id="groupSize" name="GroupSizeId" class="form-control">
+                                    <option value="">Please choose group by size</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <label>Group by Color</label>
+                                <select id="groupColor" name="GroupColorId" class="form-control">
+                                    <option value="">Please choose group by color</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <label>Original Product Code</label>
+                                <input id="productCode" name="OriginalProductCode" type="text" class="form-control" placeholder="Original Product Code" />
+                            </div>
+                            <div class="col-md-3">
+                                <label>Namekey</label>
+                                <input id="namekeyProduct" name="Namekey" type="text" class="form-control" placeholder="Namekey" required />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div id="productNameForm" class="form-group">
+                                    <label class="control-label" for="nameProduct">Product Name</label>
+                                    <input type="text" class="form-control" id="nameProduct" placeholder="Name" name="Name" required>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <label>Size Name</label>
+                                <input id="sizeName" name="SizeName" type="text" class="form-control" placeholder="Size Name" disabled />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Description</label>
+                        <textarea name="Description" id="descriptionProduct"></textarea>
+                        <script>
+                            CKEDITOR.replace('descriptionProduct', {
+                                height: '200px',
+                            });
+                        </script>
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <label>Primary Color Code</label>
+                                <div class="form-group input-group">
+                                    <span id="colorCodeTest" class="input-group-addon"></span>
+                                    <select id="colorCodeProduct" name="ColorCode" class="form-control">
+                                        <option value="">Please choose color</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <label>Sub Color Code 1</label>
+                                <div class="form-group input-group">
+                                    <span id="colorCodeTest1" class="input-group-addon"></span>
+                                    <select id="colorCodeProduct1" name="ColorCode1" class="form-control">
+                                        <option value="">Please choose color</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <label>Sub Color Code 2</label>
+                                <div class="form-group input-group">
+                                    <span id="colorCodeTest2" class="input-group-addon"></span>
+                                    <select id="colorCodeProduct2" name="ColorCode2" class="form-control">
+                                        <option value="">Please choose color</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <label>Weight (kg)</label>
+                                <input id="weightProduct" name="Weight" type="text" class="form-control" placeholder="Weight (kg)" />
+                            </div>
+                            <div class="col-md-3">
+                                <label>Height (cm)</label>
+                                <input id="heightProduct" name="Height" type="text" class="form-control" placeholder="Height (cm)" />
+                            </div>
+                            <div class="col-md-3">
+                                <label>Width (cm)</label>
+                                <input id="widthProduct" name="Width" type="text" class="form-control" placeholder="Width (cm)" />
+                            </div>
+                            <div class="col-md-3">
+                                <label>Length (cm)</label>
+                                <input id="lengthProduct" name="Length" type="text" class="form-control" placeholder="Length (cm)" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label>Materials</label>
+                                <input id="materialsProduct" name="Materials" type="text" class="form-control" placeholder="Materials" value="Seagrass, Plastic" />
+                            </div>
+                            <div class="col-md-6">
+                                <label>Colors</label>
+                                <input id="colorsProduct" name="Colors" type="text" class="form-control" placeholder="Colors" value="Seagrass" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>More Info</label>
+                        <textarea name="MoreInfo" id="moreInfoProduct"></textarea>
+                        <script>
+                            CKEDITOR.replace('moreInfoProduct', {
+                                height: '200px',
+                            });
+                        </script>
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <label>Unit Of Price</label>
+                                <input id="unitOfPriceProduct" name="UnitOfPrice" type="text" class="form-control" placeholder="USA / AUD" value="AUD" />
+                            </div>
+                            <div class="col-md-4">
+                                <label>Unit</label>
+                                <input id="unitProduct" name="Unit" type="text" class="form-control" placeholder="Item" value="item" />
+                            </div>
+                            <div class="col-md-4">
+                                <label>Stock Level</label>
+                                <input id="stockLevelProduct" name="StockLevel" type="number" class="form-control" placeholder="StockLevel" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-5">
+                                <label>Import Price (USD)</label>
+                                <div class="form-group input-group">
+                                    <span class="input-group-addon">$</span>
+                                    <input id="importPriceProductUSD" name="ImportPriceUSD" type="text" class="form-control" placeholder="Import Price (USD)" />
+                                </div>
+                            </div>
+                            <div class="col-md-2 text-danger">
+                                <label><i class="fa fa-exchange" aria-hidden="true"></i> &nbsp; Exchange Rate</label>
+                                <input id="exchangeRate" name="ExchangeRate" type="text" class="form-control text-warning" placeholder="Exchange Rate" />
+                            </div>
+                            <div class="col-md-5">
+                                <label>Import Price (AUD)</label>
+                                <div class="form-group input-group">
+                                    <span class="input-group-addon">$</span>
+                                    <input id="importPriceProduct" name="ImportPrice" type="text" class="form-control" placeholder="Import Price (AUD)" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-2 text-info">
+                                <div class="form-group input-group">
+                                    <span class="input-group-addon text-primary font-bold">x Rate</span>
+                                    <input id="originalRate" name="OriginalRate" type="text" class="form-control text-primary" />
+                                </div>
+                            </div>
+                            <div class="col-md-4"></div>
+                            <div class="col-md-2 text-info">
+                                <div class="form-group input-group">
+                                    <span class="input-group-addon text-primary font-bold">x Rate</span>
+                                    <input id="discountRate" name="DiscountRate" type="text" class="form-control text-primary" />
+                                </div>
+                            </div>
+                            <div class="col-md-4"></div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label>Original Price</label>
+                                <div class="form-group input-group">
+                                    <span class="input-group-addon">$</span>
+                                    <input id="originalPriceProduct" name="OriginalPrice" type="text" class="form-control" placeholder="Original Price" />
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <label>Discount Price</label>
+                                <div class="form-group input-group">
+                                    <span class="input-group-addon">$</span>
+                                    <input id="discountPriceProduct" name="DiscountPrice" type="text" class="form-control" placeholder="Discount Price" />
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Set it live</label>
+                        <label class="checkbox-inline">
+                            &nbsp;<input id="isLive" name="IsLive" type="checkbox" checked>
+                        </label>
+                        &nbsp;
+                        <a id="goToDetail" target="_blank">Go to Product Detail page</a>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label>QR Code</label>
+                        <br />
+                        <img id="qrCodeImage" style="width: 30%" />
+                    </div>
+                    <div class="form-group">
+                        <label>Primary Image (480 x 480)</label>
+                        <input id="primaryImageProduct" name="PrimaryImage" type="file" class="form-control" placeholder="Primary Image" />
+                    </div>
+                    <div class="form-group">
+                        <label>Sub Image 1</label>
+                        <input id="subImage1Product" name="SubImage1" type="file" class="form-control" placeholder="Sub Image 1" />
+                    </div>
+                    <div class="form-group">
+                        <label>Sub Image 2</label>
+                        <input id="subImage2Product" name="SubImage2" type="file" class="form-control" placeholder="Sub Image 2" />
+                    </div>
+                    <div class="form-group">
+                        <label>Sub Image 3</label>
+                        <input id="subImage3Product" name="SubImage3" type="file" class="form-control" placeholder="Sub Image 3" />
+                    </div>
+                    <div class="form-group">
+                        <label>Sub Image 4</label>
+                        <input id="subImage4Product" name="SubImage4" type="file" class="form-control" placeholder="Sub Image 4" />
+                    </div>
+                    <div class="form-group">
+                        <label>Sub Image 5</label>
+                        <input id="subImage5Product" name="SubImage5" type="file" class="form-control" placeholder="Sub Image 5" />
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <img id="updatePrimaryImage" style="width: 100%" />
+                            </div>
+                            <div class="col-md-3">
+                                <img id="updateSubImage1" style="width: 100%" />
+                            </div>
+                            <div class="col-md-3">
+                                <img id="updateSubImage2" style="width: 100%" />
+                            </div>
+                            <div class="col-md-3">
+                                <img id="updateSubImage3" style="width: 100%" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button id="create_newProductFromThis" type="button" class="btn btn-primary" onclick="cloneNewProduct()"><i class="fa fa-tag"></i>&nbsp;Clone new Product</button>
+                <button id="btnDeleteProduct" type="button" class="btn btn-danger" onclick="confirmDeleteProduct()"><i class="fa fa-trash"></i>&nbsp;Delete</button>
+                &nbsp; | &nbsp;
+                <button id="submit_Product" type="submit" class="btn btn-primary"><i class="fa fa-check"></i>&nbsp;Save</button>
+                <button type="button" class="btn btn-default" onclick="goBackToList()">Close</button>
+            </div>
+        }
+    </div>
+</div>
+
+@using (Html.BeginForm("Delete", "Product", FormMethod.Post, new { @id = "form_deleteProduct", @class = "modal fade", @role = "dialog" }))
+{
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Delete Product</h4>
+            </div>
+            <div class="modal-body">
+                @Html.Hidden("productIdForDelete")
+                <div id="message_confirm" style="padding-top: 5px;">Are you sure you want to delete "<b id="delete_nameProduct"></b>"?</div>
+            </div>
+            <div class="modal-footer">
+                <button id="delete_Product" type="submit" class="btn btn-primary"><i class="fa fa-trash"></i>&nbsp;Delete</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+}
+
+<script type="text/javascript">
+    var productId;
+
+    $(document).ready(function () {
+        $.ajax({
+            cache: false,
+            type: "GET",
+            url: '@Url.Action("GetAllCategoriesForAdmin", "Category")',
+            async: false,
+            dataType: "json",
+            timeout: 5000,
+            success: function (response) {
+                if (response.success === true) {
+                    var options;
+                    $.each(response.data, function (index, value) {
+                        options += "<option value='" + value.Id + "'>" + value.Name + "</option>";
+                    });
+                    $("#categoryProduct").append(options);
+                    $("#subCategoryProduct1").append(options);
+                    $("#subCategoryProduct2").append(options);
+                }
+            },
+        });
+
+        $.ajax({
+            cache: false,
+            type: "GET",
+            url: '@Url.Action("GetAllGroups", "Group")',
+            async: false,
+            dataType: "json",
+            timeout: 5000,
+            success: function (response) {
+                if (response.success === true) {
+                    var sizeOptions;
+                    var colorOptions;
+                    $.each(response.data, function (index, value) {
+                        if (value.GroupType == @Constant.GroupTypeId.GroupBySize) {
+                            sizeOptions += "<option value='" + value.Id + "'>" + value.GroupName + "</option>";
+                        }
+                        else {
+                            colorOptions += "<option value='" + value.Id + "'>" + value.GroupName + "</option>";
+                        }
+                    });
+                    $("#groupSize").append(sizeOptions);
+                    $("#groupColor").append(colorOptions);
+                }
+            },
+        });
+
+         $.ajax({
+            cache: false,
+            type: "GET",
+            url: '@Url.Action("GetAllColors", "Color")',
+            async: false,
+            dataType: "json",
+            timeout: 5000,
+             success: function (response) {
+                if (response.success === true) {
+                    var colorOptions = "";
+                    $.each(response.data, function (index, value) {
+                        if (value.ColorName !== "White") {
+                            colorOptions += "<option value='" + value.ColorCode + "' style='color: " + value.ColorCode + "; font-weight: bold'>" + value.ColorName + "</option>";
+                        }
+                        else {
+                            colorOptions += "<option value='" + value.ColorCode + "' style='color: #dfdfdf'>" + value.ColorName + "</option>";
+                        }
+                    });
+                    $("#colorCodeProduct").append(colorOptions);
+                    $("#colorCodeProduct1").append(colorOptions);
+                    $("#colorCodeProduct2").append(colorOptions);
+                }
+            },
+        });
+
+        productId = getUrlParameter("productId");
+        var cloneId = getUrlParameter("cloneId");
+        openUpdateProduct(productId, cloneId);
+    });
+
+    function confirmDeleteProduct() {
+        $("#delete_nameProduct").text($("#nameProduct").val());
+        $("#productIdForDelete").val(productId);
+        $('#form_deleteProduct').modal('toggle');
+    };
+
+    function openUpdateProduct(id, cloneId) {
+        $("#loading").show();
+        if (id == "0") {
+            $.ajax({
+                cache: false,
+                type: "GET",
+                url: '@Url.Action("GetAppConfiguration", "ApplicationSetting")',
+                async: false,
+                dataType: "json",
+                timeout: 5000,
+                success: function (response) {
+                    if (response.success === true) {
+                        $('#exchangeRate').val(response.data.CurrencyRateUSDToAUD);
+                        $('#originalRate').val(response.data.RateCalculateOriginalPrice);
+                        $('#discountRate').val(response.data.RateCalculateDiscountPrice);
+                    }
+                },
+            });
+
+            $("#btnDeleteProduct").prop('disabled', true);
+
+            if (cloneId != "0" && cloneId != undefined && cloneId != "") {
+                $.ajax({
+            cache: false,
+            type: "GET",
+            url: '@Url.Action("Details", "Product")',
+            async: true,
+            data: { productId: cloneId },
+            dataType: "json",
+            timeout: 5000,
+            success: function (response) {
+                if (response.success === true) {
+                    $('#productCode').val(response.data.OriginalProductCode);
+                    $('#sizeName').val(response.data.SizeName);
+
+                    $('#colorCodeProduct').val(response.data.ColorCode);
+                    $("#colorCodeTest").attr("style", "background-color: " + response.data.ColorCode + "; border-color: " + response.data.ColorCode);
+                    $('#colorCodeProduct1').val(response.data.ColorCode1);
+                    $("#colorCodeTest1").attr("style", "background-color: " + response.data.ColorCode1 + "; border-color: " + response.data.ColorCode1);
+                    $('#colorCodeProduct2').val(response.data.ColorCode2);
+                    $("#colorCodeTest2").attr("style", "background-color: " + response.data.ColorCode2 + "; border-color: " + response.data.ColorCode2);
+
+                    $('#weightProduct').val(response.data.Weight);
+                    $('#heightProduct').val(response.data.Height);
+                    $('#widthProduct').val(response.data.Width);
+                    $('#lengthProduct').val(response.data.Length);
+                    $('#categoryProduct').val(response.data.CategoryId);
+                    $('#groupSize').val(response.data.GroupSizeId);
+                    $('#groupColor').val(response.data.GroupColorId);
+                    $('#subCategoryProduct1').val(response.data.SubCategoryId1);
+                    $('#subCategoryProduct2').val(response.data.SubCategoryId2);
+                    $("#nameProduct").val(response.data.Name);
+                    $("#descriptionProduct").val(response.data.Description);
+                    $("#moreInfoProduct").val(response.data.MoreInfo);
+                    $("#unitProduct").val(response.data.Unit);
+                    $("#unitOfPriceProduct").val(response.data.UnitOfPrice);
+                    $("#importPriceProduct").val(response.data.ImportPrice);
+                    $("#originalPriceProduct").val(response.data.OriginalPrice);
+                    $("#discountPriceProduct").val(response.data.DiscountPrice);
+                    $("#isLive").prop("checked", response.data.IsLive);
+                    $('#exchangeRate').val(response.data.ExchangeRate);
+                    $('#originalRate').val(response.data.OriginalRate);
+                    $('#discountRate').val(response.data.DiscountRate);
+                    $('#importPriceProductUSD').val(response.data.ImportPriceUSD);
+                    $('#materialsProduct').val(response.data.Materials);
+                    $('#colorsProduct').val(response.data.Colors);
+
+                    if (response.data.GroupSizeId != null) {
+                        $("#sizeName").removeAttr("disabled");
+                    }
+
+                    $("#goToDetail").attr("href", "/shop/product?productId=" + response.data.Id + "&productName=" + response.data.Name.split(' ').join('-'));
+                }
+
+                $("#loading").hide();
+                },
+            });
+            }
+
+            $("#loading").hide();
+        }
+        else {
+            $.ajax({
+            cache: false,
+            type: "GET",
+            url: '@Url.Action("Details", "Product")',
+            async: true,
+            data: { productId: id },
+            dataType: "json",
+            timeout: 5000,
+            success: function (response) {
+                if (response.success === true) {
+                    $('#Id').val(response.data.Id);
+                    $('#currentProductId').text(response.data.Id);
+                    $('#productCode').val(response.data.OriginalProductCode);
+                    $('#namekeyProduct').val(response.data.Namekey);
+                    $('#sizeName').val(response.data.SizeName);
+
+                    $('#colorCodeProduct').val(response.data.ColorCode);
+                    $("#colorCodeTest").attr("style", "background-color: " + response.data.ColorCode + "; border-color: " + response.data.ColorCode);
+                    $('#colorCodeProduct1').val(response.data.ColorCode1);
+                    $("#colorCodeTest1").attr("style", "background-color: " + response.data.ColorCode1 + "; border-color: " + response.data.ColorCode1);
+                    $('#colorCodeProduct2').val(response.data.ColorCode2);
+                    $("#colorCodeTest2").attr("style", "background-color: " + response.data.ColorCode2 + "; border-color: " + response.data.ColorCode2);
+
+                    $('#weightProduct').val(response.data.Weight);
+                    $('#heightProduct').val(response.data.Height);
+                    $('#widthProduct').val(response.data.Width);
+                    $('#lengthProduct').val(response.data.Length);
+                    $('#stockLevelProduct').val(response.data.StockLevel);
+                    $('#categoryProduct').val(response.data.CategoryId);
+                    $('#groupSize').val(response.data.GroupSizeId);
+                    $('#groupColor').val(response.data.GroupColorId);
+                    $('#subCategoryProduct1').val(response.data.SubCategoryId1);
+                    $('#subCategoryProduct2').val(response.data.SubCategoryId2);
+                    $("#nameProduct").val(response.data.Name);
+                    $("#descriptionProduct").val(response.data.Description);
+                    $("#moreInfoProduct").val(response.data.MoreInfo);
+                    $("#unitProduct").val(response.data.Unit);
+                    $("#unitOfPriceProduct").val(response.data.UnitOfPrice);
+                    $("#importPriceProduct").val(response.data.ImportPrice);
+                    $("#originalPriceProduct").val(response.data.OriginalPrice);
+                    $("#discountPriceProduct").val(response.data.DiscountPrice);
+                    $("#updatePrimaryImage").attr("src", response.data.PrimaryImage);
+                    $("#qrCodeImage").attr("src", response.data.QRCode);
+                    $("#updateSubImage1").attr("src", response.data.SubImage1);
+                    $("#updateSubImage2").attr("src", response.data.SubImage2);
+                    $("#updateSubImage3").attr("src", response.data.SubImage3);
+                    $("#isLive").prop("checked", response.data.IsLive);
+                    $('#exchangeRate').val(response.data.ExchangeRate);
+                    $('#originalRate').val(response.data.OriginalRate);
+                    $('#discountRate').val(response.data.DiscountRate);
+                    $('#importPriceProductUSD').val(response.data.ImportPriceUSD);
+                    $('#materialsProduct').val(response.data.Materials);
+                    $('#colorsProduct').val(response.data.Colors);
+
+                    if (response.data.GroupSizeId != null) {
+                        $("#sizeName").removeAttr("disabled");
+                    }
+
+                    if (response.data.NextProductId != 0) {
+                        $("#nextProduct").attr("href", "/Admin/ProductDetail?productId=" + response.data.NextProductId);
+                    }
+                    else {
+                        $("#nextProduct").attr("disabled", "disabled");
+                        $("#nextProduct").attr("style", "color: darkgray;");
+                    }
+
+                    if (response.data.PreviousProductId != 0) {
+                        $("#previousProduct").attr("href", "/Admin/ProductDetail?productId=" + response.data.PreviousProductId);
+                    }
+                    else {
+                        $("#previousProduct").attr("disabled", "disabled");
+                        $("#previousProduct").attr("style", "color: darkgray;");
+                    }
+
+                    $("#goToDetail").attr("href", "/shop/product?productId=" + response.data.Id + "&productName=" + response.data.Name.split(' ').join('-'));
+                }
+
+                $("#loading").hide();
+                },
+            });
+        }
+    };
+
+    $("#categoryProduct").change(function () {
+        var catId = this.value;
+        generateNamekey(catId);
+    });
+
+    $("#groupSize").change(function () {
+        if (this.value != "") {
+            $("#sizeName").removeAttr("disabled");
+        }
+        else {
+            $("#sizeName").attr("disabled", "disabled");
+        }
+    });
+
+    $('#exchangeRate').on('input', function (e) {
+        generateImportPrice();
+        generateSalePrice();
+    });
+
+    $('#importPriceProductUSD').on('input', function (e) {
+        generateImportPrice();
+        generateSalePrice();
+    });
+
+    $('#importPriceProduct').on('input', function (e) {
+        generateSalePrice();
+    });
+
+    $('#originalRate').on('input', function (e) {
+        generateSalePrice();
+    });
+
+    $('#discountRate').on('input', function (e) {
+        generateSalePrice();
+    });
+
+    $('#heightProduct').on('input', function (e) {
+        generateDescription();
+    });
+
+    $('#widthProduct').on('input', function (e) {
+        generateDescription();
+    });
+
+    $('#lengthProduct').on('input', function (e) {
+        generateDescription();
+    });
+
+    $('#materialsProduct').on('input', function (e) {
+        generateDescription();
+    });
+
+    $('#colorsProduct').on('input', function (e) {
+        generateDescription();
+    });
+
+    $('#nameProduct').on('input', function (e) {
+        checkValidate($('#nameProduct').val());
+    });
+
+    $('#colorCodeProduct').on('input', function (e) {
+        var color = $('#colorCodeProduct').val();
+        $("#colorCodeTest").attr("style", "background-color: " + color + "; border-color: " + color);
+    });
+
+    $('#colorCodeProduct1').on('input', function (e) {
+        var color = $('#colorCodeProduct1').val();
+        $("#colorCodeTest1").attr("style", "background-color: " + color + "; border-color: " + color);
+    });
+
+    $('#colorCodeProduct2').on('input', function (e) {
+        var color = $('#colorCodeProduct2').val();
+        $("#colorCodeTest2").attr("style", "background-color: " + color + "; border-color: " + color);
+    });
+
+    function checkValidate(nameProduct) {
+        $.ajax({
+            cache: false,
+            type: "GET",
+            url: '@Url.Action("CheckValidate", "Product")',
+            async: false,
+            data: { productName: nameProduct },
+            dataType: "json",
+            timeout: 5000,
+            success: function (response) {
+                if (response.success === true) {
+                    $("#productNameForm").removeClass("has-error");
+                    $("#productNameForm").removeClass("has-success");
+                    if (nameProduct != "") {
+                        $("#productNameForm").addClass("has-success");
+                    }
+                }
+                else {
+                    $("#productNameForm").removeClass("has-error");
+                    $("#productNameForm").removeClass("has-success");
+                    $("#productNameForm").addClass("has-error");
+                }
+            },
+        });
+    };
+
+    function generateNamekey(catId) {
+        $.ajax({
+            cache: false,
+            type: "GET",
+            url: '@Url.Action("GenerateNameKey", "Product")',
+            async: false,
+            data: { catId: catId },
+            dataType: "json",
+            timeout: 5000,
+            success: function (response) {
+                if (response.success === true) {
+                    $('#namekeyProduct').val(response.namekey);
+                }
+            },
+        });
+    };
+
+    function generateImportPrice() {
+        var exchangeRate = $('#exchangeRate').val();
+
+        if (exchangeRate != 0 && exchangeRate != "") {
+            var importPrice = ($('#importPriceProductUSD').val() * exchangeRate).toFixed(2);
+            $('#importPriceProduct').val(importPrice);
+        }
+    };
+
+    function generateSalePrice() {
+        var originalRate = $('#originalRate').val();
+        var discountRate = $('#discountRate').val();
+
+        if (originalRate != 0 && originalRate != "") {
+            var originalPrice = ($('#importPriceProduct').val() * originalRate).toFixed(2);
+            $('#originalPriceProduct').val(originalPrice);
+        }
+
+        if (discountRate != 0 && discountRate != "") {
+            var discountPrice = ($('#importPriceProduct').val() * discountRate).toFixed(2);
+            $('#discountPriceProduct').val(discountPrice);
+        }
+    }
+
+    function generateDescription() {
+
+        var rate = 0.393701;
+        var height = $('#heightProduct').val();
+        var width = $('#widthProduct').val();
+        var length = $('#lengthProduct').val();
+        var materials = $('#materialsProduct').val();
+        var colors = $('#colorsProduct').val();
+
+        var heightInch = (height * rate).toFixed(2);
+        var widthInch = (width * rate).toFixed(2);
+        var lengthInch = (length * rate).toFixed(2);
+
+        var result = "Dimension (inch): Height " + heightInch + "' x Width " + widthInch + "' x Length " + lengthInch + "' <br>";
+        result += "Dimension (cm): Height " + height + "cm x Width " + width + "cm x Length " + length + "cm <br>";
+        result += "Materials: " + materials + "<br>";
+        result += "Colors: " + colors;
+        CKEDITOR.instances['descriptionProduct'].setData(result);
+    };
+
+    function goBackToList() {
+        var lastPage = getCookie("CURRENT_PRODUCT_PAGE_FOR_ADMIN");
+        var lastSearch = getCookie("CURRENT_PRODUCT_SEARCH_FOR_ADMIN");
+        var lastSearchIsLive = getCookie("CURRENT_PRODUCT_SEARCH_ISLIVE_FOR_ADMIN");
+        var lastSearchInStock = getCookie("CURRENT_PRODUCT_SEARCH_INSTOCK_FOR_ADMIN");
+        window.location.href = "/Admin/Product?PageNo=" + lastPage + "&CurrentSearch=" + lastSearch + "&SearchByLive=" + lastSearchIsLive + "&SearchByStockLevel=" + lastSearchInStock;
+    }
+
+    function cloneNewProduct() {
+        window.location.href = "/Admin/ProductDetail?productId=0&cloneId=" + productId;
+    }
+</script>

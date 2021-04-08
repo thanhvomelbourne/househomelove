@@ -1,0 +1,1433 @@
+﻿@using CoreLibrary.Data
+@model BusinessService.Models.Common.AdminModel
+@{
+    ViewBag.Title = "Order Details";
+    Layout = "~/Views/Shared/_Admin.cshtml";
+}
+
+<div class="row">
+    <div class="col-lg-12">
+        <h2 class="page-header color_blue"><i class="fa fa-tag fa-fw"></i> Order Details</h2>
+    </div>
+</div>
+<div class="row">
+    <div class="receipt-container">
+        <div class="col-md-6">
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="row">
+                        <div class="col-lg-11 col-md-11 col-sm-11 col-xs-11">
+                            <h3 class="receipt-header pull-left">Invoice</h3>
+                        </div>
+                        <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
+                            <a class="mt_25 pull-right" title="Update promotion for this order" onclick="openUpdatePromotionForCustomerOrder()"><i class="fa fa-edit"></i></a>
+                        </div>
+                    </div>
+                    @if (!Request.Browser.IsMobileDevice)
+                    {
+                        <table class="table">
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <h5><b>Invoice Date</b></h5>
+                                    </td>
+                                    <td><span id="completedAt"></span></td>
+                                    <td><h5><b>Status</b></h5></td>
+                                    <td><span id="confirmedStatus"></span></td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <h5><b>Order ID</b></h5>
+                                    </td>
+                                    <td><span id="orderId"></span></td>
+                                    <td>
+                                        <h5><b>Cart ID</b></h5>
+                                    </td>
+                                    <td><span id="cartId"></span></td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <h5><b>Promotion Code</b></h5>
+                                    </td>
+                                    <td><span id="promotionCode"></span></td>
+                                    <td>
+                                        <h5><b>Shipping Promotion Code</b></h5>
+                                    </td>
+                                    <td><span id="shippingPromotionCode"></span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    }
+                    else
+                    {
+                        <table class="table">
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <h5><b>Invoice Date</b></h5>
+                                    </td>
+                                    <td><span id="completedAt"></span></td>
+                                </tr>
+                                <tr>
+                                    <td><h5><b>Status</b></h5></td>
+                                    <td><span id="confirmedStatus"></span></td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <h5><b>Order ID</b></h5>
+                                    </td>
+                                    <td><span id="orderId"></span></td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <h5><b>Cart ID</b></h5>
+                                    </td>
+                                    <td><span id="cartId"></span></td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <h5><b>Promotion Code</b></h5>
+                                    </td>
+                                    <td><span id="promotionCode"></span></td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <h5><b>Shipping Promotion Code</b></h5>
+                                    </td>
+                                    <td><span id="shippingPromotionCode"></span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    }
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="row">
+                        <div class="col-lg-11 col-md-11 col-sm-11 col-xs-11">
+                            <h3>Customer Information</h3>
+                        </div>
+                        <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
+                            <a class="mt_25 pull-right" title="Update Customer Information" onclick="openUpdateCustomerInfo()"><i class="fa fa-edit"></i></a>
+                        </div>
+                    </div>
+                    @if (!Request.Browser.IsMobileDevice)
+                    {
+                        <table class="table">
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <h5><b>First Name</b></h5>
+                                    </td>
+                                    <td><span id="firstName"></span></td>
+                                    <td>
+                                        <h5><b>User ID</b></h5>
+                                    </td>
+                                    <td><span id="userId"></span></td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <h5><b>Last Name</b></h5>
+                                    </td>
+                                    <td><span id="lastName"></span></td>
+                                    <td>
+                                        <h5><b>Company Name</b></h5>
+                                    </td>
+                                    <td><span id="companyName"></span></td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <h5><b>Email</b></h5>
+                                    </td>
+                                    <td><span id="email"></span></td>
+                                    <td>
+                                        <h5><b>Phone No.</b></h5>
+                                    </td>
+                                    <td><span id="phone"></span></td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <h5><b>Billing Address</b></h5>
+                                    </td>
+                                    <td><span id="billingAddress"></span></td>
+                                    <td>
+                                        <h5><b>Shipping Address</b></h5>
+                                    </td>
+                                    <td><span id="deliveryAddress"></span></td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <h5><b>Note</b></h5>
+                                    </td>
+                                    <td><span id="note"></span></td>
+                                    <td>
+                                        <h5><b>Tracking Number</b></h5>
+                                    </td>
+                                    <td><span id="trackingNumber"></span></td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <h5><b>Shipping Method</b></h5>
+                                    </td>
+                                    <td><span id="shippingMethod"></span></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    }
+                    else
+                    {
+                        <table class="table">
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <h5><b>First Name</b></h5>
+                                    </td>
+                                    <td><span id="firstName"></span></td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <h5><b>User ID</b></h5>
+                                    </td>
+                                    <td><span id="userId"></span></td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <h5><b>Last Name</b></h5>
+                                    </td>
+                                    <td><span id="lastName"></span></td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <h5><b>Company Name</b></h5>
+                                    </td>
+                                    <td><span id="companyName"></span></td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <h5><b>Email</b></h5>
+                                    </td>
+                                    <td><span id="email"></span></td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <h5><b>Phone No.</b></h5>
+                                    </td>
+                                    <td><span id="phone"></span></td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <h5><b>Billing Address</b></h5>
+                                    </td>
+                                    <td><span id="billingAddress"></span></td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <h5><b>Shipping Address</b></h5>
+                                    </td>
+                                    <td><span id="deliveryAddress"></span></td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <h5><b>Note</b></h5>
+                                    </td>
+                                    <td><span id="note"></span></td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <h5><b>Tracking Number</b></h5>
+                                    </td>
+                                    <td><span id="trackingNumber"></span></td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <h5><b>Shipping Method</b></h5>
+                                    </td>
+                                    <td><span id="shippingMethod"></span></td>
+                                    <td class="hidden-sm hidden-xs"></td>
+                                    <td class="hidden-sm hidden-xs"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    }
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12">
+                    <h3>Payment</h3>
+                    <table class="table">
+                        @if (!Request.Browser.IsMobileDevice)
+                        {
+                            <tbody id="paymentList"></tbody>
+                        }
+                        else
+                        {
+                            <tbody id="paymentMobileList"></tbody>
+                        }
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="row">
+                        <div class="col-lg-11 col-md-11 col-sm-11 col-xs-11">
+                            <h3>Cart Item</h3>
+                        </div>
+                        <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
+                            <a class="mt_25 pull-right" onclick="openAddProductForm()"><i class="fa fa-plus-square-o"></i></a>
+                        </div>
+                    </div>
+                    <div class="cart-container panel panel-default">
+                        <div class="panel-body">
+                            <div class="row hidden-xs">
+                                <div class="col-md-2 col-sm-2 text-center">
+                                </div>
+                                <div class="col-md-3 col-sm-3 col-xs-3">
+                                    <label>Name</label>
+                                </div>
+                                <div class="col-md-1 col-sm-2 col-xs-2 text-right">
+                                    <label>Import</label>
+                                </div>
+                                <div class="col-md-1 col-sm-2 col-xs-2 text-right">
+                                    <label>Original</label>
+                                </div>
+                                <div class="col-md-2 col-sm-2 col-xs-2 text-right">
+                                    <label>Final Price</label>
+                                </div>
+                                <div class="col-md-1 col-sm-1 col-xs-1 text-right">
+                                    <label>Qty</label>
+                                </div>
+                                <div class="col-md-1 col-sm-1 col-xs-1 text-right">
+                                    <label>Total</label>
+                                </div>
+                                <div class="col-md-1 col-sm-1 col-xs-1 text-right">
+                                    <label>&nbsp;</label>
+                                </div>
+                            </div>
+                            <div class="row hidden-lg hidden-md hidden-sm">
+                                <div class="col-xs-4">
+                                    <label>Name</label>
+                                </div>
+                                <div class="col-xs-2 text-right">
+                                    <label>Price</label>
+                                </div>
+                                <div class="col-xs-2 text-right">
+                                    <label>Qty</label>
+                                </div>
+                                <div class="col-xs-2 text-right">
+                                    <label>Total</label>
+                                </div>
+                                <div class="col-xs-2">
+                                    <label>&nbsp;</label>
+                                </div>
+                            </div>
+                            <hr>
+                            <div id="cartItems">
+
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                                </div>
+                                <div class="hidden-lg hidden-md col-sm-12 col-xs-12">
+                                    <br />
+                                </div>
+                                <div class="col-lg-4 col-md-4">
+                                    <table class="table">
+                                        <tbody>
+                                            <tr>
+                                                <td colspan="2" class="text-center">
+                                                    <img id="shippingLogo" style="width: 50%;" />
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td><h5><b class="text-danger">Total Costs</b></h5></td>
+                                                <td align="right"><span id="totalImportPrice"></span></td>
+                                            </tr>
+                                            <tr>
+                                                <td><h5><b class="text-success">Profit</b></h5></td>
+                                                <td align="right"><span id="totalProfit"></span></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                                    <table class="table">
+                                        <tbody>
+                                            <tr>
+                                                <td><h5><b>Cart Subtotal</b></h5></td>
+                                                <td align="right"><span id="cartSubTotal"></span></td>
+                                            </tr>
+                                            <tr>
+                                                <td><h5><b>GST</b></h5></td>
+                                                <td align="right"><span id="cartGST"></span></td>
+                                            </tr>
+                                            <tr>
+                                                <td><h5><b>Shipping Fee</b></h5></td>
+                                                <td align="right"><span id="cartShippingFee"></span></td>
+                                            </tr>
+                                            <tr>
+                                                <td><h5><b class="text-danger">Discount</b></h5></td>
+                                                <td align="right" class="text-danger"><span id="cartDiscount"></span></td>
+                                            </tr>
+                                            <tr>
+                                                <td><h5><b>Order Total</b></h5></td>
+                                                <td align="right"><strong><span id="cartTotal"></span></strong></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <div class="hidden-sm hidden-xs">
+            <button id="forceToComplete" type="submit" class="btn btn-success" onclick="forceToComplete()"><i class="glyphicon glyphicon-check"></i>&nbsp;Complete Order</button>
+            <button id="sendInvoice" type="submit" class="btn btn-info" onclick="openSendInvoice()"><i class="glyphicon glyphicon-send"></i>&nbsp;Send E-Invoice</button>
+            &nbsp; | &nbsp;
+            <button id="add_trackingNumber" type="submit" class="btn btn-primary" onclick="openAddTrackingNumberForm()"><i class="glyphicon glyphicon-paperclip"></i>&nbsp;Update Tracking Number</button>
+            <button id="add_note" type="submit" class="btn btn-primary" onclick="openAddNoteForm()"><i class="glyphicon glyphicon-edit"></i>&nbsp;Update Note</button>
+            <button type="button" class="btn btn-default" onclick="backToOrderList()">Close</button>
+        </div>
+        <div class="hidden-lg hidden-md">
+            <button id="forceToComplete" type="submit" class="btn btn-success" onclick="forceToComplete()"><i class="glyphicon glyphicon-check"></i></button>
+            <button id="sendInvoice" type="submit" class="btn btn-info" onclick="openSendInvoice()"><i class="glyphicon glyphicon-send"></i></button>
+            &nbsp; | &nbsp;
+            <button id="add_trackingNumber" type="submit" class="btn btn-primary" onclick="openAddTrackingNumberForm()"><i class="glyphicon glyphicon-paperclip"></i></button>
+            <button id="add_note" type="submit" class="btn btn-primary" onclick="openAddNoteForm()"><i class="glyphicon glyphicon-edit"></i></button>
+            <button type="button" class="btn btn-default" onclick="backToOrderList()">Close</button>
+        </div>
+    </div>
+</div>
+
+@using (Html.BeginForm("UpdateCustomerInfo", "Order", FormMethod.Post, new { @id = "form_updateCustomerInfo", @class = "modal fade", @role = "dialog" }))
+{
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Update Customer Infomation</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                        <div class="form-group">
+                            <label for="billingFirstNameEdit">First Name <span class="required">*</span></label>
+                            <input id="billingFirstNameEdit" type="text" class="form-control" placeholder="First name" />
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                        <div class="form-group">
+                            <label for="billingLastNameEdit">Last Name <span class="required">*</span></label>
+                            <input id="billingLastNameEdit" type="text" class="form-control" placeholder="Last name" />
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                        <div class="form-group">
+                            <label for="billingCompanyNameEdit">Company Name</label>
+                            <input id="billingCompanyNameEdit" type="text" class="form-control" placeholder="Company name" />
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                        <div class="form-group">
+                            <label for="billingAddressv">Address <span class="required">*</span></label>
+                            <input id="billingAddressEdit" type="text" class="form-control" placeholder="Street address" />
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                        <div class="form-group">
+                            <label for="billingSuburbEdit">Suburb / City <span class="required">*</span></label>
+                            <input id="billingSuburbEdit" type="text" class="form-control" placeholder="Town / City" />
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                        <div class="form-group">
+                            <label for="billingCountryEdit">Country <span class="required">*</span></label>
+                            <select id="billingCountryEdit" class="form-control">
+                                <option value="">Select a country</option>
+                                <option value="Australia">Australia</option>
+                                <option value="New Zealand">New Zealand</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                        <div class="form-group">
+                            <label for="billingStateEdit">State / County <span class="required">*</span></label>
+                            <select id="billingStateEdit" name="State" class="form-control" required>
+                                <option value="">Select a state</option>
+                                <option value="Australian Capital Territory">Australian Capital Territory</option>
+                                <option value="New South Wales">New South Wales</option>
+                                <option value="Northern Territory">Northern Territory</option>
+                                <option value="Queensland">Queensland</option>
+                                <option value="South Australia">South Australia</option>
+                                <option value="Tasmania">Tasmania</option>
+                                <option value="Victoria">Victoria</option>
+                                <option value="Western Australia">Western Australia</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                        <div class="form-group">
+                            <label for="billingPostcodeEdit">Postcode / Zip <span class="required">*</span></label>
+                            <input id="billingPostcodeEdit" type="text" class="form-control" placeholder="Postcode / Zip" />
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                        <div class="form-group">
+                            <label for="emailAddressEdit">Email Address <span class="required">*</span></label>
+                            <input id="emailAddressEdit" type="email" class="form-control" placeholder="Email address" />
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                        <div class="form-group">
+                            <label for="phoneEdit">Phone <span class="required">*</span></label>
+                            <input id="phoneEdit" type="text" class="form-control" placeholder="Phone number" />
+                        </div>
+                    </div>
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div class="form-group">
+                            <label for="shippingMethodEdit">Shipping Method <span class="required">*</span></label>
+                            <select id="shippingMethodEdit" name="ShippingMethod" class="form-control" required></select>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                        <div class="form-group">
+                            <label class="custom-container">
+                                <input id="deliveryToDeifferentAddress" class="real-input" type="checkbox" name="DeliveryToDifferentAddress">
+                                <span class="checkmark border-radius-0"></span>
+                                <span class="checklabel">Ship to a different address?</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div id="shipping_form" class="row display_none">
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                        <div class="form-group">
+                            <label for="deliveryFirstNameEdit">First Name <span class="required">*</span></label>
+                            <input id="deliveryFirstNameEdit" type="text" class="form-control" placeholder="First name" />
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                        <div class="form-group">
+                            <label for="deliveryLastNameEdit">Last Name <span class="required">*</span></label>
+                            <input id="deliveryLastNameEdit" type="text" class="form-control" placeholder="Last name" />
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                        <div class="form-group">
+                            <label for="deliveryCompanyNameEdit">Company Name</label>
+                            <input id="deliveryCompanyNameEdit" type="text" class="form-control" placeholder="Company name" />
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                        <div class="form-group">
+                            <label for="deliveryAddressEdit">Address <span class="required">*</span></label>
+                            <input id="deliveryAddressEdit" type="text" placeholder="Street address" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                        <div class="form-group">
+                            <label for="deliverySuburbEdit">Suburb / City <span class="required">*</span></label>
+                            <input id="deliverySuburbEdit" type="text" placeholder="Town / City" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                        <div class="form-group">
+                            <label for="deliveryCountryEdit">Country <span class="required">*</span></label>
+                            <select id="deliveryCountryEdit" class="form-control" class="form-control">
+                                <option value="">Select a country</option>
+                                <option value="Australia">Australia</option>
+                                <option value="New Zealand">New Zealand</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                        <div class="form-group">
+                            <label class="deliveryStateEdit">State / County <span class="required">*</span></label>
+                            <select id="deliveryStateEdit" name="State" class="form-control" required>
+                                <option value="">Select a state</option>
+                                <option value="Australian Capital Territory">Australian Capital Territory</option>
+                                <option value="New South Wales">New South Wales</option>
+                                <option value="Northern Territory">Northern Territory</option>
+                                <option value="Queensland">Queensland</option>
+                                <option value="South Australia">South Australia</option>
+                                <option value="Tasmania">Tasmania</option>
+                                <option value="Victoria">Victoria</option>
+                                <option value="Western Australia">Western Australia</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                        <div class="form-group">
+                            <label for="deliveryPostcodeEdit">Postcode / Zip <span class="required">*</span></label>
+                            <input id="deliveryPostcodeEdit" type="text" placeholder="Postcode / Zip" class="form-control" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button id="submit_saveCustomerInfo" type="button" class="btn btn-primary" onclick="submitCustomerInfo()"><i class="fa fa-check"></i>&nbsp;Send</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+}
+
+@using (Html.BeginForm("SendEInvoice", "Order", FormMethod.Post, new { @id = "form_sendInvoice", @class = "modal fade", @role = "dialog" }))
+{
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Send e-invoice</h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>Do you want to send to a specific email?</label>
+                    <input id="specificEmailText" name="SpecificEmail" type="text" class="form-control" placeholder="Input the specific receiver email" />
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button id="submit_sendInvoice" type="button" class="btn btn-primary" onclick="submitSendInvoice()"><i class="fa fa-check"></i>&nbsp;Send</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+}
+
+@using (Html.BeginForm("UpdatePromotionForCustomerOrder", "ShoppingCart", FormMethod.Post, new { @id = "form_updatePromotionForCustomerOrder", @class = "modal fade", @role = "dialog" }))
+{
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Update Invoice for Customer Order</h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>Promotion</label>
+                    <select id="promotionOrder" name="PromotionCode" class="form-control">
+                        <option value="REMOVE">Please choose promotion</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Shipping Promotion</label>
+                    <select id="shippingPromotionOrder" name="ShippingPromotionCode" class="form-control">
+                        <option value="REMOVE">Please choose shipping promotion</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Status of Order</label>
+                    <select id="statusOrder" name="StatusOrder" class="form-control" required>
+                        <option value="">Please choose status of Order</option>
+                        <option value="SUCCEED">SUCCEED</option>
+                        <option value="SUCCEED & CONFIRMED">SUCCEED & CONFIRMED</option>
+                        <option value="FAILED">FAILED</option>
+                        <option value="PROCESSING">PROCESSING</option>
+                        <option value="PAID A PART">PAID A PART</option>
+                    </select>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button id="submit_PromotionForCustomerOrder" type="button" class="btn btn-primary" onclick="submitPromotionForCustomerOrder()"><i class="fa fa-check"></i>&nbsp;Save</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+}
+
+@using (Html.BeginForm("AddToCart", "ShoppingCart", FormMethod.Post, new { @id = "form_addProductToCart", @class = "modal fade", @role = "dialog" }))
+{
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Add Product for Customer Order</h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>Product</label>
+                    <select id="producToAdd" class="form-control">
+                        <option value="">Please select a product</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Quantity</label>
+                    <input id="quantityForProduct" type="number" class="form-control" placeholder="Input the expected quantity for this product" required />
+                </div>
+                <div class="form-group">
+                    <label>Custom Price</label>
+                    <div class="form-group input-group">
+                        <span class="input-group-addon">$</span>
+                        <input id="customPriceProduct" type="text" class="form-control" placeholder="Custom Price" />
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button id="submit_AddProduct" type="button" class="btn btn-primary" onclick="submitAddProduct()"><i class="fa fa-check"></i>&nbsp;Save</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+}
+
+@using (Html.BeginForm("AddTrackingNumber", "Order", FormMethod.Post, new { @id = "form_addTrackingNumber", @class = "modal fade", @role = "dialog" }))
+{
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Update Tracking Number</h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>AusPost Tracking Number</label>
+                    <input id="trackingNumberText" name="TrackingNumber" type="text" class="form-control" placeholder="Tracking Number" required />
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button id="submit_AddTrackingNumber" type="button" class="btn btn-primary" onclick="submitTrackingNumber()"><i class="fa fa-check"></i>&nbsp;Send</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+}
+
+@using (Html.BeginForm("AddNote", "Order", FormMethod.Post, new { @id = "form_addNote", @class = "modal fade", @role = "dialog" }))
+{
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Update Note</h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>Note</label>
+                    <textarea class="form-control" id="noteText" name="Note" rows="5" placeholder="Notes about your order, e.g. special notes for delivery."></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button id="submit_AddNote" type="button" class="btn btn-primary" onclick="submitNote()"><i class="fa fa-check"></i>&nbsp;Save</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+}
+
+@using (Html.BeginForm("Delete", "Order", FormMethod.Post, new { @id = "form_deleteOrder", @class = "modal fade", @role = "dialog" }))
+{
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Delete Order</h4>
+            </div>
+            <div class="modal-body">
+                @Html.Hidden("orderIdForDelete")
+                <div id="message_confirm" style="padding-top: 5px;">Are you sure you want to delete "<b id="delete_orderId"></b>"?</div>
+            </div>
+            <div class="modal-footer">
+                <button id="delete_Order" type="submit" class="btn btn-primary"><i class="fa fa-trash"></i>&nbsp;Delete</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+}
+@using (Html.BeginForm("UpdateCurrentCartForAdmin", "ShoppingCart", FormMethod.Post, new { @id = "form_deleteProductOrder", @class = "modal fade", @role = "dialog" }))
+{
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Delete Product</h4>
+            </div>
+            <div class="modal-body">
+                @Html.Hidden("productIdforDelete")
+                <div id="message_confirm" style="padding-top: 5px;">Are you sure you want to delete "<b id="delete_productId"></b>" out of this order?</div>
+            </div>
+            <div class="modal-footer">
+                <button id="submit_DeleteProduct" type="button" class="btn btn-primary" onclick="submitDeleteProduct()"><i class="fa fa-trash"></i>&nbsp;Delete</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+}
+
+<script type="text/javascript">
+    var orderId;
+
+    $(document).ready(function () {
+        $.ajax({
+            cache: false,
+            type: "GET",
+            url: '@Url.Action("GetAllNormalPromotions", "Promotion")',
+            async: false,
+            dataType: "json",
+            timeout: 5000,
+            success: function (response) {
+                if (response.success === true) {
+                    var options;
+
+                    if (response.data.NormalPromotions != null) {
+                        $.each(response.data.NormalPromotions, function (index, value) {
+                            options += "<option value='" + value.PromotionCode + "'>" + value.NameOfPromotion + "</option>";
+                        });
+
+                        $("#promotionOrder").empty();
+                        $("#promotionOrder").append(options);
+                    }
+
+                    var shippingOptions;
+
+                    if (response.data.ShippingPromotions != null) {
+                        $.each(response.data.ShippingPromotions, function (index, value) {
+                            shippingOptions += "<option value='" + value.PromotionCode + "'>" + value.NameOfPromotion + "</option>";
+                        });
+
+                        $("#shippingPromotionOrder").empty();
+                        $("#shippingPromotionOrder").append(shippingOptions);
+                    }
+                }
+            },
+        });
+
+        $.ajax({
+            cache: false,
+            type: "GET",
+            url: '@Url.Action("GetAllShippingMethods", "Order")',
+            async: false,
+            dataType: "json",
+            timeout: 5000,
+            success: function (response) {
+                if (response.success == true) {
+                    var options;
+                    $.each(response.data, function (index, value) {
+                        options += "<option value='" + value.Value + "'>" + value.Name + "</option>";
+                    });
+                    $("#shippingMethodEdit").empty();
+                    $("#shippingMethodEdit").append(options);
+                }
+            },
+        });
+
+        orderId = getUrlParameter("orderId");
+        viewOrder(orderId);
+
+        $('#deliveryToDeifferentAddress').change(function () {
+            if (!this.checked)
+                $('#shipping_form').fadeOut('slow');
+            else
+                $('#shipping_form').fadeIn('slow');
+        });
+    });
+
+    function backToOrderList() {
+        var lastPage = getCookie("CURRENT_ORDER_PAGE_FOR_ADMIN");
+        var lastSearch = getCookie("CURRENT_ORDER_SEARCH_FOR_ADMIN");
+        var lastSearchShippingMethod = getCookie("CURRENT_ORDER_SEARCH_SHIPPING_METHOD_FOR_ADMIN");
+        var lastSearchConfirmedStatus = getCookie("CURRENT_ORDER_SEARCH_CONFIRMED_STATUS_FOR_ADMIN");
+        window.location.href = "/Admin/Order?PageNo=" + lastPage + "&Search=" + lastSearch+ "&SearchByShippingMethod=" + lastSearchShippingMethod + "&SearchByConfirmedStatus=" + lastSearchConfirmedStatus;
+    }
+
+    function openAddProductForm() {
+        $("#loading").show();
+
+        $.ajax({
+            cache: false,
+            type: "GET",
+            url: '@Url.Action("GetAllProductForAdmin", "Product")',
+            async: true,
+            dataType: "json",
+            timeout: 5000,
+            success: function (response) {
+                if (response.success === true) {
+                    var options;
+
+                    if (response.data != null) {
+                        $.each(response.data, function (index, value) {
+                            options += "<option value='" + value.Id + "'>" + value.Namekey + " - " + value.Id + " - " + value.Name + " (" + value.StockLevel + ")</option>";
+                        });
+
+                        $("#producToAdd").empty();
+                        $("#producToAdd").append(options);
+                    }
+
+                    $("#loading").hide();
+                    $("#quantityForProduct").val(0);
+                    $("#customPriceProduct").val(null);
+                    $('#form_addProductToCart').modal('toggle');
+                }
+                else {
+                    $("#loading").hide();
+                    toastr.error("Cannot load product for choosing!", "Error");
+                }
+            },
+        });
+    }
+
+    function submitAddProduct() {
+        $("#loading").show();
+        var orderId = $("#orderId").text();
+        var shoppingCartId = $("#cartId").text();
+        var pid = $("#producToAdd").val();
+        $.ajax({
+            cache: false,
+            type: "POST",
+            url: '@Url.Action("AddToCartForAdmin", "ShoppingCart")',
+            data: {
+                CurrentOrderId: orderId,
+                CartId: shoppingCartId,
+                ProductId: pid,
+                Quantity: $("#quantityForProduct").val(),
+                CustomPrice: $("#customPriceProduct").val()
+            },
+            async: true,
+            dataType: "json",
+            timeout: 35000,
+            success: function (response) {
+                if (response.success === true) {
+                    toastr.success("The order is updated successfully!", "Success");
+                    viewOrder(orderId, true);
+                    $('#form_addProductToCart').modal('hide');
+                }
+                else {
+                    $('#form_addProductToCart').modal('hide');
+                    $("#loading").hide();
+                    toastr.error(response.message, "Error");
+                }
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                toastr.error("Cannot update this order!", "Error");
+                $("#loading").hide();
+            }
+        });
+    }
+
+    function openUpdateCustomerInfo() {
+        $('#form_updateCustomerInfo').modal('toggle');
+    };
+
+    function openUpdatePromotionForCustomerOrder() {
+        $('#form_updatePromotionForCustomerOrder').modal('toggle');
+    };
+
+    function openAddTrackingNumberForm() {
+        $('#form_addTrackingNumber').modal('toggle');
+    };
+
+    function openSendInvoice() {
+        $('#form_sendInvoice').modal('toggle');
+    };
+
+    function openAddNoteForm() {
+        $('#form_addNote').modal('toggle');
+    };
+
+    function deleteProductInOrder(pId, pName) {
+        $("#delete_productId").text(pId + " - " + pName);
+        $("#productIdforDelete").val(pId);
+        $("#form_deleteProductOrder").modal('toggle');
+    };
+
+    function submitDeleteProduct() {
+        $("#loading").show();
+        var orderId = $("#orderId").text();
+        var shoppingCartId = $("#cartId").text();
+        var pid = $("#productIdforDelete").val();
+        $.ajax({
+            cache: false,
+            type: "POST",
+            url: '@Url.Action("UpdateCurrentCartForAdmin", "ShoppingCart")',
+            data: {
+                CartId: shoppingCartId,
+                ProductId: pid,
+                Quantity: 0
+            },
+            async: true,
+            dataType: "json",
+            timeout: 35000,
+            success: function (response) {
+                if (response.success === true) {
+                    toastr.success("The order is updated successfully!", "Success");
+                    viewOrder(orderId, true);
+                    $('#form_deleteProductOrder').modal('hide');
+                }
+                else {
+                    $('#form_deleteProductOrder').modal('hide');
+                    $("#loading").hide();
+                    toastr.error(response.message, "Error");
+                }
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                toastr.error("Cannot update this order!", "Error");
+                $("#loading").hide();
+            }
+        });
+    }
+
+    function resetForm() {
+        $("#orderId").text("");
+        $("#cartId").text("");
+        $("#userId").text("");
+        $("#email").text("");
+        $("#phone").text("");
+        $("#completedAt").text("");
+        $("#firstName").text("");
+        $("#lastName").text("");
+        $("#companyName").text("");
+        $("#billingAddress").text("");
+        $("#deliveryAddress").text("");
+        $("#note").text("");
+        $("#confirmedStatus").text("");
+        $("#cartItems").html("");
+        $("#paymentList").html("");
+        $("#paymentMobileList").html("");
+        $("#trackingNumber").text("");
+        $("#promotionCode").text("");
+        $("#shippingPromotionCode").text("");
+        $("#trackingNumberText").val(null);
+        $("#noteText").val(null);
+        $("#cartSubTotal").text("");
+        $("#cartGST").text("");
+        $("#cartTotal").text("");
+        $("#totalImportPrice").text("");
+        $("#totalProfit").text("");
+    }
+
+    function copyBillingToDeliveryForm() {
+        $("#deliveryFirstNameEdit").val($("#billingFirstNameEdit").val());
+        $("#deliveryLastNameEdit").val($("#billingLastNameEdit").val());
+        $("#deliveryCompanyNameEdit").val($("#billingCompanyNameEdit").val());
+        $("#deliveryAddressEdit").val($("#billingAddressEdit").val());
+        $("#deliverySuburbEdit").val($("#billingSuburbEdit").val());
+        $("#deliveryPostcodeEdit").val($("#billingPostcodeEdit").val());
+        $("#deliveryStateEdit").val($("#billingStateEdit").val());
+        $("#deliveryCountryEdit").val($("#billingCountryEdit").val());
+    }
+
+    function viewOrder(id, reCalculate = false) {
+        $("#loading").show();
+        $.ajax({
+            cache: false,
+            type: "GET",
+            url: '@Url.Action("GetOrderByOrderIdForAdmin", "Order")',
+            data: { orderId: id, reCalculate: reCalculate },
+            dataType: "json",
+            timeout: 35000,
+            async: true,
+            success: function (response) {
+                if (response.success === true) {
+                    resetForm();
+                    $("#orderId").text(response.data.Checkout.Id);
+                    $("#cartId").text(response.data.Checkout.CartId);
+
+                    var text = "<img src='" + response.data.Checkout.UserAvatar + "' style='height: 18px; border-radius: 50%'> " + response.data.Checkout.UserFullName;
+                    $("#userId").append(text);
+
+                    $("#email").text(response.data.Checkout.Email);
+                    $("#phone").text(response.data.Checkout.Phone);
+                    $("#completedAt").text(response.data.Checkout.CompletedAt);
+                    $("#firstName").text(response.data.Checkout.FirstName);
+                    $("#lastName").text(response.data.Checkout.LastName);
+                    $("#companyName").text(response.data.Checkout.CompanyName);
+                    $("#billingAddress").text(response.data.Checkout.Address + ", " + response.data.Checkout.Suburb + ", " + response.data.Checkout.State + " " + response.data.Checkout.Postcode + ", " + response.data.Checkout.Country);
+                    $("#deliveryAddress").text(response.data.Checkout.DeliveryAddress + ", " + response.data.Checkout.DeliverySuburb + ", " + response.data.Checkout.DeliveryState + " " + response.data.Checkout.DeliveryPostcode + ", " + response.data.Checkout.DeliveryCountry);
+                    $("#note").text(response.data.Checkout.Note);
+                    $("#shippingMethod").text(response.data.Checkout.ShippingMethod);
+
+                    $("#billingFirstNameEdit").val(response.data.Checkout.FirstName);
+                    $("#billingLastNameEdit").val(response.data.Checkout.LastName);
+                    $("#billingCompanyNameEdit").val(response.data.Checkout.CompanyName);
+                    $("#billingAddressEdit").val(response.data.Checkout.Address);
+                    $("#billingSuburbEdit").val(response.data.Checkout.Suburb);
+                    $("#billingStateEdit").val(response.data.Checkout.State);
+                    $("#billingPostcodeEdit").val(response.data.Checkout.Postcode);
+                    $("#billingCountryEdit").val(response.data.Checkout.Country);
+                    $("#emailAddressEdit").val(response.data.Checkout.Email);
+                    $("#phoneEdit").val(response.data.Checkout.Phone);
+
+                    if (response.data.Checkout.ShippingMethod === "AUS_POST") {
+                        $("#shippingLogo").attr("src", "/images/app/auspost_logo.png");
+                        $("#shippingMethodEdit").val(1);
+                    }
+                    else if (response.data.Checkout.ShippingMethod === "HOME_MAIL") {
+                        $("#shippingLogo").attr("src", "/images/app/homemail.svg");
+                        $("#shippingMethodEdit").val(2);
+                    }
+                    else {
+                        $("#shippingLogo").attr("src", "/images/app/clickandcollect.svg");
+                        $("#shippingMethodEdit").val(3);
+                    }
+
+                    if (response.data.Checkout.DeliveryToDifferentAddress == true) {
+                        $('#deliveryToDeifferentAddress').prop('checked', true);
+                        $('#shipping_form').fadeIn('slow');
+                    }
+                    else {
+                        $('#deliveryToDeifferentAddress').prop('checked', false);
+                    }
+
+                    $("#deliveryFirstNameEdit").val(response.data.Checkout.DeliveryFirstName);
+                    $("#deliveryLastNameEdit").val(response.data.Checkout.DeliveryLastName);
+                    $("#deliveryCompanyNameEdit").val(response.data.Checkout.DeliveryCompanyName);
+                    $("#deliveryAddressEdit").val(response.data.Checkout.DeliveryAddress);
+                    $("#deliverySuburbEdit").val(response.data.Checkout.DeliverySuburb);
+                    $("#deliveryStateEdit").val(response.data.Checkout.DeliveryState);
+                    $("#deliveryPostcodeEdit").val(response.data.Checkout.DeliveryPostcode);
+                    $("#deliveryCountryEdit").val(response.data.Checkout.DeliveryCountry);
+                    $("#statusOrder").val(response.data.Checkout.ConfirmedStatus);
+                    if (response.data.Checkout.ConfirmedStatus === "SUCCEED & CONFIRMED")
+                    {
+                        $("#confirmedStatus").append("<span class='text-success'><i class='fa fa-check-square-o'></i>&nbsp;" + response.data.Checkout.ConfirmedStatus + "</span>");
+                    }
+                    else if (response.data.Checkout.ConfirmedStatus === "SUCCEED") {
+                        $("#confirmedStatus").append("<span class='text-primary'><i class='fa fa-bell'></i>&nbsp;" + response.data.Checkout.ConfirmedStatus + "</span>");
+                    }
+                    else if (response.data.Checkout.ConfirmedStatus === "PROCESSING")
+                    {
+                        $("#confirmedStatus").append("<span class='text-danger'><i class='fa fa-circle-o-notch'></i>&nbsp;" + response.data.Checkout.ConfirmedStatus + "</span>");
+                    }
+                    else if (response.data.Checkout.ConfirmedStatus === "PAID A PART")
+                    {
+                        $("#confirmedStatus").append("<span class='text-danger'><i class='fa fa-bell'></i>&nbsp;" + response.data.Checkout.ConfirmedStatus + "</span>");
+                    }
+                    else
+                    {
+                        $("#confirmedStatus").append("<span class='text-danger'><i class='fa fa-meh-o'></i>&nbsp;" + response.data.Checkout.ConfirmedStatus + "</span>");
+                    }
+
+                    $("#trackingNumberText").val(response.data.Checkout.TrackingNumber);
+                    $("#noteText").val(response.data.Checkout.Note);
+                    $("#trackingNumber").text(response.data.Checkout.TrackingNumber);
+
+                    $("#promotionCode").text(response.data.ShoppingCart.PromotionCode);
+                    $("#shippingPromotionCode").text(response.data.ShoppingCart.ShippingPromotionCode);
+
+                    $("#promotionOrder").val(response.data.ShoppingCart.PromotionCode);
+                    $("#shippingPromotionOrder").val(response.data.ShoppingCart.ShippingPromotionCode);
+
+                    var cartItems = "";
+                    var payments = "";
+                    var paymentsMobile = "";
+
+                    if (response.data.ShoppingCart.CartItemList && response.data.ShoppingCart.CartItemList.length > 0) {
+                        $.each(response.data.ShoppingCart.CartItemList, function (k, v) {
+                            var item = '<div class="row vertical-align"><div class="col-md-2 col-sm-2 text-center hidden-xs"><img src="' + v.PrimaryImage + '" style="width: 30%"></div><div class="col-md-3 col-sm-3 col-xs-5"><a target="_blank" href="/Admin/ProductDetail?productId=' + v.ProductId + '#updateProduct"><p>' + v.ProductId + ' - ' + v.Name + '</p></a></div><div class="col-md-1 col-sm-2 hidden-xs"><p class="text-right">$' + v.ImportPrice + '</p></div><div class="col-md-1 col-sm-2 hidden-xs"><p class="text-right">$' + v.OriginalPrice + '</p></div><div class="col-md-2 col-sm-2 col-xs-2"><p class="text-right">$' + v.DiscountPrice + '</p></div><div class="col-md-1 col-sm-1 col-xs-2"><p class="text-right">' + v.Quantity + '</p></div><div class="col-md-1 col-sm-1 col-xs-2"><p class="text-right">$' + v.FinalPrice + '</p></div><div class="col-md-1 col-sm-1 col-xs-2"><a onclick="deleteProductInOrder(' + v.ProductId + ',\'' + v.Name + '\')"><p><i class="fa fa-trash-o cusor_pointer"></i></p></a></div></div><br />';
+
+                            cartItems += item;
+                        });
+                    }
+
+                    if (response.data.PaymentList && response.data.PaymentList.length > 0) {
+                        $.each(response.data.PaymentList, function (k, v) {
+                            var icon = '';
+                            if (v.Success) {
+                                icon = '<i class="fa fa-check text-primary"></i>'
+                            }
+                            else {
+                                icon = '<i class="fa fa-close text-danger"></i>'
+                            }
+                            var item = '<tr><td colspan="2"><h4>' + icon + ' Payment Id ' + v.Id + '</h4></td><td colspan="2"></td></tr><tr><td><h5><b>Method</b></h5></td><td>' + v.Method + '</td><td><h5><b>Amount</b></h5></td><td>' + v.Amount + ' AUD</td></tr><tr><td><h5><b>Reason</b></h5></td><td>' + v.Reason + '</td><td><h5><b>Info</b></h5></td><td>' + v.Detail + '</td></tr><tr><td><h5><b>Created At</b></h5></td><td>' + v.CreatedAt + '</td><td><h5><b>Completed At</b></h5></td><td>' + v.UpdatedAt + '</td></tr>';
+
+                            var itemMobile = '<tr><td colspan="2"><h4>' + icon + ' Payment Id ' + v.Id + '</h4></td></tr><tr><td><h5><b>Method</b></h5></td><td>' + v.Method + '</td></tr><tr><td><h5><b>Amount</b></h5></td><td>' + v.Amount + ' AUD</td></tr><tr><td><h5><b>Reason</b></h5></td><td>' + v.Reason + '</td></tr><tr><td><h5><b>Info</b></h5></td><td>' + v.Detail + '</td></tr><tr><td><h5><b>Created At</b></h5></td><td>' + v.CreatedAt + '</td></tr><tr><td><h5><b>Completed At</b></h5></td><td>' + v.UpdatedAt + '</td></tr>';
+
+                            payments += item;
+                            paymentsMobile += itemMobile;
+                        });
+                    }
+
+                    $("#cartItems").append(cartItems);
+                    $("#paymentList").append(payments);
+                    $("#paymentMobileList").append(paymentsMobile);
+
+                    $("#cartSubTotal").text("$" + response.data.ShoppingCart.TotalAmountExGst);
+                    $("#cartGST").text("$" + response.data.ShoppingCart.Gst);
+                    $("#cartShippingFee").text("$" + response.data.ShoppingCart.ShippingFee);
+                    $("#cartDiscount").text("- $" + response.data.ShoppingCart.Discount);
+                    $("#cartTotal").append("<b>$" + response.data.ShoppingCart.TotalFinalPrice + "</b>");
+                    $("#totalImportPrice").append("<b class='text-danger'>$" + response.data.ShoppingCart.TotalImportPrice + "</b>");
+                    $("#totalProfit").append("<b class='text-success'>$" + response.data.ShoppingCart.TotalProfit + "</b>");
+
+                    $("#loading").hide();
+
+                    if (reCalculate) {
+                        toastr.info("The shopping cart was recalculated!", "Info");
+                    }
+                }
+                else {
+                    toastr.error("Cannot load this order", "Error");
+                    $("#loading").hide();
+                }
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                toastr.error("@TempData["message"]", "Error");
+                $("#loading").hide();
+            }
+        });
+    };
+
+    function submitCustomerInfo() {
+        $("#loading").show();
+        var id = $("#orderId").text();
+
+        var billingFirstName = $("#billingFirstNameEdit").val();
+        var billingLastName = $("#billingLastNameEdit").val();
+        var billingAddress = $("#billingAddressEdit").val();
+        var billingSuburb = $("#billingSuburbEdit").val();
+        var billingPostcode = $("#billingPostcodeEdit").val();
+        var billingState = $("#billingStateEdit").val();
+        var billingCountry = $("#billingCountryEdit").val();
+
+        if (billingFirstName === null || billingFirstName === '' || billingLastName === null || billingLastName === '' || billingAddress === null || billingAddress === '' || billingSuburb === null || billingSuburb === '', billingPostcode === null || billingPostcode === '' || billingState === null || billingState === '' || billingCountry === null || billingCountry === '') {
+            toastr.info("Please fill up all your personal information before choose shipping method or place order!", "Info");
+            $("#loading").hide();
+            return;
+        }
+
+        var val = $("#deliveryToDeifferentAddress").is(":checked");
+        if (val === false) {
+            copyBillingToDeliveryForm();
+        }
+
+        var shippingMethod = $('#shippingMethodEdit').val();
+
+        $.ajax({
+            cache: false,
+            type: "POST",
+             url: '@Url.Action("UpdateCustomerInfo", "Order")',
+            data: {
+                //Order - checkout
+                Id: orderId !== "" ? orderId : 0,
+                FirstName: $("#billingFirstNameEdit").val(),
+                LastName: $("#billingLastNameEdit").val(),
+                CompanyName: $("#billingCompanyNameEdit").val(),
+                Address: $("#billingAddressEdit").val(),
+                Suburb: $("#billingSuburbEdit").val(),
+                Postcode: $("#billingPostcodeEdit").val(),
+                State: $("#billingStateEdit").val(),
+                Country: $("#billingCountryEdit").val(),
+                Email: $("#emailAddressEdit").val(),
+                Phone: $("#phoneEdit").val(),
+                DeliveryFirstName: $("#deliveryFirstNameEdit").val(),
+                DeliveryLastName: $("#deliveryLastNameEdit").val(),
+                DeliveryCompanyName: $("#deliveryCompanyNameEdit").val(),
+                DeliveryAddress: $("#deliveryAddressEdit").val(),
+                DeliverySuburb: $("#deliverySuburbEdit").val(),
+                DeliveryPostcode: $("#deliveryPostcodeEdit").val(),
+                DeliveryState: $("#deliveryStateEdit").val(),
+                DeliveryCountry: $("#deliveryCountryEdit").val(),
+                ShippingMethodType: shippingMethod
+            },
+            dataType: "json",
+            async: true,
+            timeout: 35000,
+            success: function (response) {
+                if (response.success === true) {
+                    viewOrder(id, true);
+                    $('#form_updateCustomerInfo').modal('hide');
+                    toastr.success("The customer information is updated successfully!", "Success");
+                }
+                else {
+                    $('#form_updateCustomerInfo').modal('hide');
+                    $("#loading").hide();
+                    toastr.error(response.message, "Error");
+                }
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                toastr.error("Cannot update the customer information for this order!", "Error");
+                $("#loading").hide();
+            }
+        });
+    }
+
+    function submitTrackingNumber() {
+        $("#loading").show();
+        var id = $("#orderId").text();
+        var trackingNumber = $("#trackingNumberText").val();
+
+        $.ajax({
+            cache: false,
+            type: "POST",
+            url: '@Url.Action("AddTrackingNumber", "Order")',
+            data: {
+                orderId: id,
+                trackingNumber: trackingNumber
+            },
+            dataType: "json",
+            timeout: 35000,
+            async: true,
+            success: function (response) {
+                if (response.success == true) {
+                    viewOrder(id);
+                    $('#form_addTrackingNumber').modal('hide');
+                    toastr.success("The tracking number is updated successfully!", "Success");
+                }
+                else {
+                    $('#form_addTrackingNumber').modal('hide');
+                    $("#loading").hide();
+                    toastr.error("Cannot update the tracking number!", "Error");
+                }
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                toastr.error("Cannot update the tracking number!", "Error");
+                $("#loading").hide();
+            }
+        });
+    };
+
+    function submitPromotionForCustomerOrder() {
+        $("#loading").show();
+        var orderid = $("#orderId").text();
+        var cartid = $("#cartId").text();
+        var promotionCode = $("#promotionOrder").val();
+        var shippingPromotionCode = $("#shippingPromotionOrder").val();
+        var statusOrder = $("#statusOrder").val();
+
+        $.ajax({
+            cache: false,
+            type: "POST",
+            url: '@Url.Action("AdminApplyPromotionCodeForCustomerOrder", "ShoppingCart")',
+            data: {
+                orderId: orderid,
+                cartId: cartid,
+                promotionCode: promotionCode,
+                shippingPromotionCode: shippingPromotionCode,
+                statusOrder: statusOrder
+            },
+            dataType: "json",
+            timeout: 35000,
+            async: true,
+            success: function (response) {
+                if (response.success == true) {
+                    viewOrder(orderid, true);
+                    $('#form_updatePromotionForCustomerOrder').modal('hide');
+                    toastr.success("The invoice is updated successfully!", "Success");
+                }
+                else {
+                    $('#form_updatePromotionForCustomerOrder').modal('hide');
+                    $("#loading").hide();
+                    toastr.error("Cannot update the invoice! " + response.message, "Error");
+                }
+
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                toastr.error("Cannot update the invoice!", "Error");
+                $("#loading").hide();
+            }
+        });
+    };
+
+    function submitSendInvoice() {
+        $("#loading").show();
+        var id = $("#orderId").text();
+
+         $.ajax({
+            cache: false,
+            type: "POST",
+            url: '@Url.Action("SendInvoiceEmail", "Order")',
+            data: {
+                orderId: id,
+                specificEmail: $("#specificEmailText").val()
+            },
+            dataType: "json",
+            timeout: 35000,
+            async: true,
+            success: function (response) {
+                if (response.success == true) {
+                    $('#form_sendInvoice').modal('hide');
+                    $("#loading").hide();
+                    toastr.success("The confirmation email is sent successfully!", "Success");
+                }
+                else {
+                    toastr.error("Cannot send the confirmation email!", "Error");
+                    $("#loading").hide();
+                }
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                toastr.error("Cannot send the confirmation email!", "Error");
+                $("#loading").hide();
+            }
+        });
+    }
+
+    function submitNote() {
+        $("#loading").show();
+        var id = $("#orderId").text();
+        var note = $("#noteText").val();
+
+        $.ajax({
+            cache: false,
+            type: "POST",
+            url: '@Url.Action("AddNote", "Order")',
+            data: {
+                orderId: id,
+                note: note
+            },
+            dataType: "json",
+            timeout: 35000,
+            async: true,
+            success: function (response) {
+                if (response.success == true) {
+                    viewOrder(id);
+                    $('#form_addNote').modal('hide');
+                    toastr.success("The note is updated successfully!", "Success");
+                }
+                else {
+                    toastr.error("Cannot update the note!", "Error");
+                    $('#form_addNote').modal('hide');
+                    $("#loading").hide();
+                }
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                toastr.error("Cannot update the note!", "Error");
+                $("#loading").hide();
+            }
+        });
+    };
+
+    function confirmDeleteOrder(id) {
+        $("#delete_orderId").text(id);
+        $("#orderIdForDelete").val(id);
+        $('#form_deleteOrder').modal('toggle');
+    };
+
+    function forceToComplete() {
+        $("#loading").show();
+        var id = $("#orderId").text();
+        var trackingNumber = $("#trackingNumberText").val();
+
+        $.ajax({
+            cache: false,
+            type: "POST",
+            url: '@Url.Action("ForceToCompleteOrder", "Order")',
+            data: {
+                orderId: id
+            },
+            dataType: "json",
+            timeout: 35000,
+            async: false,
+            success: function (response) {
+                if (response.success == true) {
+                    viewOrder(id);
+                    toastr.success("The order is forced to complete successfully!", "Success");
+                }
+                else {
+                    toastr.error("Cannot force to complete the order!", "Error");
+                    $("#loading").hide();
+                }
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                 toastr.error("Cannot force to complete the order!", "Error");
+                $("#loading").hide();
+            }
+        });
+    }
+</script>

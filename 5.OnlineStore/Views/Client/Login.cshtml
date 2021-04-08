@@ -1,0 +1,117 @@
+﻿@model BusinessService.Models.Common.HomePageModel
+@{
+    ViewBag.Title = "Login";
+}
+
+<!-- PAGE BANNER SECTION -->
+<div class="page-banner-section section">
+    <div class="container hidden-xs">
+        <div class="row">
+            <div class="page-banner-content col-xs-12">
+                <h2><img src="~/images/app/login.svg" class="icon_svg_title pb-10" />&nbsp; Login</h2>
+                <ul class="breadcrumb">
+                    <li><a href="/">Home</a></li>
+                    <li class="active"><b>Login</b></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid hidden-sm hidden-md hidden-lg">
+        <div class="row">
+            <div class="page-banner-content col-xs-12">
+                <h2><img src="~/images/app/login.svg" class="icon_svg_title pb-10" />&nbsp; Login</h2>
+                <ul class="breadcrumb">
+                    <li><a href="/">Home</a></li>
+                    <li class="active"><b>Login</b></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- END PAGE BANNER SECTION -->
+<!-- PAGE SECTION START -->
+<div class="page-section section pt-30 pb-30">
+    <div class="@(Request.Browser.IsMobileDevice == true ? "container-fluid" : "container")">
+        <div id="loginForm" class="row">
+            <div class="col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2 col-xs-12">
+                <div class="login-reg-form">
+                    @using (Html.BeginForm("CustomerLogin", "UserProfile", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { autocomplete = "off" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        @Html.ValidationSummary(true)
+                        <div class="row">
+                            <div class="col-xs-12 mb-20">
+                                <label for="username">Email <span class="required">*</span></label>
+                                <input name="username" id="UserName" type="email" required value="" autocomplete="off">
+                            </div>
+                            <div class="col-xs-12 mb-20">
+                                <label for="password">Passwords <span class="required">*</span></label>
+                                <input name="password" id="Password" type="password" required value="" autocomplete="off">
+                            </div>
+                            <div class="col-xs-12 mb-20">
+                                <input value="Login" name="login" class="inline" type="submit">
+                                <label class="inline" for="rememberme">
+                                    <input value="forever" id="rememberme" name="RememberMe" type="checkbox"> Remember me
+                                </label>
+                            </div>
+                            <div class="col-xs-12">
+                                <a onclick="switchToLostPassword()">Lost your password?</a>
+                            </div>
+                        </div>
+                        <div class="row text-center">
+                            <p class="text-danger">@TempData["error"]</p>
+                            <p class="text-success">@TempData["success"]</p>
+                        </div>
+                        @Html.ValidationMessage("LoginFail", new { @id = "error_login", @style = "font-size: 12px; color: red" })
+                    }
+                </div>
+            </div>
+        </div>
+        <div id="lostPasswordForm" class="row" style="display: none">
+            <div class="col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2 col-xs-12">
+                <div class="login-reg-form">
+                    @using (Html.BeginForm("LostPassword", "UserProfile", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { autocomplete = "off" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        @Html.ValidationSummary(true)
+                        <p>Please input your email to get back your password!</p>
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-20">
+                                <label for="username">Email <span class="required">*</span></label>
+                                <input name="emailLostPassword" id="emailLostPassword" type="email" required value="" autocomplete="off">
+                            </div>
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-20 text-center">
+                                <input value="Get my Password" name="login" class="inline primary-background hidden-xs" type="submit">
+                                <input value="Back" name="login" class="inline hidden-xs" type="submit" onclick="switchToLostPassword()">
+                                <div class="row hidden-lg hidden-md hidden-sm">
+                                    <div class="col-xs-12">
+                                        <input value="Get my Password" name="login" class="inline primary-background" type="submit">
+                                    </div>
+                                    <div class="col-xs-12 mt-10"></div>
+                                    <div class="col-xs-12">
+                                        <input value="Back" name="login" class="inline" type="submit" onclick="switchToLostPassword()">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="text-danger">@TempData["error"]</p>
+                        @Html.ValidationMessage("LoginFail", new { @id = "error_login", @style = "font-size: 12px; color: red" })
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- PAGE SECTION END -->
+<script type="text/javascript">
+    function switchToLostPassword() {
+        if ($("#lostPasswordForm").css("display") === "none") {
+            $("#loginForm").hide();
+            $("#lostPasswordForm").show();
+        }
+        else {
+            $("#loginForm").show();
+            $("#lostPasswordForm").hide();
+        }
+    };
+</script>

@@ -1,0 +1,287 @@
+﻿@model BusinessService.Models.Common.AdminModel
+@{
+    ViewBag.Title = "Subscriptions";
+    Layout = "~/Views/Shared/_Admin.cshtml";
+}
+
+<div class="row">
+    <div class="col-lg-12">
+        <h2 class="page-header color_blue"><i class="fa fa-group fa-fw"></i> Subscriptions</h2>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-4 col-md-4 col-sm-7 col-xs-12">
+        @using (Html.BeginForm("Subscription", "Admin", FormMethod.Get))
+        {
+            <div class="input-group">
+                @Html.TextBox("Search", ViewBag.CurrentSearch as string, new { @class = "form-control" })
+                <span class="input-group-addon">
+                    <i type="submit" class="fa fa-search"></i>
+                </span>
+            </div>
+        }
+    </div>
+</div>
+<br />
+<div class="row">
+    <div class="col-lg-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <span class="float_right">Total: @Model.SubscriptionList.TotalItems items &nbsp;|&nbsp; Page @(Model.SubscriptionList.TotalPages < Model.SubscriptionList.CurrenPage ? 0 : Model.SubscriptionList.CurrenPage) of @Model.SubscriptionList.TotalPages</span>
+            </div>
+            <!-- /.panel-heading -->
+            <div class="panel-body">
+                <div class="dataTable_wrapper">
+                    <table class="table table-striped table-bordered table-hover hidden-sm hidden-xs" id="dataTables-example">
+                        <thead>
+                            <tr>
+                                <th class="text-center text-primary">Id</th>
+                                <th class="text-center text-primary">Email Subscribed</th>
+                                <th class="text-center text-primary">Is Our Customer</th>
+                                <th class="text-center text-primary">Customer Id</th>
+                                <th class="text-center text-primary">Subscribed At</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody id="bodyTable">
+                            @foreach (var m in Model.SubscriptionList.Data)
+                            {
+                                <tr id="row_@m.Id">
+                                    <td class="text-center">@m.Id</td>
+                                    <td class="text-center">@m.EmailSubcribed</td>
+                                    @if (m.IsCustomer.Value)
+                                    {
+                                        <td class="text-center"><i class='fa fa-check text-primary'></i></td>
+                                    }
+                                    else
+                                    {
+                                        <td class="text-center"><i class='fa fa-times text-danger'></i></td>
+                                    }
+                                    <td class="text-center">@m.UserId</td>
+                                    <td class="text-center">@m.CreatedAt</td>
+                                    <td class="text-center">
+                                        <a onclick="sendNewsletter('@m.EmailSubcribed')" title="Send Newsletter"><i class="fa fa-paper-plane"></i></a>
+                                        &nbsp;
+                                        <a onclick="confirmDeleteSubcription(@m.Id, '@m.EmailSubcribed')" title="Remove"><i class="fa fa-trash-o cusor_pointer"></i></a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                    <div class="hidden-lg hidden-md">
+                        @foreach (var m in Model.SubscriptionList.Data)
+                        {
+                            <div class="panel panel-default" id="row_@m.Id">
+                                <div class="panel-heading">@m.Id</div>
+                                <table class="table table-striped table-bordered table-hover">
+                                    <tbody>
+                                        <tr>
+                                            <td class="font-bold width_50">Email</td>
+                                            <td class="text-center">@m.EmailSubcribed</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="font-bold width_50">Is Our Customer</td>
+                                            @if (m.IsCustomer.Value)
+                                            {
+                                                <td class="text-center"><i class='fa fa-check text-primary'></i></td>
+                                            }
+                                            else
+                                            {
+                                                <td class="text-center"><i class='fa fa-times text-danger'></i></td>
+                                            }
+                                        </tr>
+                                        <tr>
+                                            <td class="font-bold width_50">Customer Id</td>
+                                            <td class="text-center">@m.UserId</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <div class="panel-footer">
+                                    <div class="row">
+                                        <div class="col-xs-12">
+                                            <span class="text-muted pull-right small">Subscribed at @m.CreatedAt</span>
+                                        </div>
+                                    </div>
+                                    <br />
+                                    <div class="row">
+                                        <div class="col-xs-4"><a onclick="sendNewsletter('@m.EmailSubcribed')" title="Send Newsletter"><i class="fa fa-paper-plane"></i>&nbsp;Send Newsletter</a></div>
+                                        <div class="col-xs-4"></div>
+                                        <div class="col-xs-4">
+                                            <a onclick="confirmDeleteSubcription(@m.Id, '@m.EmailSubcribed')" class="pull-right"><i class="fa fa-trash-o cusor_pointer"></i>&nbsp;Remove</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                    <nav aria-label="paging" class="text-center">
+                        <div class="dataTables_paginate paging_simple_numbers" id="dataTables-example_paginate">
+                            <ul class="pagination">
+                                @{
+                                    if (Model.SubscriptionList.IsFirstPage)
+                                    {
+                                        <li class="paginate_button previous disabled" aria-controls="dataTables-example" tabindex="0" id="dataTables-example_previous">
+                                            <a>Previous</a>
+                                        </li>
+                                    }
+                                    else
+                                    {
+                                        <li class="paginate_button previous" aria-controls="dataTables-example" tabindex="0" id="dataTables-example_previous">
+                                            @Html.ActionLink("Previous", "Subcription", new { PageNo = Model.SubscriptionList.CurrenPage - 1, CurrentSearch = ViewBag.CurrentSearch })
+                                        </li>
+                                    }
+
+                                    for (int i = 1; i <= Model.SubscriptionList.TotalPages; i++)
+                                    {
+                                        if (Model.SubscriptionList.CurrenPage == i)
+                                        {
+                                            <li class="paginate_button active" aria-controls="dataTables-example" tabindex="0">
+                                                @Html.ActionLink(i.ToString(), "Subcription", new { PageNo = i, CurrentSearch = ViewBag.CurrentSearch })
+                                            </li>
+                                        }
+                                        else
+                                        {
+                                            <li class="paginate_button" aria-controls="dataTables-example" tabindex="0">
+                                                @Html.ActionLink(i.ToString(), "Subcription", new { PageNo = i, CurrentSearch = ViewBag.CurrentSearch })
+                                            </li>
+                                        }
+                                    }
+
+                                    if (Model.SubscriptionList.IsLastPage || !Model.SubscriptionList.Data.Any())
+                                    {
+                                        <li class="paginate_button next disabled" aria-controls="dataTables-example" tabindex="0" id="dataTables-example_next">
+                                            <a>Next</a>
+                                        </li>
+                                    }
+                                    else
+                                    {
+                                        <li class="paginate_button next" aria-controls="dataTables-example" tabindex="0" id="dataTables-example_next">
+                                            @Html.ActionLink("Next", "Subcription", new { PageNo = Model.SubscriptionList.CurrenPage + 1, CurrentSearch = ViewBag.CurrentSearch })
+                                        </li>
+                                    }
+                                }
+                            </ul>
+                        </div>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@using (Html.BeginForm("SendNewsletterToPerson", "NewsletterTemplate", FormMethod.Post, new { @id = "form_sendNewsletter", @class = "modal fade", @role = "dialog" }))
+{
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Send newsletter to <span id="sendEmailSubcribed"></span></h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>Product</label>
+                    <select id="templateToSend" class="form-control">
+                        <option value="">Please select a template</option>
+                    </select>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button id="submit_sendNewsletterToPerson" type="button" class="btn btn-primary" onclick="sendNewsletterToPerson()"><i class="fa fa-check"></i>&nbsp;Send</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+}
+
+@using (Html.BeginForm("Delete", "Subcription", FormMethod.Post, new { @id = "form_deleteSubcription", @class = "modal fade", @role = "dialog" }))
+{
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Delete Subcription</h4>
+            </div>
+            <div class="modal-body">
+                @Html.Hidden("subcriptionIdForDelete")
+                <div id="message_confirm" style="padding-top: 5px;">Are you sure you want to delete subscription associated to "<b id="delete_nameSubcription"></b>"?</div>
+            </div>
+            <div class="modal-footer">
+                <button id="delete_Subcription" type="submit" class="btn btn-primary"><i class="fa fa-trash"></i>&nbsp;Delete</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+}
+
+<script type="text/javascript">
+    function confirmDeleteSubcription(id, name) {
+        $("#delete_nameSubcription").text(name);
+        $("#subcriptionIdForDelete").val(id);
+        $('#form_deleteSubcription').modal('toggle');
+    };
+
+    function sendNewsletter(email) {
+        $("#loading").show();
+        $("#sendEmailSubcribed").text(email);
+        $.ajax({
+            cache: false,
+            type: "GET",
+            url: '@Url.Action("GetAllNewsletterTemplate", "NewsletterTemplate")',
+            async: true,
+            dataType: "json",
+            timeout: 5000,
+            success: function (response) {
+                if (response.success === true) {
+                    var options;
+
+                    if (response.data != null) {
+                        $.each(response.data, function (index, value) {
+                            options += "<option value='" + value.Id + "'>" + value.Id + " - " + value.TemplateName + "</option>";
+                        });
+
+                        $("#templateToSend").append(options);
+                    }
+
+                    $("#loading").hide();
+                    $('#form_sendNewsletter').modal('toggle');
+                }
+                else {
+                    $("#loading").hide();
+                    toastr.error("Cannot load newsletter template for choosing!", "Error");
+                }
+            },
+        });
+    }
+
+    function sendNewsletterToPerson() {
+        $("#loading").show();
+        var templateId = $("#templateToSend").val();
+        var toEmail = $("#sendEmailSubcribed").text();
+
+        $.ajax({
+            cache: false,
+            type: "POST",
+            url: '@Url.Action("SendNewsletterToPerson", "NewsletterTemplate")',
+            async: true,
+            data: {
+                toEmail: toEmail,
+                templateId: templateId
+            },
+            dataType: "json",
+            timeout: 5000,
+            success: function (response) {
+                if (response.success === true) {
+                    $("#loading").hide();
+                    $('#form_sendNewsletter').modal('hide');
+                    $("#loading").hide();
+                    toastr.success("The newsletter is sent successfully!", "Success");
+                }
+                else {
+                    $("#loading").hide();
+                    $('#form_sendNewsletter').modal('hide');
+                    toastr.error("Cannot send newsletter template to customer!", "Error");
+                }
+            },
+        });
+    }
+</script>

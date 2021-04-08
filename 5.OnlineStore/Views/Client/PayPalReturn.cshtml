@@ -1,0 +1,48 @@
+﻿@model BusinessService.Models.Common.HomePageModel
+@{
+    ViewBag.Title = "PayPal Return";
+}
+<!-- PAGE BANNER SECTION -->
+<div class="page-banner-section section">
+    <div class="container hidden-xs">
+        <div class="row">
+            <div class="page-banner-content col-xs-12">
+                <h2>
+                    <img src="~/images/app/paypal.svg" class="icon_svg_title pb-10" />&nbsp; PayPal Return
+                </h2>
+                <ul class="breadcrumb">
+                    <li><a href="/shop" class="blur-primary-text"><span class="badge blur-primary-background">1</span> Shop</a></li>
+                    <li><a href="/shop/shoppingcart" class="blur-primary-text"><span class="badge blur-primary-background">2</span> Your Shopping Cart</a></li>
+                    <li><a href="/shop/checkout" class="blur-primary-text"><span class="badge blur-primary-background">3</span>Checkout</a></li>
+                    <li class="active"><b><span class="badge primary-background">4</span> PayPal Return</b></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid hidden-sm hidden-md hidden-lg">
+        <div class="row">
+            <div class="page-banner-content col-xs-12">
+                <h2><img src="~/images/app/paypal.svg" class="icon_svg_title pb-10" />&nbsp; PayPal Return</h2>
+                <ul class="breadcrumb">
+                    <li><a class="blur-primary-text"><span class="badge blur-primary-background">1</span> Shop</a></li>
+                    <li><a class="blur-primary-text"><span class="badge blur-primary-background">2</span> Your Shopping Cart</a></li>
+                    <br />
+                    <li><a class="blur-primary-text"><span class="badge blur-primary-background">3</span>Checkout</a></li>
+                    <li class="active"><b><span class="badge primary-background">4</span> PayPal Return</b></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- END PAGE BANNER SECTION -->
+<!-- PAGE SECTION START -->
+<div class="page-section section pt-30 pb-30">
+    <div class="container">
+        <div class="row">
+            <h3>Cannot make a payment. There were some errors in the process!</h3>
+            <br />
+            <a href="/shop/checkout">Return to checkout page</a>
+        </div>
+    </div>
+</div>
+<!-- PAGE SECTION END -->

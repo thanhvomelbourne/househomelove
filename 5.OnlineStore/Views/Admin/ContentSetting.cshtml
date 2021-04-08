@@ -1,0 +1,512 @@
+﻿@model BusinessService.Models.Common.AdminModel
+@{
+    ViewBag.Title = "Content Settings";
+    Layout = "~/Views/Shared/_Admin.cshtml";
+}
+
+@using (Html.BeginForm("Update", "ApplicationSetting", FormMethod.Post, new { enctype = "multipart/form-data", @id = "form_updateSetting" }))
+{
+    <div class="row">
+        <div class="col-lg-12">
+            <h2 class="page-header color_blue"><i class="fa fa-desktop fa-fw"></i> Content Setting</h2>
+        </div>
+    </div>
+    @Html.Hidden("Id")
+    <div class="row">
+        <div class="col-md-8">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Store Name</label>
+                        <input id="storeName" name="StoreName" type="text" class="form-control" placeholder="Store Name" required value="@Model.ApplicationSetting.StoreName" />
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Address</label>
+                        <input id="address" name="Address" type="text" class="form-control" placeholder="Address" value="@Model.ApplicationSetting.Address" />
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Phone</label>
+                        <input id="phone" name="Phone" type="text" class="form-control" placeholder="Phone" value="@Model.ApplicationSetting.Phone" />
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input id="email" name="Email" type="text" class="form-control" placeholder="Email" value="@Model.ApplicationSetting.Email" />
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Newsletters Description</label>
+                        <textarea id="newslettersDescription" name="NewslettersDescription" class="form-control" rows="2" placeholder="Newsletters Description">@Model.ApplicationSetting.NewslettersDescription</textarea>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Banner Quote 1</label>
+                        <textarea id="bannerQuote1" name="BannerQuote1" class="form-control" rows="2" placeholder="Banner Quote 1">@Model.ApplicationSetting.BannerQuote1</textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Banner Quote 2</label>
+                        <textarea id="bannerQuote2" name="BannerQuote2" class="form-control" rows="2" placeholder="Banner Quote 2">@Model.ApplicationSetting.BannerQuote2</textarea>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Banner Quote 3</label>
+                        <textarea id="bannerQuote3" name="BannerQuote3" class="form-control" rows="2" placeholder="Banner Quote 3">@Model.ApplicationSetting.BannerQuote3</textarea>
+                    </div>
+                </div>
+            </div>
+            <hr />
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Ads Icon 1</label>
+                        <input id="adsIcon1" name="AdsIcon1" type="file" class="form-control" placeholder="Ads Icon 1" value="@Model.ApplicationSetting.AdsIcon1" />
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Ads Title 1</label>
+                        <input id="adsTitle1" name="AdsTitle1" type="text" class="form-control" placeholder="Ads Title 1" value="@Model.ApplicationSetting.AdsTitle1" />
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Ads Icon 2</label>
+                        <input id="adsIcon2" name="AdsIcon2" type="file" class="form-control" placeholder="Ads Icon 2" value="@Model.ApplicationSetting.AdsIcon2" />
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Ads Title 2</label>
+                        <input id="adsTitle2" name="AdsTitle2" type="text" class="form-control" placeholder="Ads Title 2" value="@Model.ApplicationSetting.AdsTitle2" />
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Ads Icon 3</label>
+                        <input id="adsIcon3" name="AdsIcon3" type="file" class="form-control" placeholder="Ads Icon 3" value="@Model.ApplicationSetting.AdsIcon3" />
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Ads Title 3</label>
+                        <input id="adsTitle3" name="AdsTitle3" type="text" class="form-control" placeholder="Ads Title 3" value="@Model.ApplicationSetting.AdsTitle3" />
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Ads Icon 4</label>
+                        <input id="adsIcon4" name="AdsIcon4" type="file" class="form-control" placeholder="Ads Icon 4" value="@Model.ApplicationSetting.AdsIcon4" />
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Ads Title 4</label>
+                        <input id="adsTitle4" name="AdsTitle4" type="text" class="form-control" placeholder="Ads Title 4" value="@Model.ApplicationSetting.AdsTitle4" />
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Ads Icon 5</label>
+                        <input id="adsIcon5" name="AdsIcon5" type="file" class="form-control" placeholder="Ads Icon 5" value="@Model.ApplicationSetting.AdsIcon5" />
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Ads Title 5</label>
+                        <input id="adsTitle5" name="AdsTitle5" type="text" class="form-control" placeholder="Ads Title 5" value="@Model.ApplicationSetting.AdsTitle5" />
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Ads Icon 6</label>
+                        <input id="adsIcon6" name="AdsIcon6" type="file" class="form-control" placeholder="Ads Icon 6" value="@Model.ApplicationSetting.AdsIcon6" />
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Ads Title 6</label>
+                        <input id="adsTitle6" name="AdsTitle6" type="text" class="form-control" placeholder="Ads Title 6" value="@Model.ApplicationSetting.AdsTitle6" />
+                    </div>
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <!-- Single Service -->
+                <div class="single-service col-md-4 col-sm-6 col-xs-6 mb-30">
+                    <div class="row text-center">
+                        <div class="service-icon text-center width_100">
+                            <img src="@Model.ApplicationSetting.AdsIcon1" class="icon_svg_homepage">
+                        </div>
+                    </div>
+                    <div class="row text-center">
+                        <div class="service-title">
+                            <h3 class="pt-20">@Model.ApplicationSetting.AdsTitle1</h3>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="single-service col-md-4 col-sm-6 col-xs-6 mb-30">
+                    <div class="row text-center">
+                        <div class="service-icon text-center width_100">
+                            <img src="@Model.ApplicationSetting.AdsIcon2" class="icon_svg_homepage">
+                        </div>
+                    </div>
+                    <div class="row text-center">
+                        <div class="service-title">
+                            <h3 class="pt-20">@Model.ApplicationSetting.AdsTitle2</h3>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="single-service col-md-4 col-sm-6 col-xs-6 mb-30">
+                    <div class="row text-center">
+                        <div class="service-icon text-center width_100">
+                            <img src="@Model.ApplicationSetting.AdsIcon3" class="icon_svg_homepage">
+                        </div>
+                    </div>
+                    <div class="row text-center">
+                        <div class="service-title">
+                            <h3 class="pt-20">@Model.ApplicationSetting.AdsTitle3</h3>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="single-service col-md-4 col-sm-6 col-xs-6 mb-30">
+                    <div class="row text-center">
+                        <div class="service-icon text-center width_100">
+                            <img src="@Model.ApplicationSetting.AdsIcon4" class="icon_svg_homepage">
+                        </div>
+                    </div>
+                    <div class="row text-center">
+                        <div class="service-title">
+                            <h3 class="pt-20">@Model.ApplicationSetting.AdsTitle4</h3>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="single-service col-md-4 col-sm-6 col-xs-6 mb-30">
+                    <div class="row text-center">
+                        <div class="service-icon text-center width_100">
+                            <img src="@Model.ApplicationSetting.AdsIcon5" class="icon_svg_homepage">
+                        </div>
+                    </div>
+                    <div class="row text-center">
+                        <div class="service-title">
+                            <h3 class="pt-20">@Model.ApplicationSetting.AdsTitle5</h3>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="single-service col-md-4 col-sm-6 col-xs-6 mb-30">
+                    <div class="row text-center">
+                        <div class="service-icon text-center width_100">
+                            <img src="@Model.ApplicationSetting.AdsIcon6" class="icon_svg_homepage">
+                        </div>
+                    </div>
+                    <div class="row text-center">
+                        <div class="service-title">
+                            <h3 class="pt-20">@Model.ApplicationSetting.AdsTitle6</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <hr />
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Service Icon 1</label>
+                        <input id="serviceIcon1" name="ServiceIcon1" type="text" class="form-control" placeholder="Service Icon 1" value="@Model.ApplicationSetting.ServiceIcon1" />
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Service Title 1</label>
+                        <input id="serviceTitle1" name="ServiceTitle1" type="text" class="form-control" placeholder="Service Title 1" value="@Model.ApplicationSetting.ServiceTitle1" />
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Service Description 1</label>
+                <input id="serviceDescription1" name="ServiceDescription1" type="text" class="form-control" placeholder="Service Description 1" value="@Model.ApplicationSetting.ServiceDescription1" />
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Service Icon 2</label>
+                        <input id="serviceIcon2" name="ServiceIcon2" type="text" class="form-control" placeholder="Service Icon 2" value="@Model.ApplicationSetting.ServiceIcon2" />
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Service Title 2</label>
+                        <input id="serviceTitle2" name="ServiceTitle2" type="text" class="form-control" placeholder="Service Title 2" value="@Model.ApplicationSetting.ServiceTitle2" />
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Service Description 2</label>
+                <input id="serviceDescription2" name="ServiceDescription2" type="text" class="form-control" placeholder="Service Description 2" value="@Model.ApplicationSetting.ServiceDescription2" />
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Service Icon 3</label>
+                        <input id="serviceIcon3" name="ServiceIcon3" type="text" class="form-control" placeholder="Service Icon 3" value="@Model.ApplicationSetting.ServiceIcon3" />
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Service Title 3</label>
+                        <input id="serviceTitle3" name="ServiceTitle3" type="text" class="form-control" placeholder="Service Title 3" value="@Model.ApplicationSetting.ServiceTitle3" />
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Service Description 3</label>
+                <input id="serviceDescription3" name="ServiceDescription3" type="text" class="form-control" placeholder="Service Description 3" value="@Model.ApplicationSetting.ServiceDescription3" />
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Service Icon 4</label>
+                        <input id="serviceIcon4" name="ServiceIcon4" type="text" class="form-control" placeholder="Service Icon 4" value="@Model.ApplicationSetting.ServiceIcon4" />
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Service Title 4</label>
+                        <input id="serviceTitle4" name="ServiceTitle4" type="text" class="form-control" placeholder="Service Title 4" value="@Model.ApplicationSetting.ServiceTitle4" />
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Service Description 4</label>
+                <input id="serviceDescription4" name="ServiceDescription4" type="text" class="form-control" placeholder="Service Description 4" value="@Model.ApplicationSetting.ServiceDescription4" />
+            </div>
+            <br />
+            <div class="row">
+                <!-- Single Service -->
+                <div class="col-md-3 col-sm-6 col-xs-12 mb_15">
+                    <div class="service-icon">
+                        <i class="@Model.ApplicationSetting.ServiceIcon1"></i>
+                    </div>
+                    <div class="service-title">
+                        <h3 class="mt_0">@Model.ApplicationSetting.ServiceTitle1</h3>
+                        <p>@Model.ApplicationSetting.ServiceDescription1</p>
+                    </div>
+                </div>
+                <!-- Single Service -->
+                <div class="col-md-3 col-sm-6 col-xs-12 mb_15">
+                    <div class="service-icon">
+                        <i class="@Model.ApplicationSetting.ServiceIcon2"></i>
+                    </div>
+                    <div class="service-title">
+                        <h3 class="mt_0">@Model.ApplicationSetting.ServiceTitle2</h3>
+                        <p>@Model.ApplicationSetting.ServiceDescription2</p>
+                    </div>
+                </div>
+                <!-- Single Service -->
+                <div class="col-md-3 col-sm-6 col-xs-12 mb_15">
+                    <div class="service-icon">
+                        <i class="@Model.ApplicationSetting.ServiceIcon3"></i>
+                    </div>
+                    <div class="service-title">
+                        <h3 class="mt_0">@Model.ApplicationSetting.ServiceTitle3</h3>
+                        <p>@Model.ApplicationSetting.ServiceDescription3</p>
+                    </div>
+                </div>
+                <!-- Single Service -->
+                <div class="col-md-3 col-sm-6 col-xs-12">
+                    <div class="service-icon">
+                        <i class="@Model.ApplicationSetting.ServiceIcon4"></i>
+                    </div>
+                    <div class="service-title">
+                        <h3 class="mt_0">@Model.ApplicationSetting.ServiceTitle4</h3>
+                        <p>@Model.ApplicationSetting.ServiceDescription4</p>
+                    </div>
+                </div>
+            </div>
+            <hr />
+            <div class="row">
+                <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6">
+                    <div class="form-group">
+                        <label>Partner Logo 1</label>
+                        <input id="partnerLogo1" name="PartnerLogo1" type="file" class="form-control" placeholder="Partner Logo 1" />
+                        <br />
+                        <img src="@Model.ApplicationSetting.PartnerLogo1" style="width: 100%;" />
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6">
+                    <div class="form-group">
+                        <label>Partner Logo 2</label>
+                        <input id="partnerLogo2" name="PartnerLogo2" type="file" class="form-control" placeholder="Partner Logo 2" />
+                        <br />
+                        <img src="@Model.ApplicationSetting.PartnerLogo2" style="width: 100%;" />
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6">
+                    <div class="form-group">
+                        <label>Partner Logo 3</label>
+                        <input id="partnerLogo3" name="PartnerLogo3" type="file" class="form-control" placeholder="Partner Logo 3" />
+                        <br />
+                        <img src="@Model.ApplicationSetting.PartnerLogo3" style="width: 100%;" />
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6">
+                    <div class="form-group">
+                        <label>Partner Logo 4</label>
+                        <input id="partnerLogo4" name="PartnerLogo4" type="file" class="form-control" placeholder="Partner Logo 4" />
+                        <br />
+                        <img src="@Model.ApplicationSetting.PartnerLogo4" style="width: 100%;" />
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label>Banner Image 1</label>
+                <a class="float-right" onclick="confirmDeleteImage('Banner Image 1')"><i class="fa fa-trash-o cusor_pointer"></i>&nbsp;Remove</a>
+                <input id="bannerImage1" name="BannerImage1" type="file" class="form-control" placeholder="Banner Image 1" />
+                <br />
+                <img src="@Model.ApplicationSetting.BannerImage1" style="width: 100%;" />
+            </div>
+            <div class="form-group">
+                <label>Banner Image 2</label>
+                @if (!string.IsNullOrEmpty(Model.ApplicationSetting.BannerImage2))
+                {
+                    <a class="float-right" onclick="confirmDeleteImage('Banner Image 2')"><i class="fa fa-trash-o cusor_pointer"></i>&nbsp;Remove</a>
+                }
+                <input id="bannerImage2" name="BannerImage2" type="file" class="form-control" placeholder="Banner Image 2" />
+                <br />
+                <img src="@Model.ApplicationSetting.BannerImage2" style="width: 100%;" />
+            </div>
+            <div class="form-group">
+                <label>Banner Image 3</label>
+                @if (!string.IsNullOrEmpty(Model.ApplicationSetting.BannerImage3))
+                {
+                    <a class="float-right" onclick="confirmDeleteImage('Banner Image 3')"><i class="fa fa-trash-o cusor_pointer"></i>&nbsp;Remove</a>
+                }
+                <input id="bannerImage1" name="BannerImage3" type="file" class="form-control" placeholder="Banner Image 3" />
+                <br />
+                <img src="@Model.ApplicationSetting.BannerImage3" style="width: 100%;" />
+            </div>
+            <div class="form-group">
+                <label>Promotion Image 1</label>
+                @if (!string.IsNullOrEmpty(Model.ApplicationSetting.PromotionImage1))
+                {
+                    <a class="float-right" onclick="confirmDeleteImage('Promotion Image 1')"><i class="fa fa-trash-o cusor_pointer"></i>&nbsp;Remove</a>
+                }
+                <input id="promotionImage1" name="PromotionImage1" type="file" class="form-control" placeholder="Promotion Image 1" />
+                <br />
+                <img src="@Model.ApplicationSetting.PromotionImage1" style="width: 100%;" />
+            </div>
+            <div class="form-group">
+                <label>Promotion Image 2</label>
+                @if (!string.IsNullOrEmpty(Model.ApplicationSetting.PromotionImage2))
+                {
+                    <a class="float-right" onclick="confirmDeleteImage('Promotion Image 2')"><i class="fa fa-trash-o cusor_pointer"></i>&nbsp;Remove</a>
+                }
+                <input id="promotionImage2" name="PromotionImage2" type="file" class="form-control" placeholder="Promotion Image 2" />
+                <br />
+                <img src="@Model.ApplicationSetting.PromotionImage2" style="width: 100%;" />
+            </div>
+            <div class="form-group">
+                <label>Promotion Image 3</label>
+                @if (!string.IsNullOrEmpty(Model.ApplicationSetting.PromotionImage3))
+                {
+                    <a class="float-right" onclick="confirmDeleteImage('Promotion Image 3')"><i class="fa fa-trash-o cusor_pointer"></i>&nbsp;Remove</a>
+                }
+                <input id="promotionImage3" name="PromotionImage3" type="file" class="form-control" placeholder="Promotion Image 3" />
+                <br />
+                <img src="@Model.ApplicationSetting.PromotionImage3" style="width: 100%;" />
+            </div>
+            <div class="form-group">
+                <label>Promotion Image 4</label>
+                @if (!string.IsNullOrEmpty(Model.ApplicationSetting.PromotionImage4))
+                {
+                    <a class="float-right" onclick="confirmDeleteImage('Promotion Image 4')"><i class="fa fa-trash-o cusor_pointer"></i>&nbsp;Remove</a>
+                }
+                <input id="promotionImage4" name="PromotionImage4" type="file" class="form-control" placeholder="Promotion Image 4" />
+                <br />
+                <img src="@Model.ApplicationSetting.PromotionImage4" style="width: 100%;" />
+            </div>
+            <div class="form-group">
+                <label>Promotion Image 5</label>
+                @if (!string.IsNullOrEmpty(Model.ApplicationSetting.PromotionImage5))
+                {
+                    <a class="float-right" onclick="confirmDeleteImage('Promotion Image 5')"><i class="fa fa-trash-o cusor_pointer"></i>&nbsp;Remove</a>
+                }
+                <input id="promotionImage5" name="PromotionImage5" type="file" class="form-control" placeholder="Promotion Image 5" />
+                <br />
+                <img src="@Model.ApplicationSetting.PromotionImage5" style="width: 100%;" />
+            </div>
+            <div class="form-group">
+                <label>Promotion Image 6</label>
+                @if (!string.IsNullOrEmpty(Model.ApplicationSetting.PromotionImage6))
+                {
+                    <a class="float-right" onclick="confirmDeleteImage('Promotion Image 6')"><i class="fa fa-trash-o cusor_pointer"></i>&nbsp;Remove</a>
+                }
+                <input id="promotionImage6" name="PromotionImage6" type="file" class="form-control" placeholder="Promotion Image 6" />
+                <br />
+                <img src="@Model.ApplicationSetting.PromotionImage6" style="width: 100%;" />
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button id="submit_Product" type="submit" class="btn btn-primary"><i class="fa fa-check"></i>&nbsp;Save</button>
+    </div>
+}
+
+@using (Html.BeginForm("DeleteImage", "ApplicationSetting", FormMethod.Post, new { @id = "form_deleteImage", @class = "modal fade", @role = "dialog" }))
+{
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Delete Image</h4>
+            </div>
+            <div class="modal-body">
+                @Html.Hidden("imageForDelete")
+                <div id="message_confirm" style="padding-top: 5px;">Are you sure you want to delete "<b id="delete_nameImage"></b>"?</div>
+            </div>
+            <div class="modal-footer">
+                <button id="delete_Image" type="submit" class="btn btn-primary"><i class="fa fa-trash"></i>&nbsp;Delete</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+}
+
+<script>
+    function confirmDeleteImage(name) {
+        $("#delete_nameImage").text(name);
+        $("#imageForDelete").val(name);
+        $('#form_deleteImage').modal('toggle');
+    }
+</script>

@@ -1,0 +1,92 @@
+﻿@model BusinessService.Models.Common.AdminModel
+@{
+    ViewBag.Title = "Other Contents";
+    Layout = "~/Views/Shared/_Admin.cshtml";
+}
+
+@using (Html.BeginForm("UpdateOtherContents", "ApplicationSetting", FormMethod.Post, new { enctype = "multipart/form-data", @id = "form_updateSetting", validateRequest = "false" }))
+{
+    <div class="row">
+        <div class="col-lg-12">
+            <h2 class="page-header color_blue"><i class="fa fa-tasks fa-fw"></i> Policy Setting</h2>
+        </div>
+    </div>
+    <div class="row">
+        <ul class="nav nav-tabs">
+            <li class="active"><a data-toggle="tab" href="#aboutUs">About Us</a></li>
+            <li><a data-toggle="tab" href="#home">Terms and conditions</a></li>
+            <li><a data-toggle="tab" href="#faq">FAQ</a></li>
+            <li><a data-toggle="tab" href="#returnPolicy">Return Policy</a></li>
+            <li><a data-toggle="tab" href="#clickAndCollect">Click and Collect</a></li>
+            <li><a data-toggle="tab" href="#homeMail">Home Mail</a></li>
+        </ul>
+        <br />
+        <div class="tab-content">
+            <div id="aboutUs" class="tab-pane fade in active">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <textarea name="AboutUs" id="AboutUs">@Model.OtherContent.AboutUs</textarea>
+                    <script>
+                        CKEDITOR.replace('AboutUs', {
+                            height: '500px',
+                        });
+                    </script>
+                </div>
+            </div>
+            <div id="home" class="tab-pane fade">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <textarea name="TermsAndConditions" id="TermsAndConditions">@Model.OtherContent.TermsAndConditions</textarea>
+                    <script>
+                        CKEDITOR.replace('TermsAndConditions', {
+                            height: '500px',
+                        });
+                    </script>
+                </div>
+            </div>
+            <div id="faq" class="tab-pane fade">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <textarea name="FAQ" id="FAQ">@*@Model.FAQ*@</textarea>
+                    <script>
+                        CKEDITOR.replace('FAQ', {
+                            height: '500px',
+                        });
+                    </script>
+                </div>
+            </div>
+            <div id="returnPolicy" class="tab-pane fade">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <textarea name="ReturnPolicy" id="ReturnPolicy">@Model.OtherContent.ReturnPolicy</textarea>
+                    <script>
+                        CKEDITOR.replace('ReturnPolicy', {
+                            height: '500px',
+                        });
+                    </script>
+                </div>
+            </div>
+            <div id="clickAndCollect" class="tab-pane fade">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <textarea name="ClickAndCollectPage" id="ClickAndCollectPage">@Html.Raw(@Model.OtherContent.ClickAndCollectPage)</textarea>
+                    <script>
+                        CKEDITOR.replace('ClickAndCollectPage', {
+                            height: '500px',
+                        });
+                        var editor = CKEDITOR.instances['ClickAndCollectPage'];
+                    </script>
+                </div>
+            </div>
+            <div id="homeMail" class="tab-pane fade">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <textarea name="HomeMailPage" id="HomeMailPage">@Model.OtherContent.HomeMailPage</textarea>
+                    <script>
+                        CKEDITOR.replace('HomeMailPage', {
+                            height: '500px',
+                        });
+                    </script>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br />
+    <div class="modal-footer">
+        <button id="submit_OtherContents" type="submit" class="btn btn-primary"><i class="fa fa-check"></i>&nbsp;Save</button>
+    </div>
+}

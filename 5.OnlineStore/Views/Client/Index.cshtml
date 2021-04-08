@@ -1,0 +1,341 @@
+﻿@model BusinessService.Models.Common.HomePageModel
+@{
+    ViewBag.Title = "Handmade Furniture";
+}
+
+<!-- START SLIDER SECTION -->
+<div class="home-slider-section section">
+    <!-- Home Slider -->
+    <div id="home-slider" class="slides">
+        @if (!string.IsNullOrEmpty(Model.ApplicationSetting.BannerImage1))
+        {
+            <img src="@Model.ApplicationSetting.BannerImage1" alt="" title="#slider-caption-1" />
+        }
+        @if (!string.IsNullOrEmpty(Model.ApplicationSetting.BannerImage2))
+        {
+            <img src="@Model.ApplicationSetting.BannerImage2" alt="" title="#slider-caption-2" />
+        }
+        @if (!string.IsNullOrEmpty(Model.ApplicationSetting.BannerImage3))
+        {
+            <img src="@Model.ApplicationSetting.BannerImage3" alt="" title="#slider-caption-3" />
+        }
+    </div>
+    <!-- Caption 1 -->
+    <div id="slider-caption-1" class="nivo-html-caption">
+        <div class="container">
+            <div class="row">
+                <div class="hero-slider-content col-md-6 col-md-offset-6 col-sm-7 col-sm-offset-5 col-xs-12">
+                    <h4 class="wow rotateInDownLeft" data-wow-duration="1s" data-wow-delay="0.5s">@Model.ApplicationSetting.BannerQuote1</h4>
+                    <h1 class="wow fadeInUp" data-wow-duration="1s" data-wow-delay="1s">@Model.ApplicationSetting.BannerQuote2</h1>
+                    <p class="wow fadeInUp" data-wow-duration="1s" data-wow-delay="1.5s">@Model.ApplicationSetting.BannerQuote3</p>
+                    <a href="/shop" class="wow fadeInUp" data-wow-duration="1s" data-wow-delay="2s">Buy now</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Caption 2 -->
+    <div id="slider-caption-2" class="nivo-html-caption">
+        <div class="container">
+            <div class="row">
+                <div class="hero-slider-content col-md-6 col-md-offset-6 col-sm-7 col-sm-offset-5 col-xs-12">
+                    <h4 class="wow rotateInDownLeft" data-wow-duration="1s" data-wow-delay="0.5s">@Model.ApplicationSetting.BannerQuote1</h4>
+                    <h1 class="wow fadeInUp" data-wow-duration="1s" data-wow-delay="1s">@Model.ApplicationSetting.BannerQuote2</h1>
+                    <p class="wow fadeInUp" data-wow-duration="1s" data-wow-delay="1.5s">@Model.ApplicationSetting.BannerQuote3</p>
+                    <a href="/shop" class="wow fadeInUp" data-wow-duration="1s" data-wow-delay="2s">Buy now</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Caption 3 -->
+    <div id="slider-caption-3" class="nivo-html-caption">
+        <div class="container">
+            <div class="row">
+                <div class="hero-slider-content col-md-6 col-md-offset-6 col-sm-7 col-sm-offset-5 col-xs-12">
+                    <h4 class="wow rotateInDownLeft" data-wow-duration="1s" data-wow-delay="0.5s">@Model.ApplicationSetting.BannerQuote1</h4>
+                    <h1 class="wow fadeInUp" data-wow-duration="1s" data-wow-delay="1s">@Model.ApplicationSetting.BannerQuote2</h1>
+                    <p class="wow fadeInUp" data-wow-duration="1s" data-wow-delay="1.5s">@Model.ApplicationSetting.BannerQuote3</p>
+                    <a href="/shop" class="wow fadeInUp" data-wow-duration="1s" data-wow-delay="2s">Buy now</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- END SLIDER SECTION -->
+<!-- SERVICE SECTION START -->
+<div class="service-section section pt-40 pb-20">
+    <div class="container">
+        <div class="row">
+            <!-- Single Service -->
+            <div class="single-service col-md-4 col-sm-6 col-xs-6 mb-30 override_single_service">
+                <div class="row text-center">
+                    <div class="service-icon text-center width_100">
+                        <img src="@Model.ApplicationSetting.AdsIcon1" class="icon_svg_homepage" />
+                    </div>
+                </div>
+                <div class="row text-center">
+                    <div class="service-title">
+                        <h3 class="pt-20">@Model.ApplicationSetting.AdsTitle1</h3>
+                    </div>
+                </div>
+            </div>
+
+            <div class="single-service col-md-4 col-sm-6 col-xs-6 mb-30 override_single_service">
+                <div class="row text-center">
+                    <div class="service-icon text-center width_100">
+                        <img src="@Model.ApplicationSetting.AdsIcon2" class="icon_svg_homepage" />
+                    </div>
+                </div>
+                <div class="row text-center">
+                    <div class="service-title">
+                        <h3 class="pt-20">@Model.ApplicationSetting.AdsTitle2</h3>
+                    </div>
+                </div>
+            </div>
+
+            <div class="single-service col-md-4 col-sm-6 col-xs-6 mb-30 override_single_service">
+                <div class="row text-center">
+                    <div class="service-icon text-center width_100">
+                        <img src="@Model.ApplicationSetting.AdsIcon3" class="icon_svg_homepage" />
+                    </div>
+                </div>
+                <div class="row text-center">
+                    <div class="service-title">
+                        <h3 class="pt-20">@Model.ApplicationSetting.AdsTitle3</h3>
+                    </div>
+                </div>
+            </div>
+
+            <div class="single-service col-md-4 col-sm-6 col-xs-6 mb-30 override_single_service">
+                <div class="row text-center">
+                    <div class="service-icon text-center width_100">
+                        <img src="@Model.ApplicationSetting.AdsIcon4" class="icon_svg_homepage" />
+                    </div>
+                </div>
+                <div class="row text-center">
+                    <div class="service-title">
+                        <h3 class="pt-20">@Model.ApplicationSetting.AdsTitle4</h3>
+                    </div>
+                </div>
+            </div>
+
+            <div class="single-service col-md-4 col-sm-6 col-xs-6 mb-30 override_single_service">
+                <div class="row text-center">
+                    <div class="service-icon text-center width_100">
+                        <img src="@Model.ApplicationSetting.AdsIcon5" class="icon_svg_homepage" />
+                    </div>
+                </div>
+                <div class="row text-center">
+                    <div class="service-title">
+                        <h3 class="pt-20">@Model.ApplicationSetting.AdsTitle5</h3>
+                    </div>
+                </div>
+            </div>
+
+            <div class="single-service col-md-4 col-sm-6 col-xs-6 mb-30 override_single_service">
+                <div class="row text-center">
+                    <div class="service-icon text-center width_100">
+                        <img src="@Model.ApplicationSetting.AdsIcon6" class="icon_svg_homepage" />
+                    </div>
+                </div>
+                <div class="row text-center">
+                    <div class="service-title">
+                        <h3 class="pt-20">@Model.ApplicationSetting.AdsTitle6</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- SERVICE SECTION END -->
+<!-- BANNER-SECTION START -->
+<div class="banner-section section pb-30">
+    <div class="@(Request.Browser.IsMobileDevice == true ? "container-fluid" : "container")">
+        <div class="row">
+            <!-- Banner Item Start -->
+            @if (!string.IsNullOrEmpty(Model.ApplicationSetting.PromotionImage1))
+            {
+                <div class="col-sm-4 col-xs-12 mb-30">
+                    <div class="single-banner">
+                        <a href="#"><img src="@Model.ApplicationSetting.PromotionImage1" alt=""></a>
+                    </div>
+                </div>
+            }
+            @if (!string.IsNullOrEmpty(Model.ApplicationSetting.PromotionImage2))
+            {
+                <div class="col-sm-4 col-xs-12 mb-30">
+                    <div class="single-banner">
+                        <a href="#"><img src="@Model.ApplicationSetting.PromotionImage2" alt=""></a>
+                    </div>
+                </div>
+            }
+            @if (!string.IsNullOrEmpty(Model.ApplicationSetting.PromotionImage3))
+            {
+                <div class="col-sm-4 col-xs-12 mb-30">
+                    <div class="single-banner">
+                        <a href="#"><img src="@Model.ApplicationSetting.PromotionImage3" alt=""></a>
+                    </div>
+                </div>
+            }
+            <!-- Banner Item End -->
+            <!-- Banner Item Start -->
+            @if (!string.IsNullOrEmpty(Model.ApplicationSetting.PromotionImage4))
+            {
+                <div class="col-sm-4 col-xs-12 mb-30">
+                    <div class="single-banner">
+                        <a href="#"><img src="@Model.ApplicationSetting.PromotionImage4" alt=""></a>
+                    </div>
+                </div>
+            }
+            @if (!string.IsNullOrEmpty(Model.ApplicationSetting.PromotionImage5))
+            {
+                <div class="col-sm-4 col-xs-12 mb-30">
+                    <div class="single-banner">
+                        <a href="#"><img src="@Model.ApplicationSetting.PromotionImage5" alt=""></a>
+                    </div>
+                </div>
+            }
+            @if (!string.IsNullOrEmpty(Model.ApplicationSetting.PromotionImage6))
+            {
+                <div class="col-sm-4 col-xs-12 mb-30">
+                    <div class="single-banner">
+                        <a href="#"><img src="@Model.ApplicationSetting.PromotionImage6" alt=""></a>
+                    </div>
+                </div>
+            }
+            <!-- Banner Item End -->
+        </div>
+    </div>
+</div>
+<!-- BANNER-SECTION END -->
+<!-- PRODUCT SECTION START -->
+<div class="product-section section pb-30">
+    <div class="@(Request.Browser.IsMobileDevice == true ? "container-fluid" : "container")">
+        <div class="row">
+            <div class="section-title text-center col-xs-12 mb-50">
+                <h4>our products</h4>
+                <h2>new arrivals</h2>
+            </div>
+        </div>
+        <div class="row">
+            @if (Model.LatestProductList != null)
+            {
+                foreach (var m in Model.LatestProductList)
+                {
+                    <!-- product-item start -->
+                    <div class="col-md-2 col-sm-6 col-xs-6 col-xs-wide mb-40">
+                        <div class="product-item text-center space-product">
+                            <div class="product-img">
+                                <a class="image" href="/shop/product?productId=@m.Id&productName=@m.Name.Replace(' ', '-')"><img src="@m.PrimaryImage" alt="" class="productImage" /></a>
+                                @*<a class="add-to-cart" onclick="addToCart(@m.Id, 1)">add to cart</a>*@
+                                <div class="action-btn fix">
+                                    <a onclick="addWishlist(@m.Id)" title="Add to wishlist"><i class="pe-7s-like"></i></a>
+                                    <a onclick="addToCart(@m.Id, 1)" title="Add to cart"><i class="pe-7s-plus"></i></a>
+                                    @*<a href="/shop/product?productId=@m.Id&productName=@m.Name" title="Quickview"><i class="pe-7s-look"></i></a>*@
+                                    @*<a href="#" title="Compare"><i class="pe-7s-repeat"></i></a>*@
+                                </div>
+                            </div>
+                            <div class="product-info">
+                                <h5 class="title"><a href="/shop/product?productId=@m.Id&productName=@m.Name.Replace(' ', '-')">@m.Name</a></h5>
+                                @if (m.DiscountPrice < m.OriginalPrice)
+                                {
+
+                                    <span class="price"><span class="new">$@m.DiscountPrice</span><span class="old">$@m.OriginalPrice</span></span>
+                                }
+                                else
+                                {
+                                    <span class="price"><span class="new">$@m.OriginalPrice</span></span>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                    <!-- product-item end -->
+                }
+            }
+        </div>
+        <div class="row text-center">
+            <div class="sunscribe-form">
+                <input type="submit" value="SEE MORE" name="seemore" id="btnSeemore" class="button" style="margin: 0 auto" onclick="window.location.href='/shop'">
+            </div>
+
+        </div>
+    </div>
+</div>
+<!-- PRODUCT SECTION END -->
+<!-- TESTIMONIAL SECTION START -->
+<div class="testimonial-section section pt-70 pb-70 contact-form">
+    <div class="container">
+        <form id="contact-form">
+            <div class="row">
+                <div class="section-title text-center col-xs-12 mb-30 override_mb_20">
+                    <h4>Be the first to know</h4>
+                    <h2>Receive the latest product news delivered to your inbox</h2>
+                </div>
+            </div>
+            <div class="row text-center">
+                <div class="col-md-offset-4 col-md-4 col-md-offset-4">
+                    <div class="row">
+                        <img src="~/images/app/email.svg" class="icon_svg_homepage" />
+                    </div>
+                    <br />
+                    <div class="row">
+                        <input id="emailSubcribe" name="email" type="email" placeholder="Enter your email address" value="" autocomplete="off">
+                    </div>
+                    <br />
+                    <div class="row">
+                        <input type="submit" value="Subscribe" name="subscribe" id="btnSubscribe" class="button" style="background-color: #ef546a" onclick="subcribe($('#emailSubcribe'))">
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<!-- TESTIMONIAL SECTION END -->
+<!-- BLOG SECTION START -->
+<div class="blog-section section pt-50 pb-30">
+    <div class="@(Request.Browser.IsMobileDevice == true ? "container-fluid" : "container")">
+        <div class="row">
+            <div class="section-title text-center col-xs-12 mb-50">
+                <h4>We provide</h4>
+                <h2>professional services</h2>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3 col-sm-6 col-xs-6 col-xs-wide mb-40 text-center">
+                <a href="clickandcollect"><img src="@Model.ApplicationSetting.PartnerLogo1" class="third_party_logo" /></a>
+            </div>
+            <div class="col-md-3 col-sm-6 col-xs-6 col-xs-wide mb-40 text-center">
+                <a href="homemaillanding"><img src="@Model.ApplicationSetting.PartnerLogo2" class="third_party_logo" /></a>
+            </div>
+            <div class="col-md-3 col-sm-6 col-xs-6 col-xs-wide mb-40 text-center">
+                <a><img src="@Model.ApplicationSetting.PartnerLogo3" class="third_party_logo" /></a>
+            </div>
+            <div class="col-md-3 col-sm-6 col-xs-6 col-xs-wide mb-40 text-center">
+                <a><img src="@Model.ApplicationSetting.PartnerLogo4" class="third_party_logo" /></a>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- BLOG SECTION END -->
+<!-- TESTIMONIAL SECTION START -->
+<div class="testimonial-section section contact-form pb-35 pt-20">
+    <div class="container">
+        <form id="tracking-form">
+            <div class="row text-center">
+                <div class="col-md-3 section-title pt-20 override_mb">
+                    <div class="row">
+                        <h2>
+                            <img src="~/images/app/truck.svg" width="40" class="pb-10" />Track your order
+                        </h2>
+                    </div>
+                </div>
+                <div class="col-md-7 pt-25">
+                    <div class="row"><input id="trackingNumber" type="text" placeholder="Enter your tracking number" value="" autocomplete="off"></div>
+                </div>
+                <div class="col-md-2 pt-25">
+                    <div class="row"><input type="submit" value="Track" name="subscribe" id="btnTrack" class="button" style="background-color: #ef546a" onclick="($('#trackingNumber'))"></div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<!-- TESTIMONIAL SECTION END -->

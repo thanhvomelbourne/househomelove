@@ -1,0 +1,60 @@
+<div id="content-frame">
+                    <!-- START Customer Service content -->
+                    <br />
+                    <span>Click &amp; Collect allows you to order online and pick up 'in stock' items in the nearest storage place in as little as 4-8 hours. Contact us for more information.</span>
+                    <br /><br /><br />
+                    <div class="row">
+                        <div class="col-12 col-lg-6">
+                            <div class="rating-wrapper">
+                                <!-- Start Step 1 -->
+                                <div class="rating-tiles">
+                                    <div class="circle"><i class="fa fa-laptop" style="font-size: 40px; margin-top: 17%; color: black;"> </i></div>
+                                    <div class="rating-box">
+                                        <h4>Step 1</h4>
+                                        <p class="primary-text">Shop Online</p>
+                                        <p>Browse online and choose from hundreds of products stocked in our online store, once you have found the product you are looking for simply add it to your shopping cart and checkout with <strong class="blur-primary-text">Click &amp; Collect</strong>.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Start Step 2 -->
+                        <div class="col-12 col-lg-6">
+                            <div class="rating-wrapper">
+                                <div class="rating-tiles">
+                                    <div class="circle"><i class="fa fa-shopping-cart" style="font-size: 40px; margin-top: 17%; color: black;"> </i></div>
+                                    <div class="rating-box">
+                                        <h4>Step 2</h4>
+                                        <p class="primary-text">Proceed to Checkout</p>
+                                        <p>Once you've finished shopping, proceed to the checkout and select <strong class="blur-primary-text">Click &amp; Collect</strong>. Upon selecting this option you will be received an address for pick up that closest to you after payment.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-lg-6">
+                            <div class="rating-wrapper">
+                                <!-- Start Step 1 -->
+                                <div class="rating-tiles">
+                                    <div class="circle"><i class="fa fa-credit-card" style="font-size: 40px; margin-top: 17%; color: black;"> </i></div>
+                                    <div class="rating-box">
+                                        <h4>Step 3</h4>
+                                        <p class="primary-text">Complete your Order</p>
+                                        <p>Check that all products are available for pick up and checkout as a <strong class="blur-primary-text">Member or Guest</strong>. Enter your payment details and complete your order. An order confirmation e-mail will be sent to you.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Start Step 2 -->
+                        <div class="col-12 col-lg-6">
+                            <div class="rating-wrapper">
+                                <div class="rating-tiles">
+                                    <div class="circle"><img style="width: 85%" src="../images/app/househomelove-preload.svg"></div>
+                                    <div class="rating-box">
+                                        <h4>Step 4</h4>
+                                        <p class="primary-text">Collect your Order</p>
+                                        <p>When your order is ready for collection, you will receive a <strong class="blur-primary-text">E-mail</strong>. Simply visit our storage place in provided time frame with your order confirmation to collect your items.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>

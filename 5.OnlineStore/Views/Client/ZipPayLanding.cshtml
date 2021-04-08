@@ -1,0 +1,34 @@
+﻿@model BusinessService.Models.Common.HomePageModel
+@{
+    ViewBag.Title = "ZipPay";
+}
+
+<!-- PAGE BANNER SECTION -->
+<div class="page-banner-section section">
+    <div class="container">
+        <div class="row">
+            <div class="page-banner-content col-xs-12">
+                <h2>login</h2>
+                <ul class="breadcrumb">
+                    <li><a href="/">Home</a></li>
+                    <li class="active">Zip Pay</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- END PAGE BANNER SECTION -->
+<!-- PAGE SECTION START -->
+<div class="page-section section pt-30 pb-30">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12 text-center">
+                <script type="text/javascript" src="https://code.jquery.com/jquery-latest.min.js"></script>
+                <script type="text/javascript" src="https://d3k1w8lx8mqizo.cloudfront.net/lib/js/zm-widget-js/dist/zipmoney-widgets-v1.min.js"></script>
+                <div data-zm-merchant="b0975714-57bd-480c-807e-18c8ce5287da" data-env="sandbox"></div>
+                <div id="zip-LP" data-zm-asset="landingpage" data-zm-widget="inline"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- PAGE SECTION END -->

@@ -1,0 +1,7 @@
+ALTER TABLE OurEvents
+ALTER COLUMN Brief nvarchar(500) NOT NULL;
+
+ALTER TABLE OurEvents
+ALTER COLUMN Location nvarchar(500) NULL;
+
+UPDATE ApplicationSettings SET DatabaseVersion = '1.7.2'

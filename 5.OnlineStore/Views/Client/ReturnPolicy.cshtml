@@ -1,0 +1,50 @@
+﻿@model BusinessService.Models.Common.HomePageModel
+@{
+    ViewBag.Title = "Return Policy";
+}
+
+<!-- PAGE BANNER SECTION -->
+<div class="page-banner-section section">
+    <div class="container">
+        <div class="row">
+            <div class="page-banner-content col-xs-12">
+                <h2><img src="~/images/app/policy.svg" class="icon_svg_title pb-10" />&nbsp; Return Policy</h2>
+                <ul class="breadcrumb">
+                    <li><a href="/">Home</a></li>
+                    <li class="active"><b>Return Policy</b></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- END PAGE BANNER SECTION -->
+<!-- PAGE SECTION START -->
+<div class="page-section section pt-30 pb-30">
+    <div class="container hidden-sm hidden-xs">
+        <div class="row">
+            <div class="col-lg-12 col-md-12">
+                @Html.Raw(Model.ApplicationSetting.ReturnPolicy)
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid hidden-md hidden-lg">
+        <div class="row">
+            <div class="col-sm-12 col-xs-12">
+                @Html.Raw(Model.ApplicationSetting.ReturnPolicy)
+            </div>
+        </div>
+    </div>
+</div>
+<!-- PAGE SECTION END -->
+
+<style>
+    ul {
+        padding-left: 40px;
+    }
+    li{
+        list-style: inherit;
+    }
+    p{
+        margin-bottom: 0px;
+    }
+</style>

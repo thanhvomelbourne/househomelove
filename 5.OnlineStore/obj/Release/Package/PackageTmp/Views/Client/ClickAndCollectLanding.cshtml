@@ -1,0 +1,35 @@
+﻿@model BusinessService.Models.Common.HomePageModel
+@{
+    ViewBag.Title = "Click & Collect";
+}
+
+<!-- PAGE BANNER SECTION -->
+<div class="page-banner-section section">
+    <div class="container">
+        <div class="row">
+            <div class="page-banner-content col-xs-12">
+                <h2>Click and Collect</h2>
+                <ul class="breadcrumb">
+                    <li><a href="/">Home</a></li>
+                    <li class="active">Click and Collect</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- END PAGE BANNER SECTION -->
+<!-- PAGE SECTION START -->
+<div class="page-section section pt-30 pb-30">
+    <div class="@(Request.Browser.IsMobileDevice == true ? "container-fluid" : "container")">
+        <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12 text-center">
+                <img src="~/images/app/clickandcollect.jpg" style="width: 200px;" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12 text-center">
+                @Html.Raw(HttpUtility.HtmlDecode(@Model.ApplicationSetting.ClickAndCollectPage))        
+            </div>
+        </div>
+    </div>
+</div>

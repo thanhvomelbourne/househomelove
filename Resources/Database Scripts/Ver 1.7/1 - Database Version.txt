@@ -1,0 +1,2 @@
+ALTER TABLE ApplicationSettings
+ADD DatabaseVersion nvarchar(10) NULL;

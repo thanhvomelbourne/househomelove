@@ -1,0 +1,5 @@
+ALTER TABLE [dbo].[ApplicationSettings]
+ADD [ClickAndCollectDescription] [NVARCHAR](500) NULL;
+
+ALTER TABLE [dbo].[Orders]
+ALTER COLUMN [ShippingMethod] [NVARCHAR](30) NOT NULL;

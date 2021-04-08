@@ -1,0 +1,78 @@
+﻿@model BusinessService.Models.Common.HomePageModel
+@{
+    ViewBag.Title = "Our Events";
+}
+
+<!-- PAGE BANNER SECTION -->
+<div class="page-banner-section section">
+    <div class="container">
+        <div class="row">
+            <div class="page-banner-content col-xs-12">
+                <h2><img src="~/images/app/favicon.png" class="icon_svg_title pb-10" />&nbsp;Our Events</h2>
+                <ul class="breadcrumb">
+                    <li><a href="/">Home</a></li>
+                    <li class="active"><b>Our Events</b></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- END PAGE BANNER SECTION -->
+<!-- PAGE SECTION START -->
+<div class="page-section section pt-30 pb-30">
+    <div class="container hidden-xs hidden-sm">
+        <div class="row">
+            @if (Model.OurEventList != null)
+            {
+                foreach (var item in Model.OurEventList)
+                {
+                    <div class="col-sm-6 col-md-4">
+                        <div class="thumbnail">
+                            <img src="@item.Avatar" style="width: 45%;" />
+                            <hr />
+                            <div class="caption">
+                                <h4>@item.EventName</h4>
+
+                                <p class="small">
+                                    <i class="glyphicon glyphicon-map-marker"></i> @item.Location
+                                    <br />
+                                    @if (item.Time.HasValue)
+                                    {
+                                        <i class="glyphicon glyphicon-calendar"></i> @item.TimeDisplay;
+                                    }
+                                </p>
+
+                                <p class="text-justify">@item.Brief</p>
+                                @*<p><a class="btn" style="background-color: #ef546a; color: #ffffff" role="button">View</a></p>*@
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+
+        </div>
+    </div>
+    <div class="container-fluid hidden-md hidden-lg">
+        <div class="row">
+            @if (Model.OurEventList != null)
+            {
+                foreach (var item in Model.OurEventList)
+                {
+                    <div class="col-sm-12 col-xs-12">
+                        <div class="thumbnail">
+                            <img src="@item.Avatar" style="width: 45%;" />
+                            <hr />
+                            <div class="caption">
+                                <h4>@item.EventName</h4>
+                                <p class="small"><i class="glyphicon glyphicon-map-marker"></i> @item.Location <br /> <i class="glyphicon glyphicon-calendar"></i> @item.Time.GetValueOrDefault().ToLongDateString()</p>
+                                <p class="text-justify">@item.Brief</p>
+                                @*<p><a class="btn" style="background-color: #ef546a; color: #ffffff" role="button">View</a></p>*@
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+        </div>
+    </div>
+</div>
+<!-- PAGE SECTION END -->

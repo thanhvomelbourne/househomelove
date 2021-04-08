@@ -1,0 +1,14 @@
+ALTER TABLE ApplicationSettings
+ALTER COLUMN BannerQuote1 nvarchar(MAX) NULL;
+
+ALTER TABLE ApplicationSettings
+ALTER COLUMN BannerQuote2 nvarchar(MAX) NULL;
+
+ALTER TABLE ApplicationSettings
+ADD PromotionImage4 nvarchar(MAX) NULL;
+
+ALTER TABLE ApplicationSettings
+ADD PromotionImage5 nvarchar(MAX) NULL;
+
+ALTER TABLE ApplicationSettings
+ADD PromotionImage6 nvarchar(MAX) NULL;

@@ -1,0 +1,289 @@
+﻿@using CoreLibrary.Data
+@model BusinessService.Models.Common.HomePageModel
+@{
+    ViewBag.Title = "Shop";
+}
+<!-- PAGE BANNER SECTION -->
+<div class="page-banner-section section">
+    <div class="container hidden-xs">
+        <div class="row">
+            <div class="page-banner-content col-xs-12">
+                <h2>
+                    <img src="~/images/app/shop.svg" class="icon_svg_title pb-10" />&nbsp; Shop
+                </h2>
+                <ul class="breadcrumb">
+                    <li><a href="/">Home</a></li>
+                    <li class="active"><b>shop</b></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid hidden-sm hidden-md hidden-lg">
+        <div class="row">
+            <div class="page-banner-content col-xs-12">
+                <h2>
+                    <img src="~/images/app/shop.svg" class="icon_svg_title pb-10" />&nbsp; Shop
+                </h2>
+                <ul class="breadcrumb">
+                    <li><a href="/">Home</a></li>
+                    <li class="active"><b>shop</b></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- END PAGE BANNER SECTION -->
+<!-- PAGE SECTION START -->
+<div class="page-section section pt-30">
+    <div class="@(Request.Browser.IsMobileDevice == true ? "container-fluid" : "container")">
+        <div class="row">
+            <div class="col-lg-9 col-md-8 col-xs-12 float-right">
+                <div class="shop-bar mb-30">
+                    <ul class="shop-tablist">
+                        <li class="active"><a href="#product-grid" data-toggle="tab"><i class="fa fa-th"></i></a></li>
+                        <li><a href="#product-list" data-toggle="tab"><i class="fa fa-list"></i></a></li>
+                    </ul>
+                    <div class="item-per-page">
+                        <select id="selectItemsPerPage">
+                            <option value="20">20 items/pages</option>
+                            <option value="40">40 items/pages</option>
+                        </select>
+                    </div>
+                    <p>@Model.ProductList.Data.Count out of @Model.ProductList.TotalItems items</p>
+                </div>
+                <div class="tab-content section">
+                    <div class="tab-pane active row" id="product-grid">
+                        @foreach (var item in Model.ProductList.Data)
+                        {
+                            <!-- product-item start -->
+                            <div class="col-lg-3 col-md-4 col-sm-4 col-xs-6 col-xs-wide mb-40">
+                                <div class="product-item text-center">
+                                    <div class="product-img">
+                                        <a class="image" href="/shop/product?productId=@item.Id&productName=@item.Name.Replace(' ', '-')"><img src="@item.PrimaryImage" alt="" /></a>
+                                        <div class="action-btn">
+                                            <a onclick="addWishlist(@item.Id)" title="Wishlist"><i class="pe-7s-like"></i></a>
+                                            @if (item.InStock.Equals(Constant.CommonValue.OutOfStock))
+                                            {
+                                                <a onclick="outOfStock(@item.Id, '@item.Name')" title="Add to cart"><i class="pe-7s-plus"></i></a>
+                                            }
+                                            else
+                                            {
+                                                <a onclick="addToCart(@item.Id, 1)" title="Add to cart"><i class="pe-7s-plus"></i></a>
+                                            }
+                                            @*<a href="/shop/product?productId=@item.Id" title="Quickview"><i class="pe-7s-look"></i></a>*@
+                                        </div>
+                                    </div>
+                                    <div class="product-info">
+                                        <h5 class="title"><a href="/shop/product?productId=@item.Id&productName=@item.Name.Replace(' ', '-')">@item.Name</a></h5>
+                                        @if (item.InStock.Equals(Constant.CommonValue.OutOfStock))
+                                        {
+                                            <span class="price"><span class="text-primary"><strong>Pre-order</strong></span> $@item.OriginalPrice</span>
+                                        }
+                                        else
+                                        {
+                                            if (item.DiscountPrice < item.OriginalPrice)
+                                            {
+
+                                                <span class="price"><span class="new">$@item.DiscountPrice</span><span class="old">$@item.OriginalPrice</span></span>
+                                            }
+                                            else
+                                            {
+                                                <span class="price"><span class="new">$@item.OriginalPrice</span></span>
+                                            }
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- product-item end -->
+                        }
+                        <div class="page-pagination text-center col-xs-12 fix mb-40">
+                            <ul>
+                                @{
+                                    if (Model.ProductList.IsFirstPage)
+                                    {
+
+                                        <li class="paginate_button previous disabled">
+                                            <a><span><i class='fa fa-angle-left'></i></span></a>
+                                        </li>
+                                    }
+                                    else
+                                    {
+                                        <li>
+                                            <a href="@Url.Action("Products", "Client", new { PageNo = Model.ProductList.CurrenPage - 1, CurrentSearch = ViewBag.CurrentSearch })"><span><i class='fa fa-angle-left'></i></span></a>
+                                        </li>
+                                    }
+
+                                    for (int i = 1; i <= Model.ProductList.TotalPages; i++)
+                                    {
+                                        if (Model.ProductList.CurrenPage == i)
+                                        {
+                                            <li class="active">
+                                                @Html.ActionLink(i.ToString(), "Products", new { PageNo = i, CurrentSearch = ViewBag.CurrentSearch })
+                                            </li>
+                                        }
+                                        else
+                                        {
+                                            <li>
+                                                @Html.ActionLink(i.ToString(), "Products", new { PageNo = i, CurrentSearch = ViewBag.CurrentSearch })
+                                            </li>
+                                        }
+                                    }
+
+                                    if (Model.ProductList.IsLastPage)
+                                    {
+                                        <li class="paginate_button previous disabled">
+                                            <a><span><i class='fa fa-angle-right'></i></span></a>
+                                        </li>
+                                    }
+                                    else
+                                    {
+                                        <li>
+                                            <a href="@Url.Action("Products", "Client", new { PageNo = Model.ProductList.CurrenPage + 1, CurrentSearch = ViewBag.CurrentSearch })"><span><i class='fa fa-angle-right'></i></span></a>
+                                        </li>
+                                    }
+                                }
+                            </ul>
+                        </div>
+
+                    </div>
+                    <div class="tab-pane row" id="product-list">
+                        @foreach (var item in Model.ProductList.Data)
+                        {
+                            <!-- list product-item start -->
+                            <div class="col-xs-12 mb-40">
+                                <div class="list-product-item">
+                                    <div class="list-product-img">
+                                        <a class="image" href="/shop/product?productId=@item.Id&productName=@item.Name.Replace(' ', '-')"><img src="@item.PrimaryImage" alt="" /></a>
+                                    </div>
+                                    <div class="list-product-info fix">
+                                        <h2 class="title"><a href="/shop/product?productId=@item.Id&productName=@item.Name.Replace(' ', '-')">@item.Name</a></h2>
+                                        @if (item.DiscountPrice < item.OriginalPrice)
+                                        {
+
+                                            <span class="price"><span class="new">$@item.DiscountPrice</span><span class="old">$@item.OriginalPrice</span></span>
+                                        }
+                                        else
+                                        {
+                                            <span class="price"><span class="new">$@item.OriginalPrice</span></span>
+                                        }
+                                        <p class="text-justify">@Html.Raw(item.Description)</p>
+                                        <div class="list-action-btn fix">
+                                            <a class="add-to-cart" onclick="addToCart(@item.Id, 1)">add to cart</a>
+                                            <a onclick="addWishlist(@item.Id)" title="Wishlist"><i class="pe-7s-like"></i></a>
+                                            <a href="/shop/product?productId=@item.Id&productName=@item.Name.Replace(' ', '-')" title="Quickview"><i class="pe-7s-look"></i></a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- list product-item end -->
+                        }
+
+                        <div class="page-pagination text-center col-xs-12 fix mb-40">
+                            <ul>
+                                @{
+                                    if (Model.ProductList.IsFirstPage)
+                                    {
+
+                                        <li class="paginate_button previous disabled">
+                                            <a href="@Url.Action("Products", "Client", new { PageNo = Model.ProductList.CurrenPage - 1, CurrentSearch = ViewBag.CurrentSearch })"><span><i class='fa fa-angle-left'></i></span></a>
+                                        </li>
+                                    }
+                                    else
+                                    {
+                                        <li>
+                                            <a href="@Url.Action("Products", "Client", new { PageNo = Model.ProductList.CurrenPage - 1, CurrentSearch = ViewBag.CurrentSearch })"><span><i class='fa fa-angle-left'></i></span></a>
+                                        </li>
+                                    }
+
+                                    for (int i = 1; i <= Model.ProductList.TotalPages; i++)
+                                    {
+                                        if (Model.ProductList.CurrenPage == i)
+                                        {
+                                            <li class="active">
+                                                @Html.ActionLink(i.ToString(), "Products", new { PageNo = i, CurrentSearch = ViewBag.CurrentSearch })
+                                            </li>
+                                        }
+                                        else
+                                        {
+                                            <li>
+                                                @Html.ActionLink(i.ToString(), "Products", new { PageNo = i, CurrentSearch = ViewBag.CurrentSearch })
+                                            </li>
+                                        }
+                                    }
+
+                                    if (Model.ProductList.IsLastPage)
+                                    {
+                                        <li class="paginate_button previous disabled">
+                                            <a href="@Url.Action("Products", "Client", new { PageNo = Model.ProductList.CurrenPage + 1, CurrentSearch = ViewBag.CurrentSearch })"><span><i class='fa fa-angle-right'></i></span></a>
+                                        </li>
+                                    }
+                                    else
+                                    {
+                                        <li>
+                                            <a href="@Url.Action("Products", "Client", new { PageNo = Model.ProductList.CurrenPage + 1, CurrentSearch = ViewBag.CurrentSearch })"><span><i class='fa fa-angle-right'></i></span></a>
+                                        </li>
+                                    }
+                                }
+                            </ul>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-4 hidden-xs">
+
+                <div class="single-sidebar mb-40">
+                    <form action="#" class="sidebar-search">
+                        @Html.TextBox("Search", ViewBag.CurrentSearch as string, new { @class = "form-control" })
+                        <button class="submit"><i class="pe-7s-search"></i></button>
+                    </form>
+                </div>
+
+                <div class="single-sidebar mb-40">
+                    <h3 class="sidebar-title">Category</h3>
+                    <ul class="category-sidebar">
+                        <li><a href="@Url.Action("Products", "Client", new { PageNo = 1, CurrentSearch = "" })">All Categories</a></li>
+                        @foreach (var m in Model.CategoryList.OrderBy(x=>x.Name))
+                        {
+                            if (m.PrefixForProductCode == "SAL")
+                            {
+                                <li><a href="@Url.Action("Products", "Client", new { PageNo = 1, CurrentSearch = @m.Name })" class="text-primary">@m.Name</a></li>
+                            }
+                            else
+                            {
+                                <li><a href="@Url.Action("Products", "Client", new { PageNo = 1, CurrentSearch = @m.Name })">@m.Name</a></li>
+                            }
+                        }
+                    </ul>
+                </div>
+
+                <div class="single-sidebar mb-40">
+                    <h3 class="sidebar-title">Sort By</h3>
+                    <div class="col-md-12 item-per-page" style="padding: 0">
+                        <select id="sortBy" class="width_100">
+                            <option value="Newest">Newest</option>
+                            <option value="PriceLowToHigh">Price Low to High</option>
+                            <option value="PriceHighToLow">Price High to Low</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="single-sidebar mb-40">
+                    <h3 class="sidebar-title">Popular Searchs</h3>
+                    <div class="tag-cloud">
+                        @foreach (string item in Model.PopularSearchs)
+                        {
+                            <a href="@Url.Action("Products", "Client", new { PageNo = 1, CurrentSearch = @item })">@item</a>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- PAGE SECTION END -->
+<script>
+    $(document).ready(function () {
+        $("#selectItemsPerPage").val(ITEMS_PER_PAGE);
+        $("#sortBy").val(SORT_BY);
+    });
+</script>

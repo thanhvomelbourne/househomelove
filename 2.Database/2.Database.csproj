@@ -1,0 +1,177 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{0714A44D-8510-4672-9A0A-C206EA4EBD12}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Database</RootNamespace>
+    <AssemblyName>2.Database</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\5.OnlineStore\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\5.OnlineStore\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Model\ApplicationSetting.cs">
+      <DependentUpon>OnlineStore.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\CartItem.cs">
+      <DependentUpon>OnlineStore.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\Category.cs">
+      <DependentUpon>OnlineStore.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\Color.cs">
+      <DependentUpon>OnlineStore.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\Contact.cs">
+      <DependentUpon>OnlineStore.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\Entities.cs" />
+    <Compile Include="Model\EVoucher.cs">
+      <DependentUpon>OnlineStore.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\Group.cs">
+      <DependentUpon>OnlineStore.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\IEntities.cs" />
+    <Compile Include="Model\LikedProduct.cs">
+      <DependentUpon>OnlineStore.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\NewsletterTemplate.cs">
+      <DependentUpon>OnlineStore.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\OnlineStore.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>OnlineStore.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\OnlineStore.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>OnlineStore.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\OnlineStore.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>OnlineStore.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Model\Order.cs">
+      <DependentUpon>OnlineStore.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\OurEvent.cs">
+      <DependentUpon>OnlineStore.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\Payment.cs">
+      <DependentUpon>OnlineStore.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\PreOrder.cs">
+      <DependentUpon>OnlineStore.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\Product.cs">
+      <DependentUpon>OnlineStore.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\Promotion.cs">
+      <DependentUpon>OnlineStore.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\ReviewedProduct.cs">
+      <DependentUpon>OnlineStore.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\ShoppingCart.cs">
+      <DependentUpon>OnlineStore.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\Subcription.cs">
+      <DependentUpon>OnlineStore.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\TUserProfile.cs" />
+    <Compile Include="Model\UserProfile.cs">
+      <DependentUpon>OnlineStore.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\webpages_Membership.cs">
+      <DependentUpon>OnlineStore.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\webpages_OAuthMembership.cs">
+      <DependentUpon>OnlineStore.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\webpages_Roles.cs">
+      <DependentUpon>OnlineStore.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\Wishlist.cs">
+      <DependentUpon>OnlineStore.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repositories\EntityRepository.cs" />
+    <Compile Include="Repositories\IEntityRepository.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.Config" />
+    <EntityDeploy Include="Model\OnlineStore.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>OnlineStore.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <None Include="Model\OnlineStore.edmx.diagram">
+      <DependentUpon>OnlineStore.edmx</DependentUpon>
+    </None>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\5.OnlineStore\UserService\4.UserService.csproj">
+      <Project>{a1eb8502-08a4-4097-b396-1d97d06002bb}</Project>
+      <Name>4.UserService</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Model\OnlineStore.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>OnlineStore.edmx</DependentUpon>
+      <LastGenOutput>OnlineStore.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Model\OnlineStore.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>OnlineStore.edmx</DependentUpon>
+      <LastGenOutput>OnlineStore.cs</LastGenOutput>
+    </Content>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

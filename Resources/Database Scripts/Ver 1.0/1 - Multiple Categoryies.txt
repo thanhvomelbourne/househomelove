@@ -1,0 +1,18 @@
+ALTER TABLE [dbo].[Products]
+ADD [SubCategoryId1] [int] NULL, [SubCategoryId2] [int] NULL;
+
+ALTER TABLE [dbo].[Products]  WITH CHECK ADD  CONSTRAINT [FK_Products_Categories1] FOREIGN KEY([SubCategoryId1])
+REFERENCES [dbo].[Categories] ([Id])
+GO
+
+ALTER TABLE [dbo].[Products] CHECK CONSTRAINT [FK_Products_Categories1]
+GO
+
+ALTER TABLE [dbo].[Products]  WITH CHECK ADD  CONSTRAINT [FK_Products_Categories2] FOREIGN KEY([SubCategoryId2])
+REFERENCES [dbo].[Categories] ([Id])
+GO
+
+ALTER TABLE [dbo].[Products] CHECK CONSTRAINT [FK_Products_Categories2]
+GO
+
+

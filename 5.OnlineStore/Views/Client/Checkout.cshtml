@@ -1,0 +1,502 @@
+﻿@model BusinessService.Models.Common.HomePageModel
+@{
+    ViewBag.Title = "Checkout";
+}
+<!-- PAGE BANNER SECTION -->
+<div class="page-banner-section section">
+    <div class="container hidden-xs">
+        <div class="row">
+            <div class="page-banner-content col-xs-12">
+                <h2>
+                    <img src="~/images/app/checkout.svg" class="icon_svg_title pb-10" />&nbsp;Checkout
+                </h2>
+                <ul class="breadcrumb">
+                    <li><a href="/shop" class="blur-primary-text"><span class="badge blur-primary-background">1</span> Shop</a></li>
+                    <li><a href="/shop/shoppingcart" class="blur-primary-text"><span class="badge blur-primary-background">2</span> Your Shopping Cart</a></li>
+                    <li class="active"><b><span class="badge primary-background">3</span> Checkout</b></li>
+                    <li><span class="badge">4</span> Order Confirmation</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid hidden-sm hidden-md hidden-lg">
+        <div class="row">
+            <div class="page-banner-content col-xs-12">
+                <h2>
+                    <img src="~/images/app/checkout.svg" class="icon_svg_title pb-10" />&nbsp;Checkout
+                </h2>
+                <ul class="breadcrumb">
+                    <li><a href="/shop" class="blur-primary-text"><span class="badge blur-primary-background">1</span> Shop</a></li>
+                    <li><a href="/shop/shoppingcart" class="blur-primary-text"><span class="badge blur-primary-background">2</span> Your Shopping Cart</a></li>
+                    <br />
+                    <li class="active"><b><span class="badge primary-background">3</span> Checkout</b></li>
+                    <li><span class="badge">4</span> Order Confirmation</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- END PAGE BANNER SECTION -->
+<!-- PAGE SECTION START -->
+<div class="page-section section pt-30">
+    <div class="@(Request.Browser.IsMobileDevice == true ? "container-fluid" : "container")">
+        <div class="row">
+            @if (!WebSecurity.IsAuthenticated)
+            {
+
+                <div class="col-md-12">
+                    <div class="customer-login mb-40">
+                        <!-- LOGIN START -->
+                        <h3>Returning customer? <a data-toggle="collapse" href="#checkout-login">Click here to login</a></h3>
+                        <div id="checkout-login" class="checkout-login collapse fix">
+                            <div class="checkout-login-wrapper mt-30">
+                                <p>If you have already registered with our store please log in:</p>
+                                <div class="col-md-4 col-sm-6 col-xs-12">
+                                    @using (Html.BeginForm("CustomerLogin", "UserProfile", new { ReturnUrl = "/shop/checkout" }, FormMethod.Post, new { autocomplete = "off" }))
+                                    {
+                                        @Html.AntiForgeryToken()
+                                        @Html.ValidationSummary(true)
+                                        <div class="fix mb-20">
+                                            <label>Email <span class="required">*</span></label>
+                                            <input type="text" name="username" id="Username" />
+                                        </div>
+                                        <div class="fix mb-20">
+                                            <label>Password <span class="required">*</span></label>
+                                            <input type="password" name="Password" id="Password" />
+                                        </div>
+                                        <div class="fix mb-20">
+                                            <input type="submit" value="Login" />
+                                            <label class="remember-me-box">
+                                                <input type="checkbox" />
+                                                Remember me
+                                            </label>
+                                        </div>
+                                        <a href="#">Lost your password?</a>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                        <!-- LOGIN END -->
+                    </div>
+                </div>
+            }
+            <div class="checkout-form">
+                <div class="col-lg-6 col-md-6 mb-40">
+                    <form action="#">
+                        <h3>
+                            <img src="~/images/app/location.svg" width="40" />&nbsp; Billing Details
+                        </h3>
+                        <div class="row">
+                            <div class="col-sm-6 col-xs-12 mb-30">
+                                <label for="billingFirstName">First Name <span class="required">*</span></label>
+                                <input id="billingFirstName" type="text" placeholder="First name" />
+                            </div>
+                            <div class="col-sm-6 col-xs-12 mb-30">
+                                <label for="billingLastName">Last Name <span class="required">*</span></label>
+                                <input id="billingLastName" type="text" placeholder="Last name" />
+                            </div>
+                            <div class="col-xs-12 mb-30">
+                                <label for="billingCompanyName">Company Name</label>
+                                <input id="billingCompanyName" type="text" placeholder="Company name" />
+                            </div>
+                            <div class="col-xs-12 mb-30">
+                                <label for="billingAddress">Address <span class="required">*</span></label>
+                                <input id="billingAddress" type="text" placeholder="Street address" />
+                            </div>
+                            <div class="col-sm-6 col-xs-12 mb-30">
+                                <label for="billingSuburb">Suburb / City <span class="required">*</span></label>
+                                <input id="billingSuburb" type="text" placeholder="Town / City" />
+                            </div>
+                            <div class="col-sm-6 col-xs-12 mb-30">
+                                <label for="billingCountry">Country <span class="required">*</span></label>
+                                <select id="billingCountry">
+                                    <option value="">Select a country</option>
+                                    <option value="Australia">Australia</option>
+                                    <option value="New Zealand">New Zealand</option>
+                                </select>
+                            </div>
+                            <div class="col-sm-6 col-xs-12 mb-30">
+                                <label for="billingState">State / County <span class="required">*</span></label>
+                                <select id="billingState" name="State" required>
+                                    <option value="">Select a state</option>
+                                    <option value="Australian Capital Territory">Australian Capital Territory</option>
+                                    <option value="New South Wales">New South Wales</option>
+                                    <option value="Northern Territory">Northern Territory</option>
+                                    <option value="Queensland">Queensland</option>
+                                    <option value="South Australia">South Australia</option>
+                                    <option value="Tasmania">Tasmania</option>
+                                    <option value="Victoria">Victoria</option>
+                                    <option value="Western Australia">Western Australia</option>
+                                </select>
+                            </div>
+                            <div class="col-sm-6 col-xs-12 mb-30">
+                                <label for="billingPostcode">Postcode / Zip <span class="required">*</span></label>
+                                <input id="billingPostcode" type="text" placeholder="Postcode / Zip" />
+                            </div>
+                            <div class="col-sm-6 col-xs-12 mb-30">
+                                <label for="emailAddress">Email Address <span class="required">*</span></label>
+                                <input id="emailAddress" type="email" placeholder="Email address" />
+                            </div>
+                            <div class="col-sm-6 col-xs-12 mb-30">
+                                <label for="phone">Phone <span class="required">*</span></label>
+                                <input id="phone" type="text" placeholder="Phone number" />
+                            </div>
+                            <div class="col-xs-12">
+                                <div class="custom-form">
+                                    <label class="custom-container">
+                                        <input id="b_c_account" class="real-input" type="checkbox" data-target="createp_account">
+                                        <span class="checkmark border-radius-0"></span>
+                                        <span class="checklabel">Create an account?</span>
+                                    </label>
+                                </div>
+                                <div class="collapse mt-20 mb-30" data-collapse="createp_account">
+                                    <p>Create an account by entering the information below. If you are a returning customer please login at the top of the page.</p>
+                                    <label for="b_a_password">Account password  <span class="required">*</span></label>
+                                    <input id="b_a_password" type="password" placeholder="Password" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="custom-form mb-30">
+                            <label class="custom-container">
+                                <input id="deliveryToDeifferentAddress" class="real-input" type="checkbox" data-target="shipping_form" name="DeliveryToDifferentAddress">
+                                <span class="checkmark border-radius-0"></span>
+                                <span class="checklabel">Ship to a different address?</span>
+                            </label>
+                        </div>
+                        <div id="shipping_form" class="collapse row" data-collapse="shipping_form">
+                            <div class="col-sm-6 col-xs-12 mb-30">
+                                <label for="deliveryFirstName">First Name <span class="required">*</span></label>
+                                <input id="deliveryFirstName" type="text" placeholder="First name"/>
+                            </div>
+                            <div class="col-sm-6 col-xs-12 mb-30">
+                                <label for="deliveryLastName">Last Name <span class="required">*</span></label>
+                                <input id="deliveryLastName" type="text" placeholder="Last name"/>
+                            </div>
+                            <div class="col-xs-12 mb-30">
+                                <label for="deliveryCompanyName">Company Name</label>
+                                <input id="deliveryCompanyName" type="text" placeholder="Company name"/>
+                            </div>
+                            <div class="col-xs-12 mb-30">
+                                <label for="deliveryAddress">Address <span class="required">*</span></label>
+                                <input id="deliveryAddress" type="text" placeholder="Street address" />
+                            </div>
+                            <div class="col-sm-6 col-xs-12 mb-30">
+                                <label for="deliverySuburb">Suburb / City <span class="required">*</span></label>
+                                <input id="deliverySuburb" type="text" placeholder="Town / City" />
+                            </div>
+                            <div class="col-sm-6 col-xs-12 mb-30">
+                                <label for="deliveryCountry">Country <span class="required">*</span></label>
+                                <select id="deliveryCountry">
+                                    <option value="">Select a country</option>
+                                    <option value="Australia">Australia</option>
+                                    <option value="New Zealand">New Zealand</option>
+                                </select>
+                            </div>
+                            <div class="col-sm-6 col-xs-12 mb-30">
+                                <label class="deliveryState">State / County <span class="required">*</span></label>
+                                <select id="deliveryState" name="State" required>
+                                    <option value="">Select a state</option>
+                                    <option value="Australian Capital Territory">Australian Capital Territory</option>
+                                    <option value="New South Wales">New South Wales</option>
+                                    <option value="Northern Territory">Northern Territory</option>
+                                    <option value="Queensland">Queensland</option>
+                                    <option value="South Australia">South Australia</option>
+                                    <option value="Tasmania">Tasmania</option>
+                                    <option value="Victoria">Victoria</option>
+                                    <option value="Western Australia">Western Australia</option>
+                                </select>
+                            </div>
+                            <div class="col-sm-6 col-xs-12 mb-30">
+                                <label for="deliveryPostcode">Postcode / Zip <span class="required">*</span></label>
+                                <input id="deliveryPostcode" type="text" placeholder="Postcode / Zip" />
+                            </div>
+                        </div>
+                        <div class="order-notes">
+                            <label for="order_note">Order Notes</label>
+                            <textarea id="order_note" placeholder="Notes about your order, e.g. special notes for delivery."></textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class="col-lg-6 col-md-6 col-xs-12 mb-40">
+                    <div class="coupon-form mb-30">
+                        <h3>
+                            <img src="~/images/app/coupon.svg" width="40" />&nbsp; coupon code
+                        </h3>
+                        <p>Enter your coupon code if you have one</p>
+                        <div class="promotionAppliedDisplay">
+                        </div>
+                        <form onsubmit="return false;">
+                            <input type="text" placeholder="Coupon" style="@(Request.Browser.IsMobileDevice == true ? "width: 100%" : "")" class="promotionCode" />
+                            <input class="@(Request.Browser.IsMobileDevice == true ? "mt-10" : "")" type="submit" value="Apply" style="@(Request.Browser.IsMobileDevice == true ? "width: 100%" : "")" onclick="applyPromotionCode(false)" />
+                        </form>
+                    </div>
+                    <div class="order-wrapper">
+                        <h3><img src="~/images/app/yourorder.svg" width="40" />&nbsp;Your order</h3>
+                        <div class="order-table table-responsive mb-30">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th class="product-name">Product</th>
+                                        <th class="product-total">Total</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="productListCheckout"></tbody>
+                                <tfoot>
+                                    <tr>
+                                        <th>Cart Subtotal</th>
+                                        <td id="cartSubTotal"></td>
+                                    </tr>
+                                    @if (Model.ApplicationSetting.GSTPercent > 0)
+                                    {
+                                        <tr>
+                                            <th>GST</th>
+                                            <td id="cartGST"></td>
+                                        </tr>
+                                    }
+                                    <tr>
+                                        <th>Shipping Fee</th>
+                                        <td id="shippingFee"></td>
+                                    </tr>
+                                    <tr class="discountSection">
+                                        <th class="text-muted">Discount</th>
+                                        <td id="cartDiscount" class="text-muted"></td>
+                                    </tr>
+                                    <tr style="color: #ef546a">
+                                        <th>Order Total</th>
+                                        <td>
+                                            <strong id="cartTotal"></strong>
+                                        </td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                            <table>
+                                <tr>
+                                    <td colspan="2" class="text-primary">
+                                        * The shipping fee is just an estimated price, please put your billing postcode to recalculate shipping fee.
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="text-center" style="padding: 10px; width: 60px;">
+                                        <div class="custom-form">
+                                            <label class="custom-container" style="height: 50px; padding-top: 15px; padding-left: 10px;">
+                                                <input id="ausPostDelivery" class="real-input" type="radio" name="shippingMethod" value="AUS_POST" checked="checked">
+                                                <span class="checkmark mt-15"></span>
+                                            </label>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <span style="color: #808080">
+                                            <img src="~/images/app/auspost_logo.png" width="100" />
+                                            <br />
+                                            @if (Model.ApplicationSetting.FreeShippingAusPostFrom != null && Model.ApplicationSetting.FreeShippingAusPostFrom > 0)
+                                            {
+                                                <b>Free shipping from $@Model.ApplicationSetting.FreeShippingAusPostFrom</b><br />
+                                            }
+                                            @Model.ApplicationSetting.AusPostDescription <span id="checkoutDeliveryStatus"></span>
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="text-center" style="padding: 10px; width: 60px;">
+                                        <div class="custom-form">
+                                            <label class="custom-container" style="height:50px; padding-left: 10px;">
+                                                <input id="homeMailDelivery" class="real-input" type="radio" name="shippingMethod" value="HOME_MAIL">
+                                                <span class="checkmark mt-15"></span>
+                                            </label>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <span style="color: #808080">
+                                            <img src="~/images/app/homemail.svg" width="160" />
+                                            <br />
+                                            @if (Model.ApplicationSetting.FreeShippingHomeMailFrom != null && Model.ApplicationSetting.FreeShippingHomeMailFrom > 0)
+                                            {
+                                                <b>Free shipping from $@Model.ApplicationSetting.FreeShippingHomeMailFrom</b><br />
+                                            }
+                                            @Model.ApplicationSetting.HomeMailDescription
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="text-center" style="padding: 10px; width: 60px;">
+                                        <div class="custom-form">
+                                            <label class="custom-container" style="height:50px; padding-left: 10px;">
+                                                <input id="clickAndCollect" class="real-input" type="radio" name="shippingMethod" value="CLICK_AND_COLLECT">
+                                                <span class="checkmark mt-15"></span>
+                                            </label>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <span style="color: #808080">
+                                            <img src="~/images/app/clickandcollect.svg" width="160" />
+                                            <br />
+                                            @Model.ApplicationSetting.ClickAndCollectDescription
+                                        </span>
+                                    </td>
+                                </tr>
+                            </table>
+                            <br />
+                            <input type="submit" value="Place order" id="btnSaveOrder" class="button purple_button" onclick="saveOrderAndReCalculate(true)">
+                        </div>
+                        <div class="payment-method">
+                            <div class="panel-group" id="accordion">
+                                <div class="panel panel-default">
+                                    <div class="panel-heading" id="headingOne">
+                                        <h4 class="panel-title">
+                                            <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" method="CreditCard" onclick="choosePaymentMethod(1)">
+                                                Credit Card / Debit Card
+                                            </a>
+                                        </h4>
+                                    </div>
+                                    <div id="collapseOne" class="panel-collapse collapse">
+                                        <div class="panel-body">
+                                            <div class="col-sm-12 col-xs-12 mb-30 text-center">
+                                                <img src="~/images/app/visacard.svg" width="50" />
+                                            </div>
+                                            <div class="col-sm-6 col-xs-12 mb-30">
+                                                <label>First Name <span class="required">*</span></label>
+                                                <input id="cardFirstName" type="text" />
+                                            </div>
+                                            <div class="col-sm-6 col-xs-12 mb-30">
+                                                <label>Last Name <span class="required">*</span></label>
+                                                <input id="cardLastName" type="text" />
+                                            </div>
+                                            <div class="col-xs-12 mb-30">
+                                                <label for="cardNumber">Card Number <span class="required">*</span></label>
+                                                <input id="cardNumber" type="text" />
+                                            </div>
+                                            <div class="col-sm-4 col-xs-12 mb-30">
+                                                <label>Month Expire <span class="required">*</span></label>
+                                                <select id="monthExpire">
+                                                    <option value="">Select</option>
+                                                    <option value="1">1</option>
+                                                    <option value="2">2</option>
+                                                    <option value="2">3</option>
+                                                    <option value="2">4</option>
+                                                    <option value="2">5</option>
+                                                    <option value="2">6</option>
+                                                    <option value="2">7</option>
+                                                    <option value="2">8</option>
+                                                    <option value="2">9</option>
+                                                    <option value="2">10</option>
+                                                    <option value="2">11</option>
+                                                    <option value="2">12</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-sm-4 col-xs-12 mb-30">
+                                                <label>Year Expire <span class="required">*</span></label>
+                                                <select id="yearExpire">
+                                                    <option value="">Select</option>
+                                                    <option value="2018">2018</option>
+                                                    <option value="2019">2019</option>
+                                                    <option value="2020">2020</option>
+                                                    <option value="2021">2021</option>
+                                                    <option value="2022">2022</option>
+                                                    <option value="2023">2023</option>
+                                                    <option value="2024">2024</option>
+                                                    <option value="2025">2025</option>
+                                                    <option value="2026">2026</option>
+                                                    <option value="2027">2027</option>
+                                                    <option value="2028">2028</option>
+                                                    <option value="2029">2029</option>
+                                                    <option value="2030">2030</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-sm-4 col-xs-12 mb-30">
+                                                <label>CCV <span class="required">*</span></label>
+                                                <input id="ccv" type="text" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="panel panel-default">
+                                    <div class="panel-heading" id="headingThree">
+                                        <h4 class="panel-title">
+                                            <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" onclick="choosePaymentMethod(2)">
+                                                PayPal
+                                            </a>
+                                        </h4>
+                                    </div>
+                                    <div id="collapseThree" class="panel-collapse collapse">
+                                        <div class="panel-body text-center">
+                                            <img src="~/images/app/paypal.svg" width="80" />
+                                            <br /><br />
+                                            <p>Click 'Pay' to redirect to paypal</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="panel panel-default">
+                                    <div class="panel-heading" id="headingFive">
+                                        <h4 class="panel-title">
+                                            <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseFive" onclick="choosePaymentMethod(3)">
+                                                EVoucher
+                                            </a>
+                                        </h4>
+                                    </div>
+                                    <div id="collapseFive" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingFive">
+                                        <div class="panel-body">
+                                            <div class="row">
+                                                <div class="col-md-12 text-center">
+                                                    <img src="~/images/app/voucher.svg" width="50" />
+                                                </div>
+                                            </div>
+                                            <div class="row pt-30">
+                                                <div class="col-sm-6 col-xs-12 mb-30">
+                                                    <label>Serial No.<span class="required">*</span></label>
+                                                    <input id="evoucherSerialNo" type="text" />
+                                                </div>
+                                                <div class="col-sm-6 col-xs-12 mb-30">
+                                                    <label>Activation Code<span class="required">*</span></label>
+                                                    <input id="evoucherActivationCode" type="text" />
+                                                </div>
+                                                <div class="col-sm-12 col-xs-12 mb-30">
+                                                    <label>Your Balance</label>
+                                                    <input id="evoucherBalance" type="text" disabled />
+                                                </div>
+                                                <div class="col-sm-12 col-xs-12 mb-30 text-center">
+                                                    <input type="submit" value="Check Your Balance" id="btnCheckBalance" class="button purple_button" onclick="checkEVoucherBalance()">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                @*<div class="panel panel-default">
+                                        <div class="panel-heading" id="headingTwo">
+                                            <h4 class="panel-title">
+                                                <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" onclick="choosePaymentMethod(4)">
+                                                    AfterPay
+                                                </a>
+                                            </h4>
+                                        </div>
+                                        <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+                                            <div class="panel-body text-center">
+                                                <img src="https://daepxvbfwwgd0.cloudfront.net/assets/logo_scroll-0c43312c5845a0dcd7a3373325da6402bc1d635d3415af28ed40d6c1b48e3d5c.png" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="panel panel-default">
+                                        <div class="panel-heading" id="headingFour">
+                                            <h4 class="panel-title">
+                                                <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseFour" onclick="choosePaymentMethod(5)">
+                                                    ZipMoney
+                                                </a>
+                                            </h4>
+                                        </div>
+                                        <div id="collapseFour" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingFour">
+                                            <div class="panel-body text-center">
+                                                <img src="~/images/app/zippay.png" />
+                                            </div>
+                                        </div>
+                                    </div>*@
+                            </div>
+                            <div class="order-button">
+                                <input type="submit" value="Pay" id="btnPay" class="button purple_button" onclick="processCheckout()">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- PAGE SECTION END -->

@@ -1,0 +1,5 @@
+ALTER TABLE Products
+  ADD ColorCode1 nvarchar(20) NULL;
+
+  ALTER TABLE Products
+  ADD ColorCode2 nvarchar(20) NULL;

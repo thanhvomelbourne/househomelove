@@ -1,0 +1,257 @@
+﻿@model BusinessService.Models.Common.AdminModel
+@{
+    Layout = null;
+}
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <!-- Favicon -->
+    <link rel="shortcut icon" type="image/x-icon" href="~/favicon.png">
+    <title>Administration | @ViewBag.Title</title>
+    <!-- Bootstrap Core CSS -->
+    <link href="~/Content/Admin/bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- MetisMenu CSS -->
+    <link href="~/Content/Admin/bower_components/metisMenu/dist/metisMenu.min.css" rel="stylesheet">
+    <!-- Timeline CSS -->
+    <link href="~/Content/Admin/dist/css/timeline.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link href="~/Content/Admin/dist/css/sb-admin-2.min.css" rel="stylesheet">
+    <link href="~/Content/Admin/dist/css/style.min.css" rel="stylesheet" />
+    <!-- Morris Charts CSS -->
+    <link href="~/Content/Admin/bower_components/morrisjs/morris.css" rel="stylesheet">
+    <!-- Custom Fonts -->
+    <link href="~/Content/Admin/bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="~/Content/Client/css/pe-icon-7-stroke.css" rel="stylesheet" />
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <!-- jQuery -->
+    <script src="~/Content/Admin/bower_components/jquery/dist/jquery.min.js"></script>
+    <!-- Bootstrap Core JavaScript -->
+    <script src="~/Content/Admin/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+    <!-- Metis Menu Plugin JavaScript -->
+    <script src="~/Content/Admin/bower_components/metisMenu/dist/metisMenu.min.js"></script>
+    <!-- Morris Charts JavaScript -->
+    <script src="~/Content/Admin/bower_components/raphael/raphael-min.js"></script>
+    <script src="~/Content/Admin/bower_components/morrisjs/morris.min.js"></script>
+    <script src="~/Content/Admin/js/morris-data.min.js"></script>
+    <!-- Custom Theme JavaScript -->
+    <script src="~/Content/Admin/dist/js/sb-admin-2.min.js"></script>
+    <script src="~/Content/ckeditor/ckeditor.js"></script>
+    <script src="~/Scripts/admin.min.js"></script>
+    <script src="~/Scripts/moment.min.js"></script>
+    <script src="~/Scripts/bootstrap-datetimepicker.min.js"></script>
+    <link href="~/Content/bootstrap-datetimepicker.min.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+</head>
+<body>
+    <div id="wrapper">
+        <!-- Navigation -->
+        <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="/Admin"><img src="~/images/app/househomelove.svg" width="200" style="margin-top:-10px" /></a>
+            </div>
+            <!-- /.navbar-header -->
+            <ul class="nav navbar-top-links navbar-right">
+                <li>
+                    <a href="/" target="_blank"><i class="fa fa-globe fa-fw"></i> &nbsp;Go to Shopping page</a>
+                </li>
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                        <i class="fa fa-envelope fa-fw"></i> <i class="fa fa-caret-down"></i>
+                    </a>
+                    <ul class="dropdown-menu dropdown-messages">
+                        @foreach (var m in Model.ContactMessageList)
+                        {
+                            <li>
+                                <a href="#">
+                                    <div>
+                                        <strong>@m.ContactName</strong>
+                                        <span class="pull-right text-muted">
+                                            <em>@m.CreatedAt</em>
+                                        </span>
+                                    </div>
+                                    <div>@m.Message</div>
+                                </a>
+                            </li>
+                            <li class="divider"></li>
+                        }
+                        <li>
+                            <a class="text-center" href="/Admin/Contact">
+                                <strong>Read All Messages</strong>
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        </li>
+                    </ul>
+                    <!-- /.dropdown-messages -->
+                </li>
+                <!-- /.dropdown -->
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                        <i class="fa fa-user fa-fw"></i> <i class="fa fa-caret-down"></i>
+                    </a>
+                    <ul class="dropdown-menu dropdown-user">
+                        <li>
+                            <a href="/Admin/UserProfile"><i class="fa fa-user fa-fw"></i> User Profile</a>
+                        </li>
+                        <li>
+                            <a href="/Admin/AppConfiguration"><i class="fa fa-gear fa-fw"></i> Settings</a>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                            <a href="/UserProfile/LogOff"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
+                        </li>
+                    </ul>
+                    <!-- /.dropdown-user -->
+                </li>
+                <!-- /.dropdown -->
+            </ul>
+            <!-- /.navbar-top-links -->
+            <div class="navbar-default sidebar" role="navigation">
+                <div class="sidebar-nav navbar-collapse">
+                    <ul class="nav" id="side-menu">
+                        <li class="sidebar-search">
+                            <div class="input-group custom-search-form">
+                                <input type="text" class="form-control" placeholder="Search...">
+                                <span class="input-group-btn">
+                                    <button class="btn btn-default" type="button">
+                                        <i class="fa fa-search"></i>
+                                    </button>
+                                </span>
+                            </div>
+                            <!-- /input-group -->
+                        </li>
+                        <li>
+                            <a href="/Admin/Index/"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
+                        </li>
+                        <li>
+                            <a href="/Admin/Category/"><i class="fa fa-barcode fa-fw"></i> Categories</a>
+                        </li>
+                        <li>
+                            <a href="#"><i class="fa fa-sitemap fa-fw"></i> Product Management<span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                                <li>
+                                    <a href="/Admin/Group/"><i class="fa fa-database fa-fw"></i> Product Groups</a>
+                                </li>
+                                <li>
+                                    <a href="/Admin/Color/"><i class="fa fa-th fa-fw"></i> Product Colors</a>
+                                </li>
+                                <li>
+                                    <a href="/Admin/Product/"><i class="fa fa-tag fa-fw"></i> Products</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="~/Admin/Order/"><i class="fa fa-shopping-cart fa-fw"></i> Orders</a>
+                        </li>
+                        <li>
+                            <a href="~/Admin/PreOrder/"><i class="fa fa-bookmark fa-fw"></i> Pre-Orders</a>
+                        </li>
+                        <li>
+                            <a href="~/Admin/UserProfile/"><i class="fa fa-user fa-fw"></i> User Profiles</a>
+                        </li>
+                        <li>
+                            <a href="~/Admin/EVoucher/"><i class="fa fa-certificate fa-fw"></i> E-vouchers</a>
+                        </li>
+                        <li>
+                            <a href="~/Admin/Promotion/"><i class="fa fa-gift fa-fw"></i> Promotions</a>
+                        </li>
+                        <li>
+                            <a href="~/Admin/Event/"><i class="fa fa-bell fa-fw"></i> Store Events</a>
+                        </li>
+                        <li>
+                            <a href="#"><i class="fa fa-group fa-fw"></i> Subscription Management<span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                                <li>
+                                    <a href="~/Admin/Subscription/"><i class="	fa fa-comments"></i> Subscriptions</a>
+                                </li>
+                                <li>
+                                    <a href="~/Admin/NewsletterTemplate/"><i class="fa fa-envelope"></i> Newsletter Templates</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="~/Admin/Contact/"><i class="fa fa-book fa-fw"></i> Contact Messages</a>
+                        </li>
+                        <li>
+                            <a href="#"><i class="fa fa-cogs fa-fw"></i> System Management<span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                                <li>
+                                    <a href="~/Admin/AppConfiguration/"><i class="fa fa-cog fa-fw"></i> App Configuration</a>
+                                </li>
+                                <li>
+                                    <a href="~/Admin/ContentSetting/"><i class="fa fa-desktop fa-fw"></i> Content Setting</a>
+                                </li>
+                                <li>
+                                    <a href="~/Admin/PolicySetting/"><i class="fa fa-tasks fa-fw"></i> Policy Setting</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="~/Admin/Report/"><i class="fa fa-bar-chart-o fa-fw"></i> Reports</a>
+                        </li>
+                    </ul>
+                </div>
+                <!-- /.sidebar-collapse -->
+            </div>
+            <!-- /.navbar-static-side -->
+        </nav>
+        <div id="page-wrapper">
+            @RenderBody()
+        </div>
+        <div id="loading" class="loading" style="display: none; z-index:9999">Loading&#8230;</div>
+        <!-- /#page-wrapper -->
+    </div>
+    <!-- /#wrapper -->
+</body>
+</html>
+<script type="text/javascript">
+       $(function () {
+        toastr.options = {
+            "closeButton": true,
+            "debug": false,
+            "positionClass": "toast-bottom-right",
+            "onclick": null,
+            "showDuration": "1000",
+            "hideDuration": "1000",
+            "timeOut": "5000",
+            "extendedTimeOut": "1000",
+            "showEasing": "swing",
+            "hideEasing": "linear",
+            "showMethod": "fadeIn",
+            "hideMethod": "fadeOut"
+        };  
+
+        var message = '@TempData["message"]';
+        if (message != null && message != "") {
+            if ('@TempData["messageClass"]' == "alert-success") {
+                toastr.success("@TempData["message"]", "Success");
+            }
+            else if ('@TempData["messageClass"]' == "alert-info") {
+                toastr.info("@TempData["message"]", "Success");
+            }
+            else {
+                toastr.error("@TempData["message"]", "Error");
+            }
+        }
+    });
+</script>

@@ -1,0 +1,109 @@
+﻿@using CoreLibrary.Data
+@model BusinessService.Models.Common.HomePageModel
+@{
+    ViewBag.Title = "Your Wishlist";
+}
+<!-- PAGE BANNER SECTION -->
+<div class="page-banner-section section">
+    <div class="container hidden-xs">
+        <div class="row">
+            <div class="page-banner-content col-xs-12">
+                <h2>
+                    <img src="~/images/app/wishlist.svg" class="icon_svg_title pb-10" />&nbsp; Wishlist
+                </h2>
+                <ul class="breadcrumb">
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/myaccount">My Account</a></li>
+                    <li class="active"><b>Wishlist</b></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid hidden-sm hidden-md hidden-lg">
+        <div class="row">
+            <div class="page-banner-content col-xs-12">
+                <h2>
+                    <img src="~/images/app/wishlist.svg" class="icon_svg_title pb-10" />&nbsp; Wishlist
+                </h2>
+                <ul class="breadcrumb">
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/myaccount">My Account</a></li>
+                    <li class="active"><b>Wishlist</b></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- END PAGE BANNER SECTION -->
+<!-- PAGE SECTION START -->
+<div class="page-section section pt-30 pb-30">
+    <div class="container hidden-xs">
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="cart-table table-responsive mb-40">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th class="pro-thumbnail">Image</th>
+                                <th class="pro-title">Category</th>
+                                <th class="pro-title">Product</th>
+                                <th class="pro-title">Namekey</th>
+                                <th class="pro-price">Ori Price</th>
+                                <th class="pro-price">Dis Price</th>
+                                <th class="pro-price">Stock Level</th>
+                                <th class="pro-remove">Remove</th>
+                            </tr>
+                        </thead>
+                        <tbody id="productListWishlist">
+                            @foreach (var item in Model.Wishlist)
+                            {
+                                <tr class="productWl" data-index="@item.Product.Id">
+                                    <td class="pro-thumbnail">
+                                        <a href="/shop/product?productId=@item.Product.Id&productName=@item.Product.Name">
+                                            <img src="@item.Product.PrimaryImage" alt="">
+                                        </a>
+                                    </td>
+                                    <td class="pro-title">
+                                        <a href="/shop?PageNo=1&CurrentSearch=@item.Product.CategoryName">@item.Product.CategoryName</a>
+                                    </td>
+                                    <td class="pro-title"><a href="/shop/product?productId=@item.Product.Id&productName=@item.Product.Name">@item.Product.Name</a></td>
+                                    <td class="pro-title">@item.Product.Namekey</td>
+                                    <td class="pro-price"><span class="amount">$@item.Product.OriginalPrice</span></td>
+                                    @if (item.Product.OriginalPrice != item.Product.DiscountPrice)
+                                    {
+                                        <td class="pro-price">$@item.Product.DiscountPrice</td>
+                                    }
+                                    else
+                                    {
+                                        <td class="pro-price">None</td>
+                                    }
+                                    @if (item.Product.InStock.Equals(Constant.CommonValue.InStock))
+                                    {
+                                        <td class="text-center text-primary"><i class="	fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i></td>
+                                    }
+                                    else if (item.Product.InStock.Equals(Constant.CommonValue.LowStock))
+                                    {
+                                        <td class="text-center text-warning"><i class="fa fa-star"></i><i class="fa fa-star-half-empty"></i><i class="fa fa-star-o"></i></td>
+                                    }
+                                    else
+                                    {
+                                        <td class="text-center text-danger"><i class="fa fa-star-o"></i><i class="fa fa-star-o"></i><i class="fa fa-star-o"></i></td>
+                                    }
+                                    <td class="pro-remove"><a onclick="removeWishlist(@item.Id)">×</a></td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="cart-buttons pull-right">
+                    <a onclick="addWishlistToCart()">Add wishlist to cart</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- PAGE SECTION END -->

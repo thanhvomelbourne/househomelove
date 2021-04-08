@@ -1,0 +1,134 @@
+﻿@model BusinessService.Models.Common.HomePageModel
+@{
+    ViewBag.Title = "Sign Up";
+}
+
+<!-- PAGE BANNER SECTION -->
+<div class="page-banner-section section">
+    <div class="container">
+        <div class="row">
+            <div class="page-banner-content col-xs-12">
+                <h2><img src="~/images/app/register.svg" class="icon_svg_title pb-10" />&nbsp; Register</h2>
+                <ul class="breadcrumb">
+                    <li><a href="/">Home</a></li>
+                    <li class="active"><b>Register</b></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- END PAGE BANNER SECTION -->
+<!-- PAGE SECTION START -->
+<div class="page-section section pt-30 pb-30">
+    <div class="@(Request.Browser.IsMobileDevice == true ? "container-fluid" : "container")">
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2 col-xs-12">
+                <div class="login-reg-form">
+                    @using (Html.BeginForm("Register", "UserProfile", FormMethod.Post, new { enctype = "multipart/form-data", @id = "form_createUser" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        @Html.ValidationSummary(true)
+                        <p class="text-danger">@TempData["error"]</p>
+                        <p class="text-success">@TempData["success"]</p>
+                        <div class="row">
+                            <div class="col-sm-6 col-xs-12 mb-20">
+                                <label for="r_f_name">First Name <span class="required">*</span></label>
+                                <input id="r_f_name" name="FirstName" type="text" required value="" autocomplete="off" />
+                            </div>
+                            <div class="col-sm-6 col-xs-12 mb-20">
+                                <label for="r_l_name">Last Name <span class="required">*</span></label>
+                                <input id="r_l_name" name="LastName" type="text" required value="" autocomplete="off" />
+                            </div>
+                            <div class="col-sm-6 col-xs-12 mb-20">
+                                <label for="r_gender">Gender <span class="required">*</span></label>
+                                <select id="r_gender" name="GenderDisplay" required>
+                                    <option value="">Select your gender</option>
+                                    <option value="Female">Female</option>
+                                    <option value="Male">Male</option>
+                                </select>
+                            </div>
+                            <div class="col-sm-6 col-xs-12 mb-20">
+                                <label for="r_c_name">Company Name</label>
+                                <input id="r_c_name" name="CompanyName" type="text" value="" autocomplete="off" />
+                            </div>
+
+                            <div class="col-sm-6 col-xs-12 mb-20">
+                                <label for="r_email">Email Address <span class="required">*</span></label>
+                                <input id="r_email" name="Email" type="email" required value="" autocomplete="off" />
+                            </div>
+                            <div class="col-sm-6 col-xs-12 mb-20">
+                                <label for="r_phone">Phone <span class="required">*</span></label>
+                                <input id="r_phone" name="Phone" type="text" required value="" autocomplete="off" />
+                            </div>
+                            <div class="col-xs-12 mb-20">
+                                <label for="r_country">Country <span class="required">*</span></label>
+                                <select id="r_country" name="Country" required>
+                                    <option value="">Select a country</option>
+                                    <option value="Australia">Australia</option>
+                                    <option value="New Zealand">New Zealand</option>
+                                </select>
+                            </div>
+                            <div class="col-xs-12 mb-20">
+                                <label>Address <span class="required">*</span></label>
+                                <input type="text" name="Address" placeholder="Street address" required value="" autocomplete="off" />
+                            </div>
+                            <div class="col-xs-12 mb-20">
+                                <label for="r_city">Town / City / Suburb <span class="required">*</span></label>
+                                <input id="r_city" name="Suburb" type="text" required value="" autocomplete="off" />
+                            </div>
+                            <div class="col-sm-6 col-xs-12 mb-20">
+                                <label for="r_state">State / County <span class="required">*</span></label>
+                                <select id="r_state" name="State" required>
+                                    <option value="">Select a state</option>
+                                    <option value="Australian Capital Territory">Australian Capital Territory</option>
+                                    <option value="New South Wales">New South Wales</option>
+                                    <option value="Northern Territory">Northern Territory</option>
+                                    <option value="Queensland">Queensland</option>
+                                    <option value="South Australia">South Australia</option>
+                                    <option value="Tasmania">Tasmania</option>
+                                    <option value="Victoria">Victoria</option>
+                                    <option value="Western Australia">Western Australia</option>
+                                </select>
+                            </div>
+                            <div class="col-sm-6 col-xs-12 mb-20">
+                                <label for="r_zip">Postcode / Zip <span class="required">*</span></label>
+                                <input id="r_zip" name="Postcode" type="text" required value="" autocomplete="off" />
+                            </div>
+                            <div class="col-xs-12 mb-20">
+                                <label class="" for="r_password">Account password <span class="required">*</span></label>
+                                <input id="r_password" name="Password" type="password" required value="" autocomplete="off">
+                            </div>
+                            <div class="col-xs-12 mb-20">
+                                <label class="" for="r_c_password">Confirm password <span class="required">*</span></label>
+                                <input id="r_c_password" name="RetypePassword" type="password" onkeyup="checkPassword()" required value="" autocomplete="off">
+                                <span id="errorPassword" class="text-danger"></span>
+                                <span id="successPassword" class="text-success"></span>
+                            </div>
+                            <div class="col-xs-12 mb-20">
+                                <input id="rememberme" type="checkbox" required>
+                                <label for="rememberme">I agree <a href="#">Terms &amp; Condition</a></label>
+                            </div>
+                            <div class="col-xs-12">
+                                <input value="register" type="submit">
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- PAGE SECTION END -->
+
+<script>
+    function checkPassword() {
+        $('#r_password, #r_c_password').on('keyup', function () {
+            if ($('#r_password').val() == $('#r_c_password').val()) {
+                $("#errorPassword").text("");
+                $("#successPassword").text("Password is matching!");
+            } else {
+                $("#errorPassword").text("Password is not matching!");
+                $("#successPassword").text("");
+            });
+    }
+</script>

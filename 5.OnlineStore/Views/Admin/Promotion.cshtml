@@ -1,0 +1,403 @@
+﻿@model BusinessService.Models.Common.AdminModel
+@{
+    ViewBag.Title = "Promotions";
+    Layout = "~/Views/Shared/_Admin.cshtml";
+}
+
+<div class="row">
+    <div class="col-lg-12">
+        <h2 class="page-header color_blue"><i class="fa fa-gift fa-fw"></i> Promotions</h2>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-4 col-md-4 col-sm-7 col-xs-12">
+        @using (Html.BeginForm("Promotion", "Admin", FormMethod.Get))
+        {
+            <div class="input-group">
+                @Html.TextBox("Search", ViewBag.CurrentSearch as string, new { @class = "form-control" })
+                <span class="input-group-addon">
+                    <i type="submit" class="fa fa-search"></i>
+                </span>
+            </div>
+        }
+    </div>
+    <div class="col-lg-4 col-md-4 col-sm-2 col-xs-12">&nbsp;</div>
+    <div class="col-lg-4 col-md-4 col-sm-3 hidden-xs">
+        <button id="btn_createPromotion" type="button" class="btn btn-outline btn-primary float-right" data-toggle="modal" data-target="#form_createPromotion" onclick="resetForm()"><i class="fa fa-plus-square"></i> &nbsp; Create new Promotion</button>
+    </div>
+    <div class="hidden-lg hidden-md hidden-sm col-xs-12">
+        <button id="btn_createPromotion" type="button" class="btn btn-outline btn-primary float-right width_100" data-toggle="modal" data-target="#form_createPromotion" onclick="resetForm()"><i class="fa fa-plus-square"></i> &nbsp; Create new Promotion</button>
+    </div>
+</div>
+<br />
+<div class="row">
+    <div class="col-lg-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <span class="float_right">Total: @Model.PromotionList.TotalItems items &nbsp;|&nbsp; Page @(Model.PromotionList.TotalPages < Model.PromotionList.CurrenPage ? 0 : Model.PromotionList.CurrenPage) of @Model.PromotionList.TotalPages</span>
+            </div>
+            <!-- /.panel-heading -->
+            <div class="panel-body">
+                <div class="dataTable_wrapper">
+                    <table class="table table-striped table-bordered table-hover hidden-sm hidden-xs" id="dataTables-example">
+                        <thead>
+                            <tr>
+                                <th class="text-center text-primary">Id</th>
+                                <th class="text-center text-primary">Promotion Type</th>
+                                <th class="text-center text-primary">Promotion Name</th>
+                                <th class="text-center text-primary">Promotion Code</th>
+                                <th class="text-center text-primary">Discount Value</th>
+                                <th class="text-center text-primary">Is Live</th>
+                                <th class="text-center text-primary">Start Date</th>
+                                <th class="text-center text-primary">End Date</th>
+                                <th class="text-center text-primary">Used time</th>
+                                <th class="text-center text-primary">Created By</th>
+                                <th class="text-center text-primary">Created At</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody id="bodyTable">
+                            @foreach (var m in Model.PromotionList.Data)
+                            {
+                            <tr id="row_@m.Id">
+                                <td class="text-center">@m.Id</td>
+                                <td class="text-center">@m.PromotionTypeDescription</td>
+                                <td class="text-center">@m.NameOfPromotion</td>
+                                <td class="text-center">@m.PromotionCode</td>
+                                <td class="text-center">@m.DiscountValue</td>
+                                @if (m.IsLive)
+                                {
+                                    <td class="text-center"><i class='fa fa-check text-primary'></i></td>
+                                }
+                                else
+                                {
+                                    <td class="text-center"><i class='fa fa-times text-danger'></i></td>
+                                }
+
+                                <td class="text-center">@m.StartDateDisplay</td>
+                                <td class="text-center">@m.EndDateDisplay</td>
+                                <td class="text-center">@m.UsedTime time(s)</td>
+                                <td class="text-center">@m.CreatedBy</td>
+                                <td class="text-center">@m.CreatedAt</td>
+                                <td class="text-center">
+                                    <a onclick="openUpdatePromotion(@m.Id)"><i class="fa fa-pencil-square-o cusor_pointer"></i></a>
+                                    &nbsp;
+                                    <a onclick="confirmDeletePromotion(@m.Id, '@m.NameOfPromotion')"><i class="fa fa-trash-o cusor_pointer"></i></a>
+                                </td>
+                            </tr>
+                            }
+                        </tbody>
+                    </table>
+                    <div class="hidden-lg hidden-md">
+                        @foreach (var m in Model.PromotionList.Data)
+                        {
+                            <div class="panel panel-default" id="row_@m.Id">
+                                <div class="panel-heading">@m.Id - @m.NameOfPromotion</div>
+                                <table class="table table-striped table-bordered table-hover">
+                                    <tbody>
+                                        <tr>
+                                            <td class="font-bold width_30">Type</td>
+                                            <td class="text-center">@m.PromotionTypeDescription</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="font-bold width_30">Code</td>
+                                            <td class="text-center">@m.PromotionCode</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="font-bold width_30">Discount</td>
+                                            <td class="text-center">@m.DiscountValue</td>
+                                        </tr>
+                                        @if (!string.IsNullOrEmpty(m.StartDateDisplay))
+                                        {
+                                            <tr>
+                                                <td class="font-bold width_30">Start</td>
+                                                <td class="text-center">@m.StartDateDisplay</td>
+                                            </tr>
+                                        }
+                                        @if (!string.IsNullOrEmpty(m.EndDateDisplay))
+                                        {
+                                            <tr>
+                                                <td class="font-bold width_30">End</td>
+                                                <td class="text-center">@m.EndDateDisplay</td>
+                                            </tr>
+                                        }
+                                        @if (!string.IsNullOrEmpty(m.EndDateDisplay))
+                                        {
+                                            <tr>
+                                                <td class="font-bold width_30">Used</td>
+                                                <td class="text-center">@m.UsedTime time(s)</td>
+                                            </tr>
+                                        }
+                                        <tr>
+                                            <td class="font-bold width_30">Is Live</td>
+                                            @if (m.IsLive)
+                                            {
+                                                <td class="text-center"><i class='fa fa-check text-primary'></i></td>
+                                            }
+                                            else
+                                            {
+                                                <td class="text-center"><i class='fa fa-times text-danger'></i></td>
+                                            }
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <div class="panel-footer">
+                                    <div class="row">
+                                        <div class="col-xs-12">
+                                            <span class="text-muted pull-right small">Created at @m.CreatedAt by @m.CreatedBy</span>
+                                        </div>
+                                        @if (!string.IsNullOrEmpty(m.UpdatedAt))
+                                        {
+                                            <div class="col-xs-12">
+                                                <span class="text-muted pull-right small">Updated at @m.UpdatedAt by @m.UpdatedBy</span>
+                                            </div>
+                                        }
+                                    </div>
+                                    <br />
+                                    <div class="row">
+                                        <div class="col-xs-4">
+                                            <a onclick="openUpdatePromotion(@m.Id)" class="pull-left"><i class="fa fa-pencil-square-o cusor_pointer"></i>&nbsp;Update</a>
+                                        </div>
+                                        <div class="col-xs-4"></div>
+                                        <div class="col-xs-4">
+                                            <a onclick="confirmDeletePromotion(@m.Id, '@m.NameOfPromotion')" class="pull-right"><i class="fa fa-trash-o cusor_pointer"></i>&nbsp;Remove</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                    <nav aria-label="paging" class="text-center">
+                        <div class="dataTables_paginate paging_simple_numbers" id="dataTables-example_paginate">
+                            <ul class="pagination">
+                                @{
+                                    if (Model.PromotionList.IsFirstPage)
+                                    {
+                                        <li class="paginate_button previous disabled" aria-controls="dataTables-example" tabindex="0" id="dataTables-example_previous">
+                                            <a>Previous</a>
+                                        </li>
+                                    }
+                                    else
+                                    {
+                                        <li class="paginate_button previous" aria-controls="dataTables-example" tabindex="0" id="dataTables-example_previous">
+                                            @Html.ActionLink("Previous", "Promotion", new { PageNo = Model.PromotionList.CurrenPage - 1, CurrentSearch = ViewBag.CurrentSearch })
+                                        </li>
+                                    }
+
+                                    for (int i = 1; i <= Model.PromotionList.TotalPages; i++)
+                                    {
+                                        if (Model.PromotionList.CurrenPage == i)
+                                        {
+                                            <li class="paginate_button active" aria-controls="dataTables-example" tabindex="0">
+                                                @Html.ActionLink(i.ToString(), "Promotion", new { PageNo = i, CurrentSearch = ViewBag.CurrentSearch })
+                                            </li>
+                                        }
+                                        else
+                                        {
+                                            <li class="paginate_button" aria-controls="dataTables-example" tabindex="0">
+                                                @Html.ActionLink(i.ToString(), "Promotion", new { PageNo = i, CurrentSearch = ViewBag.CurrentSearch })
+                                            </li>
+                                        }
+                                    }
+
+                                    if (Model.PromotionList.IsLastPage || !Model.PromotionList.Data.Any())
+                                    {
+                                        <li class="paginate_button next disabled" aria-controls="dataTables-example" tabindex="0" id="dataTables-example_next">
+                                            <a>Next</a>
+                                        </li>
+                                    }
+                                    else
+                                    {
+                                        <li class="paginate_button next" aria-controls="dataTables-example" tabindex="0" id="dataTables-example_next">
+                                            @Html.ActionLink("Next", "Promotion", new { PageNo = Model.PromotionList.CurrenPage + 1, CurrentSearch = ViewBag.CurrentSearch })
+                                        </li>
+                                    }
+                                }
+                            </ul>
+                        </div>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@using (Html.BeginForm("CreateUpdate", "Promotion", FormMethod.Post, new { @id = "form_createPromotion", @class = "modal fade", @role = "dialog" }))
+{
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Create new Promotion</h4>
+            </div>
+            <div class="modal-body">
+                @Html.Hidden("Id")
+                <div class="form-group">
+                    <label>Promotion Type</label>
+                    <select id="promotionType" name="PromotionType" class="form-control" required>
+                        <option value="">Please choose promotion type</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Promotion Name</label>
+                    <input id="promotionName" name="NameOfPromotion" type="text" class="form-control" placeholder="Promotion Name" required />
+                </div>
+                <div class="form-group">
+                    <label>Promotion Description</label>
+                    <textarea id="descriptionPromotion" name="Description" type="text" class="form-control" placeholder="Promotion Description" rows="5"></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Promotion Code</label>
+                    <input id="promotionCode" name="PromotionCode" type="text" class="form-control" placeholder="Promotion Code" required />
+                </div>
+                <div class="form-group">
+                    <label>Discount Value</label>
+                    <input id="discountValue" name="DiscountValue" type="text" class="form-control" placeholder="Discount Value" required />
+                </div>
+                <div class="form-group">
+                    <label>Limit Time Using</label>
+                    <input id="limitTime" name="LimitTime" type="text" class="form-control" placeholder="Limit Time" />
+                </div>
+                <div class="form-group">
+                    <label>Start Date</label>
+                    <div class='input-group date' id='startDatePromotion'>
+                        <input type='text' id="startDate" name="StartDate" class="form-control" placeholder="Start Date" />
+                        <span class="input-group-addon">
+                            <span class="glyphicon glyphicon-calendar"></span>
+                        </span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>End Date</label>
+                    <div class='input-group date' id='endDatePromotion'>
+                        <input type='text' id="endDate" name="EndDate" class="form-control" placeholder="End Date" />
+                        <span class="input-group-addon">
+                            <span class="glyphicon glyphicon-calendar"></span>
+                        </span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label>Auto Apply</label>
+                            <label class="checkbox-inline">
+                                &nbsp;<input id="autoApply" name="AutoApply" type="checkbox">
+                            </label>
+                        </div>
+                        <div class="col-md-3">
+                            <label>Set it live</label>
+                            <label class="checkbox-inline">
+                                &nbsp;<input id="isLive" name="IsLive" type="checkbox" checked>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button id="submit_Promotion" type="submit" class="btn btn-primary"><i class="fa fa-check"></i>&nbsp;Save</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+}
+
+@using (Html.BeginForm("Delete", "Promotion", FormMethod.Post, new { @id = "form_deletePromotion", @class = "modal fade", @role = "dialog" }))
+{
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Delete Promotion</h4>
+            </div>
+            <div class="modal-body">
+                @Html.Hidden("promotionIdForDelete")
+                <div id="message_confirm" style="padding-top: 5px;">Are you sure you want to delete "<b id="delete_namePromotion"></b>"?</div>
+            </div>
+            <div class="modal-footer">
+                <button id="delete_Promotion" type="submit" class="btn btn-primary"><i class="fa fa-trash"></i>&nbsp;Delete</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+}
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $.ajax({
+            cache: false,
+            type: "GET",
+            url: '@Url.Action("GetAllPromotionTypes", "Promotion")',
+            async: false,
+            dataType: "json",
+            timeout: 5000,
+            success: function (response) {
+                if (response.success == true) {
+                    var options;
+                    $.each(response.data, function (index, value) {
+                        options += "<option value='" + value.Value + "'>" + value.Name + "</option>";
+                    });
+                    $("#promotionType").append(options);
+                }
+            },
+        });
+
+        $('#startDatePromotion').datetimepicker({ format: "DD/MM/YYYY HH:mm"});
+        $('#endDatePromotion').datetimepicker({ format: "DD/MM/YYYY HH:mm" });
+
+        $(function () {
+            $("#startDatePromotion").datetimepicker({ format: "DD/MM/YYYY HH:mm"});
+        });
+
+        $(function () {
+            $("#endDatePromotion").datetimepicker({ format: "DD/MM/YYYY HH:mm" });
+        });
+    });
+
+    function confirmDeletePromotion(id, name) {
+        $("#delete_namePromotion").text(name);
+        $("#promotionIdForDelete").val(id);
+        $('#form_deletePromotion').modal('toggle');
+    };
+
+    function openUpdatePromotion(id) {
+        $.ajax({
+            cache: false,
+            type: "GET",
+            url: '@Url.Action("Details", "Promotion")',
+            async: false,
+            data: { promotionId: id },
+            dataType: "json",
+            timeout: 5000,
+            success: function (response) {
+                if (response.success == true) {
+                    $('#Id').val(response.data.Id);
+                    $("#promotionType").val(response.data.PromotionType);
+                    $("#promotionName").val(response.data.NameOfPromotion);
+                    $("#descriptionPromotion").val(response.data.Description);
+                    $("#promotionCode").val(response.data.PromotionCode);
+                    $("#discountValue").val(response.data.DiscountValue);
+                    $("#limitTime").val(response.data.LimitTime);
+                    $("#startDate").val(response.data.StartDateDisplay);
+                    $("#endDate").val(response.data.EndDateDisplay);
+                    $("#autoApply").prop("checked", response.data.AutoApply);
+                    $("#isLive").prop("checked", response.data.IsLive);
+                    $('#form_createPromotion').modal('toggle');
+                }
+            },
+        });
+    };
+
+    function resetForm() {
+        $('#Id').val(null);
+        $("#promotionType").val(null);
+        $("#promotionName").val(null);
+        $("#descriptionPromotion").val(null);
+        $("#promotionCode").val(null);
+        $("#discountValue").val(null);
+        $("#limitTime").val(null);
+        $("#startDate").val(null);
+        $("#endDate").val(null);
+        $("#autoApply").prop("checked", false);
+        $("#isLive").prop("checked", false);
+    };
+</script>

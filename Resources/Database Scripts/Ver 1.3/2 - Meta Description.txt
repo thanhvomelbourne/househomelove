@@ -1,0 +1,2 @@
+ALTER TABLE [dbo].[ApplicationSettings]
+ADD [MetaDescription] [NVARCHAR](500) NULL;

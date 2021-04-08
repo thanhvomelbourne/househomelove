@@ -1,0 +1,93 @@
+﻿@model BusinessService.Models.Common.HomePageModel
+@{
+    ViewBag.Title = "Contact";
+}
+<!-- Google Map APi -->
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC2x66W_L99EvyG7NQRhbJf6UaVAdzA38E"></script>
+<script src="~/Content/Client/js/map.js"></script>
+
+<!-- PAGE BANNER SECTION -->
+<div class="page-banner-section section">
+    <div class="container hidden-xs">
+        <div class="row">
+            <div class="page-banner-content col-xs-12">
+                <h2>
+                    <img src="~/images/app/contact.svg" class="icon_svg_title" />&nbsp; Contact
+                </h2>
+                <ul class="breadcrumb">
+                    <li><a href="/">Home</a></li>
+                    <li class="active"><b>Contact</b></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid hidden-sm hidden-md hidden-lg">
+        <div class="row">
+            <div class="page-banner-content col-xs-12">
+                <h2>
+                    <img src="~/images/app/contact.svg" class="icon_svg_title" />&nbsp; Contact
+                </h2>
+                <ul class="breadcrumb">
+                    <li><a href="/">Home</a></li>
+                    <li class="active"><b>Contact</b></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- END PAGE BANNER SECTION -->
+<!-- PAGE SECTION START -->
+<div class="page-section section pt-30 pb-30">
+    <div class="@(Request.Browser.IsMobileDevice == true ? "container-fluid" : "container")">
+        <div class="row">
+            <div class="contact-info col-md-4 col-xs-12 mb-40">
+                <h3>Contact Info</h3>
+
+                <p><i class="pe-7s-map-marker"></i><span>@Model.ApplicationSetting.Address</span></p>
+                <p><i class="pe-7s-call"></i><span>@Model.ApplicationSetting.Phone</span></p>
+                <p><i class="pe-7s-mail"></i><a href="#">@Model.ApplicationSetting.Email</a></p>
+
+                <div class="contact-social">
+                    <a target="_blank" href="@Model.ApplicationSetting.FacebookLink"><i class="fa fa-facebook fa-2x"></i></a>
+                    <a target="_blank" href="@Model.ApplicationSetting.InstagramLink"><i class="fa fa-instagram fa-2x"></i></a>
+                    <a target="_blank" href="#"><i class="fa fa-pinterest fa-2x"></i></a>
+                </div>
+
+            </div>
+            <div class="contact-form col-md-8 col-xs-12 mb-20">
+                <h3>Contact form</h3>
+                <form id="contact-form">
+                    <div class="row">
+                        <div class="col-sm-4 col-xs-12 mb-20">
+                            <label for="name">Your Name</label>
+                            <input id="contactName" name="ContactName" type="text" required value="" autocomplete="off">
+                        </div>
+                        <div class="col-sm-4 col-xs-12 mb-20">
+                            <label for="email">Your Email</label>
+                            <input id="contactEmail" name="ContactEmail" type="email" value="" autocomplete="off">
+                        </div>
+                        <div class="col-sm-4 col-xs-12 mb-20">
+                            <label for="phone">Phone</label>
+                            <input id="contactPhone" name="ContactPhone" type="text" value="" autocomplete="off">
+                        </div>
+                        <div class="col-xs-12 mb-20">
+                            <label for="subject">Subject</label>
+                            <input id="subject" name="Subject" type="text" value="" autocomplete="off">
+                        </div>
+                        <div class="col-xs-12 mb-20">
+                            <label for="message">Message</label>
+                            <textarea name="Message" id="message"></textarea>
+                        </div>
+                        <div class="col-xs-12">
+                            <input type="submit" value="send" onclick="saveContactMessage()">
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="col-xs-12 mt-20">
+                <div id="contact-map"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- PAGE SECTION END -->

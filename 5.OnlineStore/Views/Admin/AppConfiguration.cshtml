@@ -1,0 +1,427 @@
+﻿@model BusinessService.Models.Common.AdminModel
+@{
+                /**/
+
+                ViewBag.Title = "App Configuration";
+                Layout = "~/Views/Shared/_Admin.cshtml";
+}
+
+@using (Html.BeginForm("UpdateAppConfiguration", "ApplicationSetting", FormMethod.Post, new { enctype = "multipart/form-data", @id = "form_updateSetting" }))
+{
+    <div class="row">
+        <div class="col-lg-12">
+            <h2 class="page-header color_blue"><i class="fa fa-cogs fa-fw"></i> App Configuration</h2>
+        </div>
+    </div>
+    @Html.Hidden("Id")
+
+    <div class="row">
+        <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+            <div class="panel-group" id="accordion1">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">
+                            <a data-toggle="collapse" data-parent="#accordion1" href="#collapse1">
+                                Email Setting
+                            </a>
+                        </h4>
+                    </div>
+                    <div id="collapse1" class="panel-collapse collapse">
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label>Admin Email</label>
+                                                <input id="storeName" name="AdminEmail" type="text" class="form-control" placeholder="Admin Email" required value="@Model.ApplicationSetting.AdminEmail" />
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label>Customer Service Email</label>
+                                                <input id="address" name="CustomerServiceEmail" type="text" class="form-control" placeholder="Customer Service Email" value="@Model.ApplicationSetting.CustomerServiceEmail" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label>E-Commerce Email</label>
+                                                <input id="storeName" name="ECommerceEmail" type="text" class="form-control" placeholder="E-Commerce Email" required value="@Model.ApplicationSetting.ECommerceEmail" />
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label>Payment Receipt Email</label>
+                                                <input id="address" name="PaymentReceiptEmail" type="text" class="form-control" placeholder="Payment Receipt Email" value="@Model.ApplicationSetting.PaymentReceiptEmail" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-10"></div>
+                                        <div class="col-md-2">
+                                            <button id="submit_Product" type="button" class="btn btn-outline btn-primary float-right" onclick="window.location.href = '/ApplicationSetting/SendTestEmail';"><i class="fa fa fa-envelope-o"></i>&nbsp;Send test email</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="panel-group" id="accordion2">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">
+                            <a data-toggle="collapse" data-parent="#accordion2" href="#collapse2">
+                                General Setting
+                            </a>
+                        </h4>
+                    </div>
+                    <div id="collapse2" class="panel-collapse collapse">
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label>GST (%)</label>
+                                                <input id="storeName" name="GSTPercentage" type="text" class="form-control" placeholder="GST (%)" required value="@Model.ApplicationSetting.GSTPercent" />
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label>Credit Card Surcharge (%)</label>
+                                                <input id="address" name="CreditCardSurcharge" type="text" class="form-control" placeholder="Credit Card Surcharge (%)" value="@Model.ApplicationSetting.CreditCardSurcharge" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label>Paypal Surcharge (%)</label>
+                                                <input id="storeName" name="PaypalSurcharge" type="text" class="form-control" placeholder="Paypal Surcharge (%)" value="@Model.ApplicationSetting.PaypalSurcharge" />
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label>Popular Search Tag</label>
+                                                <input id="popularSearchTag" name="PopularSearchTag" type="text" class="form-control" placeholder="Popular Search Tag" value="@Model.ApplicationSetting.PopularSearchTag" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label>Warehouse Postcode</label>
+                                                <input id="address" name="WarehousePostcode" type="text" class="form-control" placeholder="Warehouse Postcode" value="@Model.ApplicationSetting.WarehousePostcode" />
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label>Exchange Currency Rate</label>
+                                                <input id="currencyRate" name="CurrencyRateUSDToAUD" type="text" class="form-control" placeholder="Currency rate to convert USD to AUD" value="@Model.ApplicationSetting.CurrencyRateUSDToAUD" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label>Rate to calculate Original Price</label>
+                                                <input id="calOriginalPrice" name="RateCalculateOriginalPrice" type="text" class="form-control" placeholder="Rate to calculate Original Price" value="@Model.ApplicationSetting.RateCalculateOriginalPrice" />
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label>Rate to calculate Discount Price</label>
+                                                <input id="calDiscountPrice" name="RateCalculateDiscountPrice" type="text" class="form-control" placeholder="Rate to calculate Discount Price" value="@Model.ApplicationSetting.RateCalculateDiscountPrice" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label>Click & Collect Description</label>
+                                                <textarea id="clickAndCollectDescription" name="ClickAndCollectDescription" type="text" class="form-control" placeholder="Click & Collect Description">@Model.ApplicationSetting.ClickAndCollectDescription</textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="panel-group" id="accordion3">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">
+                            <a data-toggle="collapse" data-parent="#accordion3" href="#collapse3">
+                                Australia Post & Home Mail
+                            </a>
+                        </h4>
+                    </div>
+                    <div id="collapse3" class="panel-collapse collapse">
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label>Home Mail Description</label>
+                                        <textarea id="address" name="HomeMailDescription" type="text" class="form-control" placeholder="Home Mail Description">@Model.ApplicationSetting.HomeMailDescription</textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Home Mail Default Price 1 (AUD)</label>
+                                        <input id="address" name="HomeMailDefaultPrice1" type="text" class="form-control" placeholder="Home Mail Default Price 1 (AUD)" value="@Model.ApplicationSetting.HomeMailDefaultPrice1" />
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Home Mail Default Price 2 (AUD)</label>
+                                        <input id="address" name="HomeMailDefaultPrice2" type="text" class="form-control" placeholder="Home Mail Default Price 2 (AUD)" value="@Model.ApplicationSetting.HomeMailDefaultPrice2" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Home Mail Default Price 3 (AUD)</label>
+                                        <input id="address" name="HomeMailDefaultPrice3" type="text" class="form-control" placeholder="Home Mail Default Price 3 (AUD)" value="@Model.ApplicationSetting.HomeMailDefaultPrice3" />
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Home Mail Available From (AUD)</label>
+                                        <input id="address" name="HomeMailAvailableFrom" type="text" class="form-control" placeholder="FreeHome Mail Available From (AUD)" value="@Model.ApplicationSetting.HomeMailAvailableFrom" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Free Shipping using Home Mail From (AUD)</label>
+                                        <input id="address" name="FreeShippingHomeMailFrom" type="text" class="form-control" placeholder="Free Shipping using Home Mail From (AUD)" value="@Model.ApplicationSetting.FreeShippingHomeMailFrom" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label>Australia Post Description</label>
+                                        <textarea id="address" name="AusPostDescription" type="text" class="form-control" placeholder="Australia Post Description">@Model.ApplicationSetting.AusPostDescription</textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Free Shipping using Australia Post From (AUD)</label>
+                                        <input id="address" name="FreeShippingAusPostFrom" type="text" class="form-control" placeholder="Free Shipping using Australia Post From (AUD)" value="@Model.ApplicationSetting.FreeShippingAusPostFrom" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="panel-group" id="accordion4">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">
+                            <a data-toggle="collapse" data-parent="#accordion4" href="#collapse4">
+                                Marketing/SEO
+                            </a>
+                        </h4>
+                    </div>
+                    <div id="collapse4" class="panel-collapse collapse">
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label>Meta Description</label>
+                                        <textarea id="address" name="MetaDescription" type="text" class="form-control" placeholder="Meta Description">@Model.ApplicationSetting.MetaDescription</textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label>Facebook Link</label>
+                                        <input id="facebookLink" name="FacebookLink" type="text" class="form-control" placeholder="Facebook Link" value="@Model.ApplicationSetting.FacebookLink" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label>Instagram Link</label>
+                                        <input id="instagramLink" name="InstagramLink" type="text" class="form-control" placeholder="Instagram Link" value="@Model.ApplicationSetting.InstagramLink" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="panel-group" id="accordion5">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">
+                            <a data-toggle="collapse" data-parent="#accordion5" href="#collapse5">
+                                Performance
+                            </a>
+                        </h4>
+                    </div>
+                    <div id="collapse5" class="panel-collapse collapse">
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+                                    <div class="thumbnail">
+                                        <p class="text-center margin_top_20 margin_bottom_0">
+                                            <i class="fa fa-tag fa-4x"></i>
+                                        </p>
+                                        <div class="caption text-center">
+                                            <h3>Product Images</h3>
+                                            <table class="table table-striped">
+                                                <tbody>
+                                                    <tr>
+                                                        <th scope="row">Product Images</th>
+                                                        <td>@Model.ApplicationSetting.TotalProductImages (@Model.ApplicationSetting.TotalProductImagesSize)</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th scope="row">Used Product Images</th>
+                                                        <td>@Model.ApplicationSetting.TotalUsedProductImages</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th scope="row">Unused Product Images</th>
+                                                        <td>@Model.ApplicationSetting.TotalUnusedProductImages</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                            <button type="submit" form="deleteProductImagesForm" class="btn btn-primary btn-outline" role="button"><i class="fa fa-trash-o"></i> Delete Unused Images</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+                                    <div class="thumbnail">
+                                        <p class="text-center margin_top_20 margin_bottom_0">
+                                            <i class="fa fa-desktop fa-4x"></i>
+                                        </p>
+                                        <div class="caption text-center">
+                                            <h3>App Banners/Icons</h3>
+                                            <table class="table table-striped">
+                                                <tbody>
+                                                    <tr>
+                                                        <th scope="row">Banners/Icons Images</th>
+                                                        <td>@Model.ApplicationSetting.TotalAppBannerImages (@Model.ApplicationSetting.TotalAppBannerImagesSize)</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th scope="row">Used Banners/Icons</th>
+                                                        <td>@Model.ApplicationSetting.TotalUsedAppBannerImages</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th scope="row">Unused Banners/Icons</th>
+                                                        <td>@Model.ApplicationSetting.TotalUnusedAppBannerImages</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                            <button type="submit" form="deleteBannersIconsForm" class="btn btn-primary btn-outline" role="button"><i class="fa fa-trash-o"></i> Delete Unused Banners/Icons</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+                                    <div class="thumbnail">
+                                        <p class="text-center margin_top_20 margin_bottom_0">
+                                            <i class="fa fa-qrcode fa-4x"></i>
+                                        </p>
+                                        <div class="caption text-center">
+                                            <h3>QR Code Images</h3>
+                                            <table class="table table-striped">
+                                                <tbody>
+                                                    <tr>
+                                                        <th scope="row">QR Code Images</th>
+                                                        <td>@Model.ApplicationSetting.TotalQRCodeImages (@Model.ApplicationSetting.TotalQRCodeImagesSize)</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th scope="row">Used QR Code Images</th>
+                                                        <td>@Model.ApplicationSetting.TotalUsedQRCodeImages</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th scope="row">Unused QR Code Images</th>
+                                                        <td>@Model.ApplicationSetting.TotalUnusedQRCodeImages</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                            <button type="submit" form="deleteQRCodeImagesForm" class="btn btn-primary btn-outline" role="button"><i class="fa fa-trash-o"></i> Delete Unused QR Code Images</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+                                    <div class="thumbnail">
+                                        <p class="text-center margin_top_20 margin_bottom_0">
+                                            <i class="fa fa-shopping-cart fa-4x"></i>
+                                        </p>
+                                        <div class="caption text-center">
+                                            <h3>Shopping Cart</h3>
+                                            <table class="table table-striped">
+                                                <tbody>
+                                                    <tr>
+                                                        <th scope="row">Total Shopping Cart</th>
+                                                        <td>@Model.ApplicationSetting.TotalShoppingCart</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th scope="row">Cart Has Order</th>
+                                                        <td>@Model.ApplicationSetting.TotalUsedShoppingCart</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th scope="row">Unused Cart 24 hours before</th>
+                                                        <td>@Model.ApplicationSetting.TotalUnusedShoppingCart</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                            <button type="submit" form="deleteUnusedShoppingCard" class="btn btn-primary btn-outline" role="button"><i class="fa fa-trash-o"></i> Delete Unused Shopping Cart</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4 col-mdd-4 col-sm-12 col-xs-12">
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a data-toggle="collapse" data-parent="#accordion1" href="#collapse1">
+                            Server Information
+                        </a>
+                    </h4>
+                </div>
+                <div class="panel-collapse">
+                    <div class="panel-body">
+                        @Html.Raw(new MvcHtmlString(Model.ApplicationSetting.ServerInformation));
+                        <br />
+                        Database Version: @Model.ApplicationSetting.DatabaseVersion
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-footer">
+        <button id="submit_Product" type="submit" class="btn btn-primary"><i class="fa fa-check"></i>&nbsp;Save</button>
+    </div>
+}
+@using (Html.BeginForm("DeleteUnusedProductImages", "ApplicationSetting", FormMethod.Post, new { enctype = "multipart/form-data", @id = "deleteProductImagesForm" }))
+{ }
+@using (Html.BeginForm("DeleteUnusedBannersIcons", "ApplicationSetting", FormMethod.Post, new { enctype = "multipart/form-data", @id = "deleteBannersIconsForm" }))
+{ }
+@using (Html.BeginForm("DeleteUnusedQRCodeImages", "ApplicationSetting", FormMethod.Post, new { enctype = "multipart/form-data", @id = "deleteQRCodeImagesForm" }))
+{ }
+@using (Html.BeginForm("DeleteUnusedShoppingCart", "ShoppingCart", FormMethod.Post, new { enctype = "multipart/form-data", @id = "deleteUnusedShoppingCard" }))
+{ }

@@ -1,0 +1,273 @@
+﻿@using CoreLibrary.Data
+@model BusinessService.Models.Common.AdminModel
+@{
+    ViewBag.Title = "Groups";
+    Layout = "~/Views/Shared/_Admin.cshtml";
+}
+
+<div class="row">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <h2 class="page-header color_blue"><i class="fa fa-database fa-fw"></i> Product Groups</h2>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-4 col-md-4 col-sm-7 col-xs-12">
+        @using (Html.BeginForm("Group", "Admin", FormMethod.Get))
+        {
+            <div class="input-group">
+                @Html.TextBox("Search", ViewBag.CurrentSearch as string, new { @class = "form-control" })
+                <span class="input-group-addon">
+                    <i type="submit" class="fa fa-search"></i>
+                </span>
+            </div>
+        }
+    </div>
+    <div class="col-lg-4 col-md-4 col-sm-2 col-xs-12">&nbsp;</div>
+    <div class="col-lg-4 col-md-4 col-sm-3 hidden-xs">
+        <button id="btn_createGroup" type="button" class="btn btn-outline btn-primary float-right" data-toggle="modal" data-target="#form_createGroup" onclick="resetForm()"><i class="fa fa-plus-square"></i> &nbsp; Create new Group</button>
+    </div>
+    <div class="hidden-lg hidden-md hidden-sm col-xs-12">
+        <button id="btn_createGroup" type="button" class="btn btn-outline btn-primary float-right width_100" data-toggle="modal" data-target="#form_createGroup" onclick="resetForm()"><i class="fa fa-plus-square"></i> &nbsp; Create new Group</button>
+    </div>
+</div>
+<br />
+<div class="row">
+    <div class="col-lg-12 col-md-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <span class="float_right">Total: @Model.GroupList.TotalItems items &nbsp;|&nbsp; Page @(Model.GroupList.TotalPages < Model.GroupList.CurrenPage ? 0 : Model.GroupList.CurrenPage) of @Model.GroupList.TotalPages</span>
+            </div>
+            <!-- /.panel-heading -->
+            <div class="panel-body">
+                <div class="dataTable_wrapper">
+                    <table class="table table-striped table-bordered table-hover hidden-sm hidden-xs" id="dataTables-example">
+                        <thead>
+                            <tr>
+                                <th class="text-center text-primary">Id</th>
+                                <th class="text-center text-primary">Type</th>
+                                <th class="text-center text-primary">Name</th>
+                                <th class="text-center text-primary">Created By</th>
+                                <th class="text-center text-primary">Created At</th>
+                                <th class="text-center text-primary">Updated By</th>
+                                <th class="text-center text-primary">Updated At</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody id="bodyTable">
+                            @foreach (var m in Model.GroupList.Data)
+                            {
+                                <tr id="row_@m.Id">
+                                    <td class="text-center">@m.Id</td>
+                                    <td class="text-center">@m.GroupType</td>
+                                    <td class="text-center">@m.GroupName</td>
+                                    <td class="text-center">@m.CreatedBy</td>
+                                    <td class="text-center">@m.CreatedAt</td>
+                                    <td class="text-center">@m.UpdatedBy</td>
+                                    <td class="text-center">@m.UpdatedAt</td>
+                                    <td class="text-center">
+                                        <a onclick="openUpdateGroup(@m.Id)"><i class="fa fa-pencil-square-o cusor_pointer"></i></a>
+                                        &nbsp;
+                                        <a onclick="confirmDeleteGroup(@m.Id, '@m.GroupName')"><i class="fa fa-trash-o cusor_pointer"></i></a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                    <div class="hidden-lg hidden-md">
+                        @foreach (var m in Model.GroupList.Data)
+                        {
+                            <div class="panel panel-default" id="row_@m.Id">
+                                <div class="panel-heading">@m.Id - @m.GroupName</div>
+                                <table class="table table-striped table-bordered table-hover">
+                                    <tbody>
+                                        <tr>
+                                            <td class="font-bold width_50">Group Type</td>
+                                            <td class="text-center">@m.GroupType</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="font-bold width_50">Group Name</td>
+                                            <td class="text-center">@m.GroupName</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <div class="panel-footer">
+                                    <div class="row">
+                                        <div class="col-xs-12">
+                                            <span class="text-muted pull-right small">Created at @m.CreatedAt by @m.CreatedBy</span>
+                                        </div>
+                                        @if (!string.IsNullOrEmpty(m.UpdatedAt))
+                                        {
+                                            <div class="col-xs-12">
+                                                <span class="text-muted pull-right small">Updated at @m.UpdatedAt by @m.UpdatedBy</span>
+                                            </div>
+                                        }
+                                    </div>
+                                    <br />
+                                    <div class="row">
+                                        <div class="col-xs-4"><a onclick="openUpdateGroup(@m.Id)" class="pull-left"><i class="fa fa-pencil-square-o cusor_pointer"></i>&nbsp;Update</a></div>
+                                        <div class="col-xs-4"></div>
+                                        <div class="col-xs-4">
+                                            <a onclick="confirmDeleteGroup(@m.Id, '@m.GroupName')" class="pull-right"><i class="fa fa-trash-o cusor_pointer"></i>&nbsp;Remove</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                    <nav aria-label="paging" class="text-center">
+                        <div class="dataTables_paginate paging_simple_numbers" id="dataTables-example_paginate">
+                            <ul class="pagination">
+                                @{
+                                    if (Model.GroupList.IsFirstPage)
+                                    {
+                                        <li class="paginate_button previous disabled" aria-controls="dataTables-example" tabindex="0" id="dataTables-example_previous">
+                                            <a>Previous</a>
+                                        </li>
+                                    }
+                                    else
+                                    {
+                                        <li class="paginate_button previous" aria-controls="dataTables-example" tabindex="0" id="dataTables-example_previous">
+                                            @Html.ActionLink("Previous", "Group", new { PageNo = Model.CategoryList.CurrenPage - 1, CurrentSearch = ViewBag.CurrentSearch })
+                                        </li>
+                                    }
+
+                                    for (int i = 1; i <= Model.GroupList.TotalPages; i++)
+                                    {
+                                        if (Model.GroupList.CurrenPage == i)
+                                        {
+                                            <li class="paginate_button active" aria-controls="dataTables-example" tabindex="0">
+                                                @Html.ActionLink(i.ToString(), "Group", new { PageNo = i, CurrentSearch = ViewBag.CurrentSearch })
+                                            </li>
+                                        }
+                                        else
+                                        {
+                                            <li class="paginate_button" aria-controls="dataTables-example" tabindex="0">
+                                                @Html.ActionLink(i.ToString(), "Group", new { PageNo = i, CurrentSearch = ViewBag.CurrentSearch })
+                                            </li>
+                                        }
+                                    }
+
+                                    if (Model.GroupList.IsLastPage)
+                                    {
+                                        <li class="paginate_button next disabled" aria-controls="dataTables-example" tabindex="0" id="dataTables-example_next">
+                                            <a>Next</a>
+                                        </li>
+                                    }
+                                    else
+                                    {
+                                        <li class="paginate_button next" aria-controls="dataTables-example" tabindex="0" id="dataTables-example_next">
+                                            @Html.ActionLink("Next", "Group", new { PageNo = Model.GroupList.CurrenPage + 1, CurrentSearch = ViewBag.CurrentSearch })
+                                        </li>
+                                    }
+                                }
+                            </ul>
+                        </div>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@using (Html.BeginForm("CreateUpdate", "Group", FormMethod.Post, new { @id = "form_createGroup", @class = "modal fade", @role = "dialog" }))
+{
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Create new Group</h4>
+            </div>
+            <div class="modal-body">
+                @Html.Hidden("Id")
+                <div class="form-group">
+                    <label>Group Type</label>
+                    <select id="groupType" name="GroupType" class="form-control" required>
+                        <option value="">Please choose group type</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Group Name</label>
+                    <input id="groupName" name="GroupName" type="text" class="form-control" placeholder="Group Name" required />
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button id="submit_Group" type="submit" class="btn btn-primary"><i class="fa fa-check"></i>&nbsp;Save</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+}
+
+@using (Html.BeginForm("Delete", "Group", FormMethod.Post, new { @id = "form_deleteGroup", @class = "modal fade", @role = "dialog" }))
+{
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Delete Group</h4>
+            </div>
+            <div class="modal-body">
+                @Html.Hidden("groupIdForDelete")
+                <div id="message_confirm" style="padding-top: 5px;">Are you sure you want to delete "<b id="delete_nameGroup"></b>"?</div>
+            </div>
+            <div class="modal-footer">
+                <button id="delete_Group" type="submit" class="btn btn-primary"><i class="fa fa-trash"></i>&nbsp;Delete</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+}
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $.ajax({
+            cache: false,
+            type: "GET",
+            url: '@Url.Action("GetAllGroupType", "Group")',
+            async: false,
+            dataType: "json",
+            timeout: 5000,
+            success: function (response) {
+                if (response.success === true) {
+                    var options;
+                    $.each(response.data, function (index, value) {
+                        options += "<option value='" + value.Value + "'>" + value.Name + "</option>";
+                    });
+                    $("#groupType").append(options);
+                }
+            },
+        });
+    });
+
+    function confirmDeleteGroup(id, name) {
+        $("#delete_nameGroup").text(name);
+        $("#groupIdForDelete").val(id);
+        $('#form_deleteGroup').modal('toggle');
+    };
+
+    function openUpdateGroup(id) {
+        $.ajax({
+            cache: false,
+            type: "GET",
+            url: '@Url.Action("Details", "Group")',
+            async: false,
+            data: { groupId: id },
+            dataType: "json",
+            timeout: 5000,
+            success: function (response) {
+                if (response.success === true) {
+                    $('#Id').val(response.data.Id);
+                    $("#groupName").val(response.data.GroupName);
+                    $("#groupType").val(response.data.GroupType);
+                    $('#form_createGroup').modal('toggle');
+                }
+            },
+        });
+    };
+
+    function resetForm() {
+        $('#Id').val(null);
+        $("#groupName").val(null);
+        $("#groupType").val(null);
+    };
+</script>

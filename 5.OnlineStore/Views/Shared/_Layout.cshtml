@@ -1,0 +1,372 @@
+﻿@model BusinessService.Models.Common.HomePageModel
+@using CoreLibrary.Data
+<!doctype html>
+<html class="no-js" lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>@ViewBag.Title | @Model.ApplicationSetting.StoreName</title>
+    <meta name="title" content="@ViewBag.Title | @Model.ApplicationSetting.StoreName">
+    <meta name="description" content="@Model.ApplicationSetting.MetaDescription @ViewBag.Description">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Favicon -->
+    <link rel="shortcut icon" type="image/x-icon" href="~/favicon.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="~/favicon.png">
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="~/favicon.png">
+    <link id="favicon-16x16" rel="icon" type="image/png" href="~/favicon.png" sizes="16x16">
+    <link id="favicon-32x32" rel="icon" type="image/png" href="~/favicon.png" sizes="32x32">
+    <link id="favicon-96x96" rel="icon" type="image/png" href="~/favicon.png" sizes="96x96">
+    <link rel="icon" href="~/favicon.png" type="image/png">
+
+    <!-- All CSS Files -->
+    <!-- Bootstrap css -->
+    <link rel="stylesheet" href="~/Content/Client/css/bootstrap.min.css" lazyload />
+    <!-- Icon Font -->
+    <link rel="stylesheet" href="~/Content/Client/css/font-awesome.min.css" />
+    <link rel="stylesheet" href="~/Content/Client/css/pe-icon-7-stroke.min.css" />
+    <!-- Plugins css file -->
+    <link rel="stylesheet" href="~/Content/Client/css/plugins.css" />
+    <!-- Theme main style -->
+    <link rel="stylesheet" href="~/Content/Client/css/style.min.css" />
+    <!-- Responsive css -->
+    <link rel="stylesheet" href="~/Content/Client/css/responsive.min.css" />
+    <!-- Enlarge zoom image css -->
+    <link rel="stylesheet" href="~/Library/enlarge-zoom/enlarge.min.css" />
+    <!-- Customize css -->
+    <link rel="stylesheet" href="~/Content/Client/css/customStyle.min.css" />
+    <!-- Modernizr JS -->
+    <script src="~/Content/Client/js/vendor/modernizr-2.8.3.min.js"></script>
+    <!-- jQuery latest version -->
+    <script src="~/Content/Client/js/vendor/jquery-3.1.1.min.js"></script>
+
+    <!-- Enlarge zoom image Js -->
+    <script src="~/Library/enlarge-zoom/enlarge.js"></script>
+    <script src="~/Library/enlarge-zoom/enlarge.init.js"></script>
+
+    <!-- App js -->
+    <script src="~/Scripts/commonApp.min.js"></script>
+    <script src="~/Scripts/checkout.min.js"></script>
+    <script src="~/Scripts/reviewPlugin.js"></script>
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-122257566-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'UA-122257566-1');
+    </script>
+
+</head>
+<body>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900" rel="stylesheet">
+    <!-- Body main wrapper start -->
+    <div class="wrapper">
+        <!-- START HEADER SECTION -->
+        <header class="header-section section sticker header-transparent">
+            <div class="container-fluid">
+                <div class="row">
+                    <!-- logo -->
+                    <div class="col-md-2 col-sm-6 col-xs-6">
+                        <div class="header-logo">
+                            <a href="/"><img id="mainLogoHomepage" src="~/images/app/househomelove-white.svg" alt="main logo" /></a>
+                        </div>
+                    </div>
+                    <!-- header-search & total-cart -->
+                    <div class="col-md-2 col-sm-6 col-xs-6 float-right">
+                        <div class="header-option-btns float-right">
+                            <!-- header-search -->
+                            <div class="header-search float-left">
+                                <button class="search-toggle"><i class="pe-7s-search"></i></button>
+                            </div>
+                            <!-- Header Cart -->
+                            <div class="header-cart float-left">
+                                <!-- Cart Toggle -->
+                                <a class="cart-toggle" href="#" data-toggle="dropdown">
+                                    <i class="pe-7s-cart"></i>
+                                    <span id="totalItemsInCartBadge">0</span>
+                                </a>
+                                <!-- Mini Cart Brief -->
+                                <div class="mini-cart-brief dropdown-menu text-left">
+                                    <div class="cart-items"><p>You have <span id="totalItemsInCart">0 items</span> in your shopping bag</p></div>
+                                    <!-- Cart Products -->
+                                    <div id="smallCartInformation">
+                                        <div id="itemListInCart" class="all-cart-product clearfix">
+                                        </div>
+                                        <!-- Cart Total -->
+                                        <div class="cart-totals">
+                                            <h5>Cart Subtotal <span id="totalPriceExGstInCart"></span></h5>
+                                        </div>
+                                        <!-- Cart Button -->
+                                        <div id="btnCheckout" class="cart-bottom clearfix">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- header Account -->
+                            @if (WebSecurity.IsAuthenticated)
+                            {
+                                <div class="header-account float-left">
+                                    <ul>
+                                        <li>
+                                            <a href="#" data-toggle="dropdown"><i class="pe-7s-config"></i></a>
+                                            <ul class="dropdown-menu">
+                                                @if (Roles.IsUserInRole(WebSecurity.CurrentUserName, Constant.Roles.Administrator))
+                                                {
+                                                    <li><a href="/admin" target="_blank"><i class="fa fa-dashboard"></i>&nbsp; Co to console</a></li>
+                                                }
+                                                <li><a href="/myaccount"><i class="fa fa-user-circle-o"></i>&nbsp; My Account</a></li>
+                                                <li><a href="/myaccount/wishlist"><i class="fa fa-star"></i> &nbsp;My Wishlist</a></li>
+                                                <li><a href="/myaccount/historytransaction"><i class="fa fa-shopping-bag"></i>&nbsp; History Transaction</a></li>
+                                                <li><a href="/myaccount/changepassword"><i class="fa fa-key"></i>&nbsp; Change Password</a></li>
+                                                <hr style="margin: 0px 0px 0px 0px" />
+                                                <li><a href="/UserProfile/CustomerLogOff"><i class="fa fa-sign-out"></i>&nbsp; Logout</a></li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="header-account float-left">
+                                    <ul>
+                                        <li>
+                                            <a href="#" data-toggle="dropdown"><i class="pe-7s-config"></i></a>
+                                            <ul class="dropdown-menu">
+                                                <li><a href="/login/"><i class="fa fa-sign-in"></i>&nbsp; Log in</a></li>
+                                                <li><a href="/register/"><i class="fa fa fa-user-plus"></i>&nbsp; Register</a></li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                    <!-- primary-menu -->
+                    <div class="col-md-8 col-xs-12">
+                        <nav class="main-menu text-center">
+                            <ul>
+                                <li>
+                                    <a href="/"><i class="fa fa-home"></i>&nbsp; Home</a>
+                                </li>
+                                <li>
+                                    <a href="/shop"><i class="fa fa-shopping-basket"></i>&nbsp; Shop</a>
+                                    <ul class="mega-menu">
+                                        @foreach (var m in Model.CategoryList)
+                                        {
+                                            <li><a href="@Url.Action("Products", "Client", new { PageNo = 1, CurrentSearch = ViewBag.CurrentSearch = @m.Name })">@m.Name</a></li>
+                                        }
+                                    </ul>
+                                </li>
+                                <li><a href="/contact"><i class="fa fa-comments"></i>&nbsp; Contact</a></li>
+                                <li><a href="/aboutus"><i class="fa fa-user"></i>&nbsp; About Us</a></li>
+                                <li><a href="/ourevents"><i class="fa fa-balance-scale"></i>&nbsp; Our Events</a></li>
+                                @if (!WebSecurity.IsAuthenticated)
+                                {
+                                    <li class="hidden-lg hidden-md hidden-sm"><a href="/login"><i class="fa fa-sign-in"></i>&nbsp; Login</a></li>
+                                    <li class="hidden-lg hidden-md hidden-sm"><a href="/register"><i class="fa fa fa-user-plus"></i>&nbsp; Register</a></li>
+                                }
+                                else
+                                {
+                                    <li class="hidden-lg hidden-md hidden-sm">
+                                        <a><i class="fa fa-user-circle"></i>&nbsp; Account</a>
+                                        <ul class="mega-menu">
+                                            @if (Roles.IsUserInRole(WebSecurity.CurrentUserName, Constant.Roles.Administrator))
+                                            {
+                                                <li class="hidden-lg hidden-md hidden-sm"><a href="/admin" target="_blank"><i class="fa fa-dashboard"></i>&nbsp; Co to console</a></li>
+                                            }
+                                            <li class="hidden-lg hidden-md hidden-sm"><a href="/myaccount"><i class="fa fa-user-circle"></i>&nbsp; My Account</a></li>
+                                            <li class="hidden-lg hidden-md hidden-sm"><a href="/myaccount/wishlist"><i class="fa fa-star"></i>&nbsp; My Wishlist</a></li>
+                                            <li class="hidden-lg hidden-md hidden-sm"><a href="/myaccount/historytransaction"><i class="fa fa-shopping-bag"></i>&nbsp; History Transaction</a></li>
+                                            <li class="hidden-lg hidden-md hidden-sm"><a href="/myaccount/changepassword"><i class="fa fa-key"></i>&nbsp; Change Password</a></li>
+                                            <li class="hidden-lg hidden-md hidden-sm"><a href="/UserProfile/CustomerLogOff"><i class="fa fa-sign-out"></i>&nbsp; Logout</a></li>
+                                        </ul>
+                                    </li>
+                                }
+                                <li class="hidden-lg hidden-md hidden-sm"><a href="/shop/shoppingcart"><i class="fa fa-shopping-cart"></i>&nbsp; Shopping Cart</a></li>
+                            </ul>
+                        </nav>
+                        <div class="mobile-menu"></div>
+                    </div>
+                </div>
+            </div>
+        </header>
+        <!-- END HEADER SECTION -->
+        <!-- Search Modal -->
+        @*<div class="search-modal modal fade text-center" id="myModal">
+                <div class="header-search-form">
+                    <form action="#">
+                        <input type="text" placeholder="Search">
+                        <button><i class="pe-7s-search"></i></button>
+                    </form>
+                </div>
+            </div>*@
+
+        @RenderBody()
+
+        <!-- SERVICE SECTION START -->
+        <div class="service-section section pt-40 pb-20">
+            <div class="container">
+                <div class="row">
+                    @if (!string.IsNullOrEmpty(Model.ApplicationSetting.ServiceTitle1))
+                    {
+                        <!-- Single Service -->
+                        <div class="single-service col-md-3 col-sm-6 col-xs-6 mb-30">
+                            <div class="service-icon">
+                                <i class="@Model.ApplicationSetting.ServiceIcon1"></i>
+                            </div>
+                            <div class="service-title">
+                                <h3>@Model.ApplicationSetting.ServiceTitle1</h3>
+                                <p>@Model.ApplicationSetting.ServiceDescription1</p>
+                            </div>
+                        </div>
+                    }
+                    @if (!string.IsNullOrEmpty(Model.ApplicationSetting.ServiceTitle2))
+                    {
+                        <!-- Single Service -->
+                        <div class="single-service col-md-3 col-sm-6 col-xs-6 mb-30">
+                            <div class="service-icon">
+                                <i class="@Model.ApplicationSetting.ServiceIcon2"></i>
+                            </div>
+                            <div class="service-title">
+                                <h3>@Model.ApplicationSetting.ServiceTitle2</h3>
+                                <p>@Model.ApplicationSetting.ServiceDescription2</p>
+                            </div>
+                        </div>
+                    }
+                    @if (!string.IsNullOrEmpty(Model.ApplicationSetting.ServiceTitle3))
+                    {
+                        <!-- Single Service -->
+                        <div class="single-service col-md-3 col-sm-6 col-xs-6 mb-30">
+                            <div class="service-icon">
+                                <i class="@Model.ApplicationSetting.ServiceIcon3"></i>
+                            </div>
+                            <div class="service-title">
+                                <h3>@Model.ApplicationSetting.ServiceTitle3</h3>
+                                <p>@Model.ApplicationSetting.ServiceDescription3</p>
+                            </div>
+                        </div>
+                    }
+                    @if (!string.IsNullOrEmpty(Model.ApplicationSetting.ServiceTitle4))
+                    {
+                        <!-- Single Service -->
+                        <div class="single-service col-md-3 col-sm-6 col-xs-6 mb-30">
+                            <div class="service-icon">
+                                <i class="@Model.ApplicationSetting.ServiceIcon4"></i>
+                            </div>
+                            <div class="service-title">
+                                <h3>@Model.ApplicationSetting.ServiceTitle4</h3>
+                                <p>@Model.ApplicationSetting.ServiceDescription4</p>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+        <!-- SERVICE SECTION END -->
+        <!-- FOOTER TOP SECTION START -->
+        <div class="footer-top-section section pb-20 pt-50">
+            <div class="@(Request.Browser.IsMobileDevice == true ? "container-fluid" : "container")">
+                <div class="row">
+                    <!-- Footer Widget -->
+                    <div class="footer-widget col-md-3 col-sm-6 col-xs-12 mb-40">
+                        <h4 class="widget-title">Contact Info</h4>
+                        <p><span>@Model.ApplicationSetting.Address</span></p>
+                        <p><span>@Model.ApplicationSetting.Phone</span></p>
+                        <p><a href="#">@Model.ApplicationSetting.Email</a></p>
+                        <!-- Footer Social -->
+                        <div class="footer-social fix">
+                            <a href="@Model.ApplicationSetting.FacebookLink" target="_blank"><i class="fa fa-facebook fa-2x"></i></a>
+                            <a href="@Model.ApplicationSetting.InstagramLink" target="_blank"><i class="fa fa-instagram fa-2x"></i></a>
+                            <a href="#" target="_blank"><i class="fa fa-pinterest fa-2x"></i></a>
+                        </div>
+                    </div>
+                    <!-- Footer Widget -->
+                    <div class="footer-widget link-widget col-md-3 col-sm-6 col-xs-12 mb-40">
+                        <h4 class="widget-title">accounts</h4>
+                        <ul>
+                            <li><a href="/myaccount">My Account</a></li>
+                            <li><a href="/myaccount/wishlist">My Wishlist</a></li>
+                            <li><a href="/myaccount/historytransaction">My History Transaction</a></li>
+                        </ul>
+                        <br /><br />
+                        <p>© househomelove 2019</p>
+                    </div>
+                    <!-- Footer Widget -->
+                    <div class="footer-widget col-md-3 col-sm-6 col-xs-12 mb-40">
+                        <h4 class="widget-title">House Home Love</h4>
+                        <ul>
+                            <li><a href="/termsandconditions">Terms and conditions</a></li>
+                            <li><a href="/faq">FAQ</a></li>
+                            <li><a href="/returnpolicy">Return Policy</a></li>
+                        </ul>
+                        <br /><br />
+                        <a href="https://anthonyvo.dev" target="_blank" class="font-14">developed by Anthony Vo</a>
+                    </div>
+                    <!-- Footer Widget -->
+                    <div class="footer-widget col-md-3 col-sm-6 col-xs-12 mb-40">
+                        <h4 class="widget-title">Newsletters</h4>
+                        <p>@Model.ApplicationSetting.NewslettersDescription</p>
+                        <form id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="sunscribe-form validate" novalidate>
+                            <div id="mc_embed_signup_scroll">
+                                <label for="mce-EMAIL" class="hidden">Subscribe to our mailing list</label>
+                                <input type="email" value="" name="EMAIL" class="email" id="mce-EMAIL" placeholder="Email Address" required>
+                                <!-- real people should not fill this in and expect good things - do not remove this or risk form bot signups-->
+                                <div style="position: absolute; left: -5000px;" aria-hidden="true"><input type="text" name="b_6bbb9b6f5827bd842d9640c82_05d85f18ef" tabindex="-1" value="" autocomplete="off"></div>
+                                <div class="clear"><input type="submit" value="Subscribe" name="subscribe" id="mc-embedded-subscribe" class="button" onclick="subcribe($('#mce-EMAIL'))"></div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- FOOTER TOP SECTION END -->
+        <div>
+            <div class="container">
+                <div class="row"></div>
+            </div>
+        </div>
+    </div>
+    <div id="loading" class="loading" style="display: none">Loading&#8230;</div>
+    <div id="messageModal" class="modal">
+        <div class="modal-overlay"></div>
+        <div class="modal-wrapper">
+            <div class="modal-content">
+                <div class="modal-title">Message</div>
+                <div class="modal-text">
+                    <p id="messageContent" class="text-center"></p>
+                    <div class="text-center">
+                        <input type="submit" value="Close" name="close" id="btnCloseMessage" class="purple_button" onclick="closeMessage()">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="shoppingModal" class="modal">
+        <div class="modal-overlay"></div>
+        <div class="modal-wrapper">
+            <div class="modal-content-shopping">
+                <div class="modal-title">Thank you</div>
+                <div class="modal-text">
+                    <p class="text-center">The item(s) has been added to your shopping cart.</p>
+                    <div class="text-center">
+                        <input type="submit" value="View Cart" name="close" id="btnCloseMessage" class="black_button" onclick="location.href = '/shop/shoppingcart';">
+                        <input type="submit" value="Continue Shopping" name="close" id="btnCloseMessage" class="purple_button" onclick="closeShopping()">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Body main wrapper end -->
+    <!-- Placed JS at the end of the document so the pages load faster -->
+    <!-- Bootstrap js -->
+    <script src="~/Content/Client/js/bootstrap.min.js"></script>
+    <!-- Plugins js -->
+    <script src="~/Content/Client/js/plugins.js"></script>
+    <!-- Ajax Mail js -->
+    <script src="~/Content/Client/js/ajax-mail.js"></script>
+    <!-- Main js -->
+    <script src="~/Content/Client/js/main.min.js"></script>
+</body>
+</html>

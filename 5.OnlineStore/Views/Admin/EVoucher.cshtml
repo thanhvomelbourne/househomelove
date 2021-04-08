@@ -1,0 +1,564 @@
+﻿@model BusinessService.Models.Common.AdminModel
+@{
+    ViewBag.Title = "E-Vouchers";
+    Layout = "~/Views/Shared/_Admin.cshtml";
+}
+
+<div id="tab1">
+    <div class="row">
+        <div class="col-lg-12">
+            <h2 class="page-header color_blue"><i class="fa fa-certificate fa-fw"></i> E-Voucher</h2>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-4 col-md-4 col-sm-7 col-xs-12">
+            @using (Html.BeginForm("EVoucher", "Admin", FormMethod.Get))
+            {
+                <div class="input-group">
+                    @Html.TextBox("Search", ViewBag.CurrentSearch as string, new { @class = "form-control" })
+                    <span class="input-group-addon">
+                        <i type="submit" class="fa fa-search"></i>
+                    </span>
+                </div>
+            }
+        </div>
+        <div class="col-lg-4 col-md-4 col-sm-2 col-xs-12">&nbsp;</div>
+        <div class="col-lg-4 col-md-4 col-sm-3 hidden-xs">
+            <button id="btn_createProduct" type="button" class="btn btn-outline btn-primary float-right" onclick="openCreateForm()"><i class="fa fa-plus-square"></i> &nbsp; Create new EVoucher</button>
+        </div>
+        <div class="hidden-lg hidden-md hidden-sm col-xs-12">
+            <button id="btn_createProduct" type="button" class="btn btn-outline btn-primary float-right width_100" onclick="openCreateForm()"><i class="fa fa-plus-square"></i> &nbsp; Create new EVoucher</button>
+        </div>
+    </div>
+    <br />
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <span class="float_right">Total: @Model.EVoucherList.TotalItems items &nbsp;|&nbsp; Page @(Model.EVoucherList.TotalPages < Model.EVoucherList.CurrenPage ? 0 : Model.EVoucherList.CurrenPage) of @Model.EVoucherList.TotalPages</span>
+                </div>
+                <!-- /.panel-heading -->
+                <div class="panel-body">
+                    <div class="dataTable_wrapper">
+                        <table class="table table-striped table-bordered table-hover hidden-sm hidden-xs" id="dataTables-example">
+                            <thead>
+                                <tr>
+                                    <th class="text-center text-primary">Id</th>
+                                    <th class="text-center text-primary">From</th>
+                                    <th class="text-center text-primary">Message</th>
+                                    <th class="text-center text-primary">Amount</th>
+                                    <th class="text-center text-primary">Balance</th>
+                                    <th class="text-center text-primary">To</th>
+                                    <th class="text-center text-primary">EVoucher Serial No.</th>
+                                    <th class="text-center text-primary">Activation Code</th>
+                                    <th class="text-center text-primary">Is Live</th>
+                                    <th class="text-center text-primary">Created By</th>
+                                    <th class="text-center text-primary">Created At</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody id="bodyTable">
+                                @foreach (var m in Model.EVoucherList.Data)
+                                {
+                                    <tr id="row_@m.Id">
+                                        <td class="text-center">@m.Id</td>
+                                        <td class="text-center">@m.FromFirstName @m.FromLastName</td>
+                                        <td class="text-center">@m.Message</td>
+                                        <td class="text-center">$@m.Amount</td>
+                                        <td class="text-center">$@m.Balance</td>
+                                        @if (m.IsGift)
+                                        {
+                                            <td class="text-center">@m.ToFirstName @m.ToLastName</td>
+                                        }
+                                        else
+                                        {
+                                            <td class="text-center">@m.FromFirstName @m.FromLastName</td>
+                                        }
+                                        <td class="text-center">@m.EVoucherSerialNo</td>
+                                        <td class="text-center">@m.ActivationCode</td>
+                                        @if (m.IsLive)
+                                        {
+                                            <td class="text-center"><i class='fa fa-check text-primary'></i></td>
+                                        }
+                                        else
+                                        {
+                                            <td class="text-center"><i class='fa fa-times text-danger'></i></td>
+                                        }
+                                        <td class="text-center">@m.CreatedBy</td>
+                                        <td class="text-center">@m.CreatedAt</td>
+                                        <td class="text-center">
+                                            <a onclick="openViewEVoucher(@m.Id)"><i class="glyphicon glyphicon-eye-open cusor_pointer"></i></a>
+                                            &nbsp;
+                                            <a onclick="openUpdateEVoucher(@m.Id)"><i class="fa fa-pencil-square-o cusor_pointer"></i></a>
+                                            &nbsp;
+                                            <a onclick="confirmDeleteEVoucher(@m.Id, '@m.EVoucherSerialNo')"><i class="fa fa-trash-o cusor_pointer"></i></a>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                        <div class="hidden-lg hidden-md">
+                            @foreach (var m in Model.EVoucherList.Data)
+                            {
+                                <div class="panel panel-default" id="row_@m.Id">
+                                    <div class="panel-heading"> <img src="~/images/app/voucher.svg" height="20px" /> &nbsp; @m.Id - @m.EVoucherSerialNo</div>
+                                    <table class="table table-striped table-bordered table-hover">
+                                        <tbody>
+                                            <tr>
+                                                <td class="font-bold width_30">From</td>
+                                                <td class="text-center">@m.FromFirstName @m.FromLastName</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="font-bold width_30">To</td>
+                                                <td class="text-center">@m.ToFirstName @m.ToLastName</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="font-bold width_30">Amount</td>
+                                                <td class="text-center">$@m.Amount</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="font-bold width_30">Balance</td>
+                                                <td class="text-center">$@m.Balance</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="font-bold width_30">Is Live</td>
+                                                @if (m.IsLive)
+                                                {
+                                                    <td class="text-center"><i class='fa fa-check text-primary'></i></td>
+                                                }
+                                                else
+                                                {
+                                                    <td class="text-center"><i class='fa fa-times text-danger'></i></td>
+                                                }
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    <div class="panel-footer">
+                                        <div class="row">
+                                            <div class="col-xs-12">
+                                                <span class="text-muted pull-right small">Created at @m.CreatedAt by @m.CreatedBy</span>
+                                            </div>
+                                            @if (!string.IsNullOrEmpty(m.UpdatedAt))
+                                            {
+                                                <div class="col-xs-12">
+                                                    <span class="text-muted pull-right small">Updated at @m.UpdatedAt by @m.UpdatedBy</span>
+                                                </div>
+                                            }
+                                        </div>
+                                        <br />
+                                        <div class="row">
+                                            <div class="col-xs-4">
+                                                <a onclick="openViewEVoucher(@m.Id)" class="pull-left"><i class="glyphicon glyphicon-eye-open cusor_pointer"></i>&nbsp;View</a>
+                                            </div>
+                                            <div class="col-xs-4 text-center">
+                                                <a onclick="openUpdateEVoucher(@m.Id)"><i class="fa fa-pencil-square-o cusor_pointer"></i>&nbsp;Update</a>
+                                            </div>
+                                            <div class="col-xs-4">
+                                                <a onclick="confirmDeleteEVoucher(@m.Id, '@m.EVoucherSerialNo')" class="pull-right"><i class="fa fa-trash-o cusor_pointer"></i>&nbsp;Remove</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                        <nav aria-label="paging" class="text-center">
+                            <div class="dataTables_paginate paging_simple_numbers" id="dataTables-example_paginate">
+                                <ul class="pagination">
+                                    @{
+                                        if (Model.EVoucherList.IsFirstPage)
+                                        {
+                                            <li class="paginate_button previous disabled" aria-controls="dataTables-example" tabindex="0" id="dataTables-example_previous">
+                                                <a>Previous</a>
+                                            </li>
+                                        }
+                                        else
+                                        {
+                                            <li class="paginate_button previous" aria-controls="dataTables-example" tabindex="0" id="dataTables-example_previous">
+                                                @Html.ActionLink("Previous", "EVoucher", new { PageNo = Model.EVoucherList.CurrenPage - 1, CurrentSearch = ViewBag.CurrentSearch })
+                                            </li>
+                                        }
+
+                                        for (int i = 1; i <= Model.EVoucherList.TotalPages; i++)
+                                        {
+                                            if (Model.EVoucherList.CurrenPage == i)
+                                            {
+                                                <li class="paginate_button active" aria-controls="dataTables-example" tabindex="0">
+                                                    @Html.ActionLink(i.ToString(), "EVoucher", new { PageNo = i, CurrentSearch = ViewBag.CurrentSearch })
+                                                </li>
+                                            }
+                                            else
+                                            {
+                                                <li class="paginate_button" aria-controls="dataTables-example" tabindex="0">
+                                                    @Html.ActionLink(i.ToString(), "EVoucher", new { PageNo = i, CurrentSearch = ViewBag.CurrentSearch })
+                                                </li>
+                                            }
+                                        }
+
+                                        if (Model.EVoucherList.IsLastPage || !Model.EVoucherList.Data.Any())
+                                        {
+                                            <li class="paginate_button next disabled" aria-controls="dataTables-example" tabindex="0" id="dataTables-example_next">
+                                                <a>Next</a>
+                                            </li>
+                                        }
+                                        else
+                                        {
+                                            <li class="paginate_button next" aria-controls="dataTables-example" tabindex="0" id="dataTables-example_next">
+                                                @Html.ActionLink("Next", "EVoucher", new { PageNo = Model.EVoucherList.CurrenPage + 1, CurrentSearch = ViewBag.CurrentSearch })
+                                            </li>
+                                        }
+                                    }
+                                </ul>
+                            </div>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="form_viewEVoucher" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">E-Voucher Details</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-2 text-center">
+                            <img class="hidden-sm hidden-xs" src="~/images/app/voucher.svg" width="100%" />
+                            <img class="hidden-lg hidden-md text-center mb_15" src="~/images/app/voucher.svg" width="15%;" />
+                        </div>
+                        <div class="col-md-5">
+                            <table class="table table-user-information">
+                                <tbody>
+                                    <tr>
+                                        <td>Id:</td>
+                                        <td id="evoucherId"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>From:</td>
+                                        <td id="evoucherFromFullname"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Email:</td>
+                                        <td id="evoucherFromEmail"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Phone:</td>
+                                        <td id="evoucherFromPhone"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Amount: </td>
+                                        <td id="evoucherAmount"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Balance:</td>
+                                        <td id="evoucherBalance"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Message:</td>
+                                        <td id="evoucherMessage"></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="col-md-5">
+                            <table class="table table-user-information">
+                                <tbody>
+                                    <tr>
+                                        <td>Is Gift:</td>
+                                        <td id="evoucherIsGift"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>To:</td>
+                                        <td id="evoucherToFullname"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Email:</td>
+                                        <td id="evoucherToEmail"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Phone:</td>
+                                        <td id="evoucherToPhone"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Serial No:</td>
+                                        <td id="evoucherSerialNo"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Activation Code:</td>
+                                        <td id="evoucherActivationCode"></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="tab2" style="display: none">
+    @using (Html.BeginForm("CreateUpdate", "EVoucher", FormMethod.Post, new { enctype = "multipart/form-data", @id = "form_createEVoucher" }))
+    {
+        <div class="row">
+            <div class="col-lg-12">
+                <h1 class="page-header color_blue">Create new E-Voucher</h1>
+            </div>
+        </div>
+        @Html.Hidden("Id")
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label>From First Name</label>
+                    <input id="fromFirstName" name="FromFirstName" type="text" class="form-control" placeholder="From First Name" required />
+                </div>
+                <div class="form-group">
+                    <label>From Last Name</label>
+                    <input id="fromLastName" name="FromLastName" type="text" class="form-control" placeholder="From Last Name" required />
+                </div>
+                <div class="form-group">
+                    <label>From Email</label>
+                    <input id="fromEmail" name="FromEmail" type="text" class="form-control" placeholder="From Email" required />
+                </div>
+                <div class="form-group">
+                    <label>From Phone</label>
+                    <input id="fromPhone" name="FromPhone" type="text" class="form-control" placeholder="From Phone" required />
+                </div>
+                <div class="form-group">
+                    <label>Message</label>
+                    <textarea id="message" name="Message" class="form-control" rows="3" placeholder="Message"></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Amount</label>
+                    <input id="amount" name="Amount" type="text" class="form-control" placeholder="Amount" required />
+                </div>
+                <div class="form-group">
+                    <label>Balance</label>
+                    <input id="balance" name="Balance" type="text" class="form-control" placeholder="Balance" required disabled />
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label>Is Gift</label>
+                    <label class="checkbox-inline">
+                        &nbsp;<input id="isGift" name="IsGift" type="checkbox">
+                    </label>
+                </div>
+                <div class="form-group">
+                    <label>To First Name</label>
+                    <input id="toFirstName" name="ToFirstName" type="text" class="form-control" placeholder="To First Name" disabled="disabled" />
+                </div>
+                <div class="form-group">
+                    <label>To Last Name</label>
+                    <input id="toLastName" name="ToLastName" type="text" class="form-control" placeholder="To Last Name" disabled="disabled" />
+                </div>
+                <div class="form-group">
+                    <label>To Email</label>
+                    <input id="toEmail" name="ToEmail" type="text" class="form-control" placeholder="To Email" disabled="disabled" />
+                </div>
+                <div class="form-group">
+                    <label>To Phone</label>
+                    <input id="toPhone" name="ToPhone" type="text" class="form-control" placeholder="To Phone" disabled="disabled" />
+                </div>
+                <div class="form-group">
+                    <label>Serial No</label>
+                    <input id="serialNo" name="EVoucherSerialNo" type="text" class="form-control" placeholder="Serial No" required disabled />
+                </div>
+                <div class="form-group">
+                    <label>Activation Code</label>
+                    <input id="activationCode" name="ActivationCode" type="text" class="form-control" placeholder="Activation Code" required disabled />
+                </div>
+                <div class="form-group">
+                    <label>Set it live</label>
+                    <label class="checkbox-inline">
+                        &nbsp;<input id="isLive" name="IsLive" type="checkbox" checked>
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button id="submit_Product" type="submit" class="btn btn-primary"><i class="fa fa-check"></i>&nbsp;Save</button>
+            <button type="button" class="btn btn-default" onclick="openCreateForm()">Close</button>
+        </div>
+    }
+</div>
+
+@using (Html.BeginForm("Delete", "EVoucher", FormMethod.Post, new { @id = "form_deleteEVoucher", @class = "modal fade", @role = "dialog" }))
+{
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Delete EVoucher</h4>
+            </div>
+            <div class="modal-body">
+                @Html.Hidden("evoucherIdForDelete")
+                <div id="message_confirm" style="padding-top: 5px;">Are you sure you want to delete " <b id="delete_nameEVoucher"></b> "?</div>
+            </div>
+            <div class="modal-footer">
+                <button id="delete_Evoucher" type="submit" class="btn btn-primary"><i class="fa fa-trash"></i>&nbsp;Delete</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+}
+
+<script>
+    function confirmDeleteEVoucher(id, name) {
+        $("#delete_nameEVoucher").text(name);
+        $("#evoucherIdForDelete").val(id);
+        $('#form_deleteEVoucher').modal('toggle');
+    };
+
+    function openViewEVoucher(id) {
+        $.ajax({
+            cache: false,
+            type: "GET",
+            url: '@Url.Action("Details", "EVoucher")',
+            async: false,
+            data: { evoucherId: id },
+            dataType: "json",
+            timeout: 5000,
+            success: function (response) {
+                if (response.success == true) {
+
+                    $("#evoucherId").html(null);
+                    $("#evoucherId").append(response.data.Id);
+
+                    $("#evoucherFromFullname").html(null);
+                    $("#evoucherFromFullname").append(response.data.FromFirstName + " " + response.data.FromLastName);
+
+                    $("#evoucherFromEmail").html(null);
+                    $("#evoucherFromEmail").append(response.data.FromEmail);
+
+                    $("#evoucherFromPhone").html(null);
+                    $("#evoucherFromPhone").append(response.data.FromPhone);
+
+                    $("#evoucherAmount").html(null);
+                    $("#evoucherAmount").append("$" + response.data.Amount);
+
+                    $("#evoucherBalance").html(null);
+                    $("#evoucherBalance").append("$" + response.data.Balance);
+
+                    $("#evoucherMessage").html(null);
+                    $("#evoucherMessage").append(response.data.Message);
+
+                    $("#evoucherIsGift").html(null);
+                    $("#evoucherIsGift").append(response.data.IsGift);
+
+                    $("#evoucherToFullname").html(null);
+                    $("#evoucherToFullname").append(response.data.ToFirstName != null ? response.data.ToFirstName : "" + " " + response.data.ToLastName != null ? response.data.ToLastName : "");
+
+                    $("#evoucherToEmail").html(null);
+                    $("#evoucherToEmail").append(response.data.ToEmail);
+
+                    $("#evoucherToPhone").html(null);
+                    $("#evoucherToPhone").append(response.data.ToPhone);
+
+                    $("#evoucherSerialNo").html(null);
+                    $("#evoucherSerialNo").append(response.data.EVoucherSerialNo);
+
+                    $("#evoucherActivationCode").html(null);
+                    $("#evoucherActivationCode").append(response.data.ActivationCode);
+
+                    $('#form_viewEVoucher').modal('toggle');
+                }
+            },
+        });
+    };
+
+    function resetForm() {
+        $('#Id').val(null);
+        $("#fromFirstName").val(null);
+        $("#fromLastName").val(null);
+        $('#fromEmail').val(null);
+        $("#fromPhone").val(null);
+        $("#message").val(null);
+        $("#amount").val(null);
+        $("#balance").val(null);
+        $("#toFirstName").val(null);
+        $("#toLastName").val(null);
+        $('#toEmail').val(null);
+        $("#toPhone").val(null);
+        $('#serialNo').val(null);
+        $("#activationCode").val(null);
+        $('#isGift').prop("checked", false);
+        $('#isLive').prop("checked", true);
+        $("#toFirstName").prop("disabled", true);
+        $("#toLastName").prop("disabled", true);
+        $("#toPhone").prop("disabled", true);
+        $("#toEmail").prop("disabled", true);
+    };
+
+    function openCreateForm() {
+        resetForm();
+        if ($("#tab1").css("display") == "none") {
+            $("#tab1").show();
+            $("#tab2").hide();
+        }
+        else {
+            $("#tab2").show();
+            $("#tab1").hide();
+        }
+    }
+
+    function openUpdateEVoucher(id) {
+        openCreateForm();
+        $.ajax({
+            cache: false,
+            type: "GET",
+            url: '@Url.Action("Details", "EVoucher")',
+            async: false,
+            data: { evoucherId: id },
+            dataType: "json",
+            timeout: 5000,
+            success: function (response) {
+                if (response.success == true) {
+                    $('#Id').val(response.data.Id);
+                    $("#fromFirstName").val(response.data.FromFirstName);
+                    $("#fromLastName").val(response.data.FromLastName);
+                    $('#fromEmail').val(response.data.FromEmail);
+                    $("#fromPhone").val(response.data.FromPhone);
+                    $("#message").val(response.data.Message);
+                    $("#amount").val(response.data.Amount);
+                    $("#balance").val(response.data.Balance);
+                    $("#toFirstName").val(response.data.ToFirstName);
+                    $("#toLastName").val(response.data.ToLastName);
+                    $('#toEmail').val(response.data.ToEmail);
+                    $("#toPhone").val(response.data.ToPhone);
+                    $('#serialNo').val(response.data.EVoucherSerialNo);
+                    $("#activationCode").val(response.data.ActivationCode);
+                    $("#isLive").prop("checked", response.data.IsLive);
+                    $("#isGift").prop("checked", response.data.IsGift);
+
+                    if (response.data.IsGift) {
+                        $("#toFirstName").prop("disabled", false);
+                        $("#toLastName").prop("disabled", false);
+                        $("#toEmail").prop("disabled", false);
+                        $("#toPhone").prop("disabled", false);
+                    }
+                }
+            },
+        });
+    }
+
+    $("#isGift").change(function (event) {
+        var checkbox = event.target;
+        if (checkbox.checked) {
+            $("#toFirstName").prop("disabled", false);
+            $("#toLastName").prop("disabled", false);
+            $("#toEmail").prop("disabled", false);
+            $("#toPhone").prop("disabled", false);
+        } else {
+            $("#toFirstName").prop("disabled", true);
+            $("#toLastName").prop("disabled", true);
+            $("#toPhone").prop("disabled", true);
+            $("#toEmail").prop("disabled", true);
+        }
+    });
+</script>

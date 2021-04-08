@@ -1,0 +1,98 @@
+[
+  {
+    "outputFileName": "Scripts/checkout.min.js",
+    "inputFiles": [
+      "Scripts/checkout.js"
+    ]
+  },
+  {
+    "outputFileName": "Scripts/commonApp.min.js",
+    "inputFiles": [
+      "Scripts/commonApp.js"
+    ]
+  },
+  {
+    "outputFileName": "Content/Client/css/customStyle.min.css",
+    "inputFiles": [
+      "Content/Client/css/customStyle.css"
+    ]
+  },
+  {
+    "outputFileName": "Content/Client/css/style.min.css",
+    "inputFiles": [
+      "Content/Client/css/style.css"
+    ]
+  },
+  {
+    "outputFileName": "Content/Client/css/responsive.min.css",
+    "inputFiles": [
+      "Content/Client/css/responsive.css"
+    ]
+  },
+  {
+    "outputFileName": "Content/Client/css/pe-icon-7-stroke.min.css",
+    "inputFiles": [
+      "Content/Client/css/pe-icon-7-stroke.css"
+    ]
+  },
+  {
+    "outputFileName": "Content/Client/js/main.min.js",
+    "inputFiles": [
+      "Content/Client/js/main.js"
+    ]
+  },
+  {
+    "outputFileName": "Content/Admin/dist/css/sb-admin-2.min.css",
+    "inputFiles": [
+      "Content/Admin/dist/css/sb-admin-2.css"
+    ]
+  },
+  {
+    "outputFileName": "Content/Admin/dist/css/style.min.css",
+    "inputFiles": [
+      "Content/Admin/dist/css/style.css"
+    ]
+  },
+  {
+    "outputFileName": "Content/Admin/dist/css/timeline.min.css",
+    "inputFiles": [
+      "Content/Admin/dist/css/timeline.css"
+    ]
+  },
+  {
+    "outputFileName": "Content/Admin/dist/js/sb-admin-2.min.js",
+    "inputFiles": [
+      "Content/Admin/dist/js/sb-admin-2.js"
+    ]
+  },
+  {
+    "outputFileName": "Content/Admin/js/morris-data.min.js",
+    "inputFiles": [
+      "Content/Admin/js/morris-data.js"
+    ]
+  },
+  {
+    "outputFileName": "Scripts/admin.min.js",
+    "inputFiles": [
+      "Scripts/admin.js"
+    ]
+  },
+  {
+    "outputFileName": "Library/enlarge-zoom/enlarge.min.css",
+    "inputFiles": [
+      "Library/enlarge-zoom/enlarge.css"
+    ]
+  },
+  {
+    "outputFileName": "Library/enlarge-zoom/enlarge.init.min.js",
+    "inputFiles": [
+      "Library/enlarge-zoom/enlarge.init.js"
+    ]
+  },
+  {
+    "outputFileName": "Library/enlarge-zoom/enlarge.min.js",
+    "inputFiles": [
+      "Library/enlarge-zoom/enlarge.js"
+    ]
+  }
+]

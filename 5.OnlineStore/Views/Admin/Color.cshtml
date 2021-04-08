@@ -1,0 +1,308 @@
+﻿@using CoreLibrary.Data
+@model BusinessService.Models.Common.AdminModel
+@{
+    ViewBag.Title = "Colors";
+    Layout = "~/Views/Shared/_Admin.cshtml";
+}
+
+<div class="row">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <h2 class="page-header color_blue"><i class="fa fa-th fa-fw"></i> Product Colors</h2>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-4 col-md-4 col-sm-7 col-xs-12">
+        @using (Html.BeginForm("Color", "Admin", FormMethod.Get))
+        {
+            <div class="input-group">
+                @Html.TextBox("Search", ViewBag.CurrentSearch as string, new { @class = "form-control" })
+                <span class="input-group-addon">
+                    <i type="submit" class="fa fa-search"></i>
+                </span>
+            </div>
+        }
+    </div>
+    <div class="col-lg-4 col-md-4 col-sm-2 col-xs-12">&nbsp;</div>
+    <div class="col-lg-4 col-md-4 col-sm-3 hidden-xs">
+        <button id="btn_createColor" type="button" class="btn btn-outline btn-primary float-right" data-toggle="modal" data-target="#form_createColor" onclick="resetForm()"><i class="fa fa-plus-square"></i> &nbsp; Create new Color</button>
+    </div>
+    <div class="hidden-lg hidden-md hidden-sm col-xs-12">
+        <button id="btn_createColor" type="button" class="btn btn-outline btn-primary float-right width_100" data-toggle="modal" data-target="#form_createColor" onclick="resetForm()"><i class="fa fa-plus-square"></i> &nbsp; Create new Color</button>
+    </div>
+</div>
+<br />
+<div class="row">
+    <div class="col-lg-12 col-md-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <span class="float_right">Total: @Model.ColorList.TotalItems items &nbsp;|&nbsp; Page @(Model.ColorList.TotalPages < Model.ColorList.CurrenPage ? 0 : Model.ColorList.CurrenPage) of @Model.ColorList.TotalPages</span>
+            </div>
+            <!-- /.panel-heading -->
+            <div class="panel-body">
+                <div class="dataTable_wrapper">
+                    <table class="table table-striped table-bordered table-hover hidden-sm hidden-xs" id="dataTables-example">
+                        <thead>
+                            <tr>
+                                <th class="text-center text-primary">Id</th>
+                                <th class="text-center text-primary">Color Name</th>
+                                <th class="text-center text-primary">Color Code</th>
+                                <th class="text-center text-primary">Color Display</th>
+                                <th class="text-center text-primary">Description</th>
+                                <th class="text-center text-primary">Created By</th>
+                                <th class="text-center text-primary">Created At</th>
+                                <th class="text-center text-primary">Updated By</th>
+                                <th class="text-center text-primary">Updated At</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody id="bodyTable">
+                            @foreach (var m in Model.ColorList.Data)
+                            {
+                                <tr id="row_@m.Id">
+                                    <td class="text-center">@m.Id</td>
+                                    <td class="text-center">@m.ColorName</td>
+                                    <td class="text-center">@m.ColorCode</td>
+                                    <td class="text-center"><button type="button" class="btn btn-circle" style="background-color: @m.ColorCode"></button></td>
+                                    <td class="text-center">@m.Description</td>
+                                    <td class="text-center">@m.CreatedBy</td>
+                                    <td class="text-center">@m.CreatedAt</td>
+                                    <td class="text-center">@m.UpdatedBy</td>
+                                    <td class="text-center">@m.UpdatedAt</td>
+                                    <td class="text-center">
+                                        <a onclick="openUpdateColor(@m.Id)"><i class="fa fa-pencil-square-o cusor_pointer"></i></a>
+                                        &nbsp;
+                                        <a onclick="confirmDeleteColor(@m.Id, '@m.ColorName')"><i class="fa fa-trash-o cusor_pointer"></i></a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                    <div class="hidden-lg hidden-md">
+                        @foreach (var m in Model.ColorList.Data)
+                        {
+                            <div class="panel panel-default" id="row_@m.Id">
+                                <div class="panel-heading">@m.Id - @m.ColorName</div>
+                                <table class="table table-striped table-bordered table-hover">
+                                    <tbody>
+                                        <tr>
+                                            <td class="font-bold width_50">Color Name</td>
+                                            <td class="text-center">@m.ColorName</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="font-bold width_50">Color Code</td>
+                                            <td class="text-center">@m.ColorCode</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="font-bold width_50">Color Display</td>
+                                            <td class="text-center"><button type="button" class="btn btn-circle" style="background-color: @m.ColorCode"></button></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="font-bold width_50">Description</td>
+                                            <td class="text-center">@m.Description</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <div class="panel-footer">
+                                    <div class="row">
+                                        <div class="col-xs-12">
+                                            <span class="text-muted pull-right small">Created at @m.CreatedAt by @m.CreatedBy</span>
+                                        </div>
+                                        @if (!string.IsNullOrEmpty(m.UpdatedAt))
+                                        {
+                                            <div class="col-xs-12">
+                                                <span class="text-muted pull-right small">Updated at @m.UpdatedAt by @m.UpdatedBy</span>
+                                            </div>
+                                        }
+                                    </div>
+                                    <br />
+                                    <div class="row">
+                                        <div class="col-xs-4"><a onclick="openUpdateColor(@m.Id)" class="pull-left"><i class="fa fa-pencil-square-o cusor_pointer"></i>&nbsp;Update</a></div>
+                                        <div class="col-xs-4"></div>
+                                        <div class="col-xs-4">
+                                            <a onclick="confirmDeleteColor(@m.Id, '@m.ColorName')" class="pull-right"><i class="fa fa-trash-o cusor_pointer"></i>&nbsp;Remove</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                    <nav aria-label="paging" class="text-center">
+                        <div class="dataTables_paginate paging_simple_numbers" id="dataTables-example_paginate">
+                            <ul class="pagination">
+                                @{
+                                    if (Model.ColorList.IsFirstPage)
+                                    {
+                                        <li class="paginate_button previous disabled" aria-controls="dataTables-example" tabindex="0" id="dataTables-example_previous">
+                                            <a>Previous</a>
+                                        </li>
+                                    }
+                                    else
+                                    {
+                                        <li class="paginate_button previous" aria-controls="dataTables-example" tabindex="0" id="dataTables-example_previous">
+                                            @Html.ActionLink("Previous", "Color", new { PageNo = Model.ColorList.CurrenPage - 1, CurrentSearch = ViewBag.CurrentSearch })
+                                        </li>
+                                    }
+
+                                    for (int i = 1; i <= Model.ColorList.TotalPages; i++)
+                                    {
+                                        if (Model.ColorList.CurrenPage == i)
+                                        {
+                                            <li class="paginate_button active" aria-controls="dataTables-example" tabindex="0">
+                                                @Html.ActionLink(i.ToString(), "Color", new { PageNo = i, CurrentSearch = ViewBag.CurrentSearch })
+                                            </li>
+                                        }
+                                        else
+                                        {
+                                            <li class="paginate_button" aria-controls="dataTables-example" tabindex="0">
+                                                @Html.ActionLink(i.ToString(), "Color", new { PageNo = i, CurrentSearch = ViewBag.CurrentSearch })
+                                            </li>
+                                        }
+                                    }
+
+                                    if (Model.ColorList.IsLastPage || !Model.ColorList.Data.Any())
+                                    {
+                                        <li class="paginate_button next disabled" aria-controls="dataTables-example" tabindex="0" id="dataTables-example_next">
+                                            <a>Next</a>
+                                        </li>
+                                    }
+                                    else
+                                    {
+                                        <li class="paginate_button next" aria-controls="dataTables-example" tabindex="0" id="dataTables-example_next">
+                                            @Html.ActionLink("Next", "Color", new { PageNo = Model.ColorList.CurrenPage + 1, CurrentSearch = ViewBag.CurrentSearch })
+                                        </li>
+                                    }
+                                }
+                            </ul>
+                        </div>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@using (Html.BeginForm("CreateUpdate", "Color", FormMethod.Post, new { @id = "form_createColor", @class = "modal fade", @role = "dialog" }))
+{
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Create new Color</h4>
+            </div>
+            <div class="modal-body">
+                @Html.Hidden("Id")
+                <div id="colorNameForm" class="form-group">
+                    <label class="control-label" for="colorName">Color Name</label>
+                    <input type="text" class="form-control" id="colorName" placeholder="Color Name" name="ColorName" required>
+                </div>
+                <div class="form-group">
+                    <label>Color Code</label>
+                    <div class="form-group input-group">
+                        <span id="colorCodeTest" class="input-group-addon"></span>
+                        <input id="colorCode" name="ColorCode" type="text" class="form-control" placeholder="Color Code" required/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Description</label>
+                    <textarea id="description" name="Description" type="text" class="form-control" placeholder="Description"></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button id="submit_Color" type="submit" class="btn btn-primary"><i class="fa fa-check"></i>&nbsp;Save</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+}
+
+@using (Html.BeginForm("Delete", "Color", FormMethod.Post, new { @id = "form_deleteColor", @class = "modal fade", @role = "dialog" }))
+{
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Delete Color</h4>
+            </div>
+            <div class="modal-body">
+                @Html.Hidden("colorIdForDelete")
+                <div id="message_confirm" style="padding-top: 5px;">Are you sure you want to delete "<b id="delete_nameColor"></b>"?</div>
+            </div>
+            <div class="modal-footer">
+                <button id="delete_Color" type="submit" class="btn btn-primary"><i class="fa fa-trash"></i>&nbsp;Delete</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+}
+
+<script type="text/javascript">
+    function confirmDeleteColor(id, name) {
+        $("#delete_nameColor").text(name);
+        $("#colorIdForDelete").val(id);
+        $('#form_deleteColor').modal('toggle');
+    };
+
+    function openUpdateColor(id) {
+        $.ajax({
+            cache: false,
+            type: "GET",
+            url: '@Url.Action("Details", "Color")',
+            async: false,
+            data: { colorId: id },
+            dataType: "json",
+            timeout: 5000,
+            success: function (response) {
+                if (response.success === true) {
+                    $('#Id').val(response.data.Id);
+                    $("#colorName").val(response.data.ColorName);
+                    $("#colorCode").val(response.data.ColorCode);
+                    $("#colorCodeTest").attr("style", "background-color: " + response.data.ColorCode + "; border-color: " + response.data.ColorCode);
+                    $("#description").val(response.data.Description);
+                    $('#form_createColor').modal('toggle');
+                }
+            },
+        });
+    };
+
+    function resetForm() {
+        $('#Id').val(null);
+        $("#colorName").val(null);
+        $("#colorCode").val(null);
+        $("#description").val(null);
+    };
+
+    $('#colorCode').on('input', function (e) {
+        var color = $('#colorCode').val();
+        $("#colorCodeTest").attr("style", "background-color: " + color + "; border-color: " + color);
+    });
+
+    $('#colorName').on('input', function (e) {
+        checkValidate($('#colorName').val());
+    });
+
+    function checkValidate(colorName) {
+        $.ajax({
+            cache: false,
+            type: "GET",
+            url: '@Url.Action("CheckValidate", "Color")',
+            async: false,
+            data: { colorName: colorName },
+            dataType: "json",
+            timeout: 5000,
+            success: function (response) {
+                if (response.success === true) {
+                    $("#colorNameForm").removeClass("has-error");
+                    $("#colorNameForm").removeClass("has-success");
+                    if (colorName != "") {
+                        $("#colorNameForm").addClass("has-success");
+                    }
+                }
+                else {
+                    $("#colorNameForm").removeClass("has-error");
+                    $("#colorNameForm").removeClass("has-success");
+                    $("#colorNameForm").addClass("has-error");
+                }
+            },
+        });
+    };
+</script>

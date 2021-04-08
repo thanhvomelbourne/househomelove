@@ -1,0 +1,596 @@
+﻿@using CoreLibrary.Data
+@model BusinessService.Models.Common.HomePageModel
+@{
+    ViewBag.Title = "History Transaction";
+}
+<!-- PAGE BANNER SECTION -->
+<div class="page-banner-section section">
+    <div class="container hidden-xs">
+        <div class="row">
+            <div class="page-banner-content col-xs-12">
+                <h2>
+                    <img src="~/images/app/historytransaction.svg" class="icon_svg_title pb-10" />&nbsp;History Transaction
+                </h2>
+                <ul class="breadcrumb">
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/myaccount">My Account</a></li>
+                    <li class="active"><b>History Transaction</b></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid hidden-sm hidden-md hidden-lg">
+        <div class="row">
+            <div class="page-banner-content col-xs-12">
+                <h2>
+                    <img src="~/images/app/historytransaction.svg" class="icon_svg_title pb-10" />&nbsp;History Transaction
+                </h2>
+                <ul class="breadcrumb">
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/myaccount">My Account</a></li>
+                    <li class="active"><b>History Transaction</b></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- END PAGE BANNER SECTION -->
+<!-- PAGE SECTION START -->
+<div id="listView" class="page-section section pt-30">
+    <div class="@(Request.Browser.IsMobileDevice == true ? "container-fluid" : "container")">
+        <div class="row">
+            <div class="box">
+                @if (Model.HistoryTransaction != null)
+                {
+                    <div class="table-responsive">
+                        <table class="table table-hover hidden-xs">
+                            <thead>
+                                <tr>
+                                    <th class="text-center">Order</th>
+                                    <th class="text-center">Completed At</th>
+                                    <th class="text-center">Total</th>
+                                    <th class="text-center">Status</th>
+                                    <th class="text-center">Delivery</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var order in Model.HistoryTransaction)
+                                {
+                                    <tr>
+                                        <th class="text-center"># @order.Checkout.Id</th>
+                                        <td class="text-center">@order.Checkout.CompletedAt</td>
+                                        <td class="text-center">$@order.ShoppingCart.TotalAmountIncGst</td>
+
+                                        @if (order.Checkout.ConfirmedStatus.Equals(Constant.ConfirmedStatus.Succeed))
+                                        {
+                                            <td class="text-center"><i class='fa fa-bell text-primary'></i>&nbsp;@order.Checkout.ConfirmedStatus</td>
+                                        }
+                                        else if (order.Checkout.ConfirmedStatus.Equals(Constant.ConfirmedStatus.SucceedAndConfirmed))
+                                        {
+                                            <td class="text-center"><i class='fa fa-check-square-o text-success'></i>&nbsp;@order.Checkout.ConfirmedStatus</td>
+                                        }
+                                        else if (order.Checkout.ConfirmedStatus.Equals(Constant.ConfirmedStatus.Processing))
+                                        {
+                                            <td class="text-center"><i class='fa fa-circle-o-notch text-danger'></i>&nbsp;@order.Checkout.ConfirmedStatus</td>
+                                        }
+                                        else if (order.Checkout.ConfirmedStatus.Equals(Constant.ConfirmedStatus.Paidapart))
+                                        {
+                                            <td class="text-center"><i class='fa fa-bell text-danger'></i>&nbsp;@order.Checkout.ConfirmedStatus</td>
+                                        }
+                                        else
+                                        {
+                                            <td class="text-center"><i class='fa fa-meh-o text-danger'></i>&nbsp;@order.Checkout.ConfirmedStatus</td>
+                                        }
+
+                                        @if (order.Checkout.ConfirmedStatus.Equals(Constant.ConfirmedStatus.Succeed))
+                                        {
+                                            <td class="text-center"><i class="fa fa-cubes text-primary"></i>&nbsp;Waiting</td>
+                                        }
+                                        else if (order.Checkout.ConfirmedStatus.Equals(Constant.ConfirmedStatus.SucceedAndConfirmed))
+                                        {
+                                            <td class="text-center"><i class="fa fa-truck text-success"></i>&nbsp;Shipped</td>
+                                        }
+                                        else if (order.Checkout.ConfirmedStatus.Equals(Constant.ConfirmedStatus.Processing))
+                                        {
+                                            <td class="text-center"><i class='fa fa-shopping-cart text-danger'></i>&nbsp;In cart</td>
+                                        }
+                                        else if (order.Checkout.ConfirmedStatus.Equals(Constant.ConfirmedStatus.Paidapart))
+                                        {
+                                            <td class="text-center"><i class='glyphicon glyphicon-usd text-danger'></i>&nbsp;In Payment</td>
+                                        }
+                                        else
+                                        {
+                                            <td class="text-center"><i class='glyphicon glyphicon-bell text-danger'></i>&nbsp;Failed</td>
+                                        }
+                                        <td>
+                                            <button type="button" class="btn btn-default" onclick="openDetailView(@order.Checkout.Id)">View</button>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- /.table-responsive -->
+                    <div class="hidden-lg hidden-md hidden-sm col-xs-12">
+                        @foreach (var order in Model.HistoryTransaction)
+                        {
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <a># @order.Checkout.Id</a>
+                                </div>
+                                <table class="table table-striped table-bordered table-hover">
+                                    <tbody>
+                                        <tr>
+                                            <td class="font-bold">Completed At</td>
+                                            <td class="text-center">@order.Checkout.CompletedAt</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="font-bold">Total</td>
+                                            <td class="text-center">$@order.ShoppingCart.TotalAmountIncGst</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="font-bold">Status</td>
+                                            @if (order.Checkout.ConfirmedStatus.Equals(Constant.ConfirmedStatus.Succeed))
+                                            {
+                                                <td class="text-center"><i class='fa fa-bell text-primary'></i>&nbsp;@order.Checkout.ConfirmedStatus</td>
+                                            }
+                                            else if (order.Checkout.ConfirmedStatus.Equals(Constant.ConfirmedStatus.SucceedAndConfirmed))
+                                            {
+                                                <td class="text-center"><i class='fa fa-check-square-o text-success'></i>&nbsp;@order.Checkout.ConfirmedStatus</td>
+                                            }
+                                            else if (order.Checkout.ConfirmedStatus.Equals(Constant.ConfirmedStatus.Processing))
+                                            {
+                                                <td class="text-center"><i class='fa fa-circle-o-notch text-danger'></i>&nbsp;@order.Checkout.ConfirmedStatus</td>
+                                            }
+                                            else if (order.Checkout.ConfirmedStatus.Equals(Constant.ConfirmedStatus.Paidapart))
+                                            {
+                                                <td class="text-center"><i class='fa fa-bell text-danger'></i>&nbsp;@order.Checkout.ConfirmedStatus</td>
+                                            }
+                                            else
+                                            {
+                                                <td class="text-center"><i class='fa fa-meh-o text-danger'></i>&nbsp;@order.Checkout.ConfirmedStatus</td>
+                                            }
+                                        </tr>
+                                        <tr>
+                                            <td class="font-bold">Delivery</td>
+                                            @if (order.Checkout.ConfirmedStatus.Equals(Constant.ConfirmedStatus.Succeed))
+                                            {
+                                                <td class="text-center"><i class="fa fa-cubes text-primary"></i>&nbsp;Waiting</td>
+                                            }
+                                            else if (order.Checkout.ConfirmedStatus.Equals(Constant.ConfirmedStatus.SucceedAndConfirmed))
+                                            {
+                                                <td class="text-center"><i class="fa fa-truck text-success"></i>&nbsp;Shipped</td>
+                                            }
+                                            else if (order.Checkout.ConfirmedStatus.Equals(Constant.ConfirmedStatus.Processing))
+                                            {
+                                                <td class="text-center"><i class='fa fa-shopping-cart text-danger'></i>&nbsp;In cart</td>
+                                            }
+                                            else if (order.Checkout.ConfirmedStatus.Equals(Constant.ConfirmedStatus.Paidapart))
+                                            {
+                                                <td class="text-center"><i class='glyphicon glyphicon-usd text-danger'></i>&nbsp;In Payment</td>
+                                            }
+                                            else
+                                            {
+                                                <td class="text-center"><i class='glyphicon glyphicon-bell text-danger'></i>&nbsp;Failed</td>
+                                            }
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <div class="panel-footer text-center">
+                                    <button type="button" class="btn btn-default" onclick="openDetailView(@order.Checkout.Id)">View</button>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                }
+                else
+                {
+                    <p>No order was found!</p>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+<!-- PAGE SECTION END -->
+<!--POPUP VIEW ORDER DETAIL-->
+<div id="viewOrderDetail" style="display: none">
+    <div class="receipt-container @(Request.Browser.IsMobileDevice == true ? "container-fluid" : "container")">
+        <div class="col-md-6">
+            <div class="row">
+                <div class="col-xs-12">
+                    <h3 class="receipt-header">Invoice</h3>
+                    @if (!Request.Browser.IsMobileDevice)
+                    {
+                        <table class="table">
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <h5><b>Invoice Date</b></h5>
+                                    </td>
+                                    <td><span id="completedAt"></span></td>
+                                    <td><h5><b>Status</b></h5></td>
+                                    <td><span id="confirmedStatus"></span></td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <h5><b>Order ID</b></h5>
+                                    </td>
+                                    <td><span id="orderId"></span></td>
+                                    <td>
+                                        <h5><b>Cart ID</b></h5>
+                                    </td>
+                                    <td><span id="cartId"></span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    }
+                    else
+                    {
+                        <table class="table">
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <h5><b>Invoice Date</b></h5>
+                                    </td>
+                                    <td><span id="completedAt"></span></td>
+                                </tr>
+                                <tr>
+                                    <td><h5><b>Status</b></h5></td>
+                                    <td><span id="confirmedStatus"></span></td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <h5><b>Order ID</b></h5>
+                                    </td>
+                                    <td><span id="orderId"></span></td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <h5><b>Cart ID</b></h5>
+                                    </td>
+                                    <td><span id="cartId"></span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    }
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12">
+                    <h3>Customer Information</h3>
+                    @if (!Request.Browser.IsMobileDevice)
+                    {
+                        <table class="table">
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <h5><b>First Name</b></h5>
+                                    </td>
+                                    <td><span id="firstName"></span></td>
+                                    <td>
+                                        <h5><b>User ID</b></h5>
+                                    </td>
+                                    <td><span id="userId"></span></td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <h5><b>Last Name</b></h5>
+                                    </td>
+                                    <td><span id="lastName"></span></td>
+                                    <td>
+                                        <h5><b>Company Name</b></h5>
+                                    </td>
+                                    <td><span id="companyName"></span></td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <h5><b>Email</b></h5>
+                                    </td>
+                                    <td><span id="email"></span></td>
+                                    <td>
+                                        <h5><b>Phone No.</b></h5>
+                                    </td>
+                                    <td><span id="phone"></span></td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <h5><b>Billing Address</b></h5>
+                                    </td>
+                                    <td><span id="billingAddress"></span></td>
+                                    <td>
+                                        <h5><b>Shipping Address</b></h5>
+                                    </td>
+                                    <td><span id="deliveryAddress"></span></td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <h5><b>Note</b></h5>
+                                    </td>
+                                    <td><span id="note"></span></td>
+                                    <td>
+                                        <h5><b>Tracking Number</b></h5>
+                                    </td>
+                                    <td><span id="trackingNumber"></span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    }
+                    else
+                    {
+                        <table class="table">
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <h5><b>First Name</b></h5>
+                                    </td>
+                                    <td><span id="firstName"></span></td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <h5><b>User ID</b></h5>
+                                    </td>
+                                    <td><span id="userId"></span></td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <h5><b>Last Name</b></h5>
+                                    </td>
+                                    <td><span id="lastName"></span></td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <h5><b>Company Name</b></h5>
+                                    </td>
+                                    <td><span id="companyName"></span></td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <h5><b>Email</b></h5>
+                                    </td>
+                                    <td><span id="email"></span></td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <h5><b>Phone No.</b></h5>
+                                    </td>
+                                    <td><span id="phone"></span></td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <h5><b>Billing Address</b></h5>
+                                    </td>
+                                    <td><span id="billingAddress"></span></td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <h5><b>Shipping Address</b></h5>
+                                    </td>
+                                    <td><span id="deliveryAddress"></span></td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <h5><b>Note</b></h5>
+                                    </td>
+                                    <td><span id="note"></span></td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <h5><b>Tracking Number</b></h5>
+                                    </td>
+                                    <td><span id="trackingNumber"></span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    }
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12">
+                    <h3>Payment</h3>
+                    <table class="table">
+                        <tbody id="paymentList"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="row">
+                <div class="col-xs-12">
+                    <h3>Cart Item</h3>
+                    <div class="cart-container panel panel-default">
+                        <div class="panel-body">
+                            <div class="row visible-md visible-lg">
+                                <div class="col-md-3 text-center">
+                                </div>
+                                <div class="col-md-3">
+                                    <label>Name</label>
+                                </div>
+                                <div class="col-md-2 text-right">
+                                    <label>Unit Price</label>
+                                </div>
+                                <div class="col-md-2 text-right">
+                                    <label>Quantity</label>
+                                </div>
+                                <div class="col-md-2 text-right">
+                                    <label>Total Price</label>
+                                </div>
+                            </div>
+                            <hr>
+                            <div id="cartItems">
+
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-md-offset-7 col-md-5">
+                                    <table class="table">
+                                        <tbody>
+                                            <tr>
+                                                <td><h5><b>Cart Subtotal</b></h5></td>
+                                                <td align="right"><span id="cartSubTotal"></span></td>
+                                            </tr>
+                                            <tr>
+                                                <td><h5><b>GST</b></h5></td>
+                                                <td align="right"><span id="cartGST"></span></td>
+                                            </tr>
+                                            <tr>
+                                                <td><h5><b>Shipping Fee</b></h5></td>
+                                                <td align="right"><span id="cartShippingFee"></span></td>
+                                            </tr>
+                                            <tr>
+                                                <td><h5><b>Discount</b></h5></td>
+                                                <td align="right" class="text-danger"><span id="cartDiscount"></span></td>
+                                            </tr>
+                                            <tr>
+                                                <td><h5><b>Order Total</b></h5></td>
+                                                <td align="right"><strong><span id="cartTotal"></span></strong></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <input type="submit" class="btn btn-default pull-right" onclick="backToOrderList()" value="Back" />
+                    @*<button type="button" class="btn btn-default" onclick="backToOrderList()" >Back</button>*@
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--END POPUP VIEW ORDER DETAIL-->
+
+<script>
+    function backToOrderList() {
+        $("#listView").show();
+        $('#viewOrderDetail').hide();
+    }
+
+    function resetForm() {
+        $("#orderId").text("");
+        $("#cartId").text("");
+        $("#userId").text("");
+        $("#email").text("");
+        $("#phone").text("");
+        $("#completedAt").text("");
+        $("#firstName").text("");
+        $("#lastName").text("");
+        $("#companyName").text("");
+        $("#billingAddress").text("");
+        $("#deliveryAddress").text("");
+        $("#note").text("");
+        $("#confirmedStatus").text("");
+        $("#cartItems").html("");
+        $("#paymentList").html("");
+        $("#trackingNumber").text("");
+
+        $("#trackingNumberText").val(null);
+        $("#noteText").val(null);
+        $("#cartSubTotal").text("");
+        $("#cartGST").text("");
+        $("#cartTotal").text("");
+    }
+
+    function openDetailView(id) {
+        $("#loading").show();
+        $.ajax({
+            cache: false,
+            type: "GET",
+            url: '@Url.Action("GetOrderByOrderId", "Order")',
+            data: { orderId: id },
+            dataType: "json",
+            timeout: 35000,
+            async: false,
+            success: function (response) {
+                if (response.success == true) {
+                    resetForm();
+                    $("#orderId").text(response.data.Checkout.Id);
+                    $("#cartId").text(response.data.Checkout.CartId);
+                    $("#userId").text(response.data.Checkout.UserId);
+                    $("#email").text(response.data.Checkout.Email);
+                    $("#phone").text(response.data.Checkout.Phone);
+                    $("#completedAt").text(response.data.Checkout.CompletedAt);
+                    $("#firstName").text(response.data.Checkout.FirstName);
+                    $("#lastName").text(response.data.Checkout.LastName);
+                    $("#companyName").text(response.data.Checkout.CompanyName);
+                    $("#billingAddress").text(response.data.Checkout.Address + ", " + response.data.Checkout.Suburb + ", " + response.data.Checkout.State + " " + response.data.Checkout.Postcode + ", " + response.data.Checkout.Country);
+                    $("#deliveryAddress").text(response.data.Checkout.DeliveryAddress + ", " + response.data.Checkout.DeliverySuburb + ", " + response.data.Checkout.DeliveryState + " " + response.data.Checkout.DeliveryPostcode + ", " + response.data.Checkout.DeliveryCountry);
+                    $("#note").text(response.data.Checkout.Note);
+
+                    if (response.data.Checkout.ConfirmedStatus === "SUCCEED & CONFIRMED") {
+                        $("#confirmedStatus").append("<span class='text-success'><i class='fa fa-check-square-o'></i>&nbsp;" + response.data.Checkout.ConfirmedStatus + "</span>");
+                    }
+                    else if (response.data.Checkout.ConfirmedStatus === "SUCCEED") {
+                        $("#confirmedStatus").append("<span class='text-primary'><i class='fa fa-bell'></i>&nbsp;" + response.data.Checkout.ConfirmedStatus + "</span>");
+                    }
+                    else if (response.data.Checkout.ConfirmedStatus === "PROCESSING") {
+                        $("#confirmedStatus").append("<span class='text-danger'><i class='fa fa-circle-o-notch'></i>&nbsp;" + response.data.Checkout.ConfirmedStatus + "</span>");
+                    }
+                    else if (response.data.Checkout.ConfirmedStatus === "PAID A PART") {
+                        $("#confirmedStatus").append("<span class='text-danger'><i class='fa fa-bell'></i>&nbsp;" + response.data.Checkout.ConfirmedStatus + "</span>");
+                    }
+                    else {
+                        $("#confirmedStatus").append("<span class='text-danger'><i class='fa fa-meh-o'></i>&nbsp;" + response.data.Checkout.ConfirmedStatus + "</span>");
+                    }
+
+                    $("#trackingNumberText").val(response.data.Checkout.TrackingNumber);
+                    $("#noteText").val(response.data.Checkout.Note);
+                    $("#trackingNumber").text(response.data.Checkout.TrackingNumber);
+                    var cartItems = "";
+                    var payments = "";
+
+                    if (response.data.ShoppingCart.CartItemList && response.data.ShoppingCart.CartItemList.length > 0) {
+                        $.each(response.data.ShoppingCart.CartItemList, function (k, v) {
+                            var item = '<div class="row vertical-align"><div class="col-md-2 text-center"><img src="' + v.PrimaryImage + '" style="width: 50%"></div><div class="col-md-3"><p>' + v.Name + '</p></div><div class="col-md-2"><p class="text-right">$' + v.DiscountPrice + '</p></div><div class="col-md-2"><p class="text-right">' + v.Quantity + '</p></div><div class="col-md-2"><p class="text-right">$' + v.FinalPrice + '</p></div></div>';
+
+                            cartItems += item;
+                        });
+                    }
+
+                    if (response.data.PaymentList && response.data.PaymentList.length > 0) {
+                        $.each(response.data.PaymentList, function (k, v) {
+                            var icon = '';
+                            if (v.Success) {
+                                icon = '<i class="fa fa-check text-primary"></i>'
+                            }
+                            else {
+                                icon = '<i class="fa fa-close text-danger"></i>'
+                            }
+                            var item = '<tr style="border-top: 5px solid #ef546a !important;"><td colspan="2"><h4>' + icon + ' Payment Id '
+                                + v.Id + '</h4></td></tr><tr><td><h5><b>Method</b></h5></td><td>'
+                                + v.Method + '</td></tr><tr><td><h5><b>Amount</b></h5></td><td>'
+                                + v.Amount + ' AUD</td></tr><tr></tr><tr><td><h5><b>Created At</b></h5></td><td>'
+                                + v.CreatedAt + '</td></tr><tr><td><h5><b>Completed At</b></h5></td><td>'
+                                + v.UpdatedAt + '</td></tr>';
+
+                            payments += item;
+                        });
+                    }
+
+                    $("#cartItems").append(cartItems);
+                    $("#paymentList").append(payments);
+
+                    $("#cartSubTotal").text("$" + response.data.ShoppingCart.TotalAmountExGst);
+                    $("#cartGST").text("$" + response.data.ShoppingCart.Gst);
+                    $("#cartShippingFee").text("$" + response.data.ShoppingCart.ShippingFee);
+                    $("#cartDiscount").text("- $" + response.data.ShoppingCart.Discount);
+                    $("#cartTotal").append("<b>$" + response.data.ShoppingCart.TotalFinalPrice + "</b>");
+
+                    $("#loading").hide();
+                }
+                else {
+                    alert("Cannot load this order!");
+                    $("#loading").hide();
+                }
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                alert(xhr.status);
+                alert(thrownError);
+                $("#loading").hide();
+            }
+        });
+
+        $("#listView").hide();
+        $('#viewOrderDetail').show();
+    }
+</script>

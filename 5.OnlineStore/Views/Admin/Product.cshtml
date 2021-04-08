@@ -1,0 +1,630 @@
+﻿@using CoreLibrary.Data
+@model BusinessService.Models.Common.AdminModel
+@{
+    ViewBag.Title = "Products";
+    Layout = "~/Views/Shared/_Admin.cshtml";
+}
+
+<div class="row">
+    <div class="col-lg-12">
+        <h2 class="page-header color_blue"><i class="fa fa-tag fa-fw"></i> Products</h2>
+    </div>
+</div>
+<div class="row">
+    @using (Html.BeginForm("Product", "Admin", FormMethod.Get))
+    {
+        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6">
+
+            <div class="input-group">
+                @Html.TextBox("Search", ViewBag.CurrentSearch as string, new { @class = "form-control" })
+                <span class="input-group-addon">
+                    <i type="submit" class="fa fa-search"></i>
+                </span>
+            </div>
+
+        </div>
+        <div class="col-lg-1 col-md-1 col-sm-3 col-xs-3 text-center">
+            <div class="form-group">
+                <select class="form-control" id="searchByLive" name="SearchByLive" onchange="this.form.submit()">
+                    @if (ViewBag.SearchByLive == Constant.CommonValue.NotLive)
+                    {
+                        <option value="@Constant.CommonValue.All">All</option>
+                        <option value="@Constant.CommonValue.IsLive">Is Live</option>
+                        <option value="@Constant.CommonValue.NotLive" selected>Not Live</option>
+                    }
+                    else if (ViewBag.SearchByLive == Constant.CommonValue.IsLive)
+                    {
+                        <option value="@Constant.CommonValue.All">All</option>
+                        <option value="@Constant.CommonValue.IsLive" selected>Is Live</option>
+                        <option value="@Constant.CommonValue.NotLive">Not Live</option>
+                    }
+                    else
+                    {
+                        <option value="@Constant.CommonValue.All" selected>All</option>
+                        <option value="@Constant.CommonValue.IsLive">Is Live</option>
+                        <option value="@Constant.CommonValue.NotLive">Not Live</option>
+                    }
+                </select>
+            </div>
+        </div>
+        <div class="col-lg-1 col-md-1 col-sm-3 col-xs-3 text-center">
+            <div class="form-group">
+                <select class="form-control" id="searchByStockLevel" name="SearchByStockLevel" onchange="this.form.submit()">
+                    @if (ViewBag.SearchByStockLevel == Constant.CommonValue.InStock)
+                    {
+                        <option value="@Constant.CommonValue.All">All</option>
+                        <option value="@Constant.CommonValue.InStock" selected>In Stock</option>
+                        <option value="@Constant.CommonValue.LowStock">Low Stock</option>
+                        <option value="@Constant.CommonValue.OutOfStock">Out Of Stock</option>
+                    }
+                    else if (ViewBag.SearchByStockLevel == Constant.CommonValue.LowStock)
+                    {
+                        <option value="@Constant.CommonValue.All">All</option>
+                        <option value="@Constant.CommonValue.InStock">In Stock</option>
+                        <option value="@Constant.CommonValue.LowStock" selected>Low Stock</option>
+                        <option value="@Constant.CommonValue.OutOfStock">Out Of Stock</option>
+                    }
+                    else if (ViewBag.SearchByStockLevel == Constant.CommonValue.OutOfStock)
+                    {
+                        <option value="@Constant.CommonValue.All">All</option>
+                        <option value="@Constant.CommonValue.InStock">In Stock</option>
+                        <option value="@Constant.CommonValue.LowStock">Low Stock</option>
+                        <option value="@Constant.CommonValue.OutOfStock" selected>Out Of Stock</option>
+                    }
+                    else
+                    {
+                        <option value="@Constant.CommonValue.All" selected>All</option>
+                        <option value="@Constant.CommonValue.InStock">In Stock</option>
+                        <option value="@Constant.CommonValue.LowStock">Low Stock</option>
+                        <option value="@Constant.CommonValue.OutOfStock">Out Of Stock</option>
+                    }
+                </select>
+            </div>
+        </div>
+    }
+    <div class="col-lg-7 col-md-7 hidden-sm hidden-xs">
+        <button id="btn_applyDiscount" type="button" class="btn btn-outline btn-primary float-right" data-toggle="modal" data-target="#form_applyDiscount" onclick="resetDiscountForm()"><i class="fa fa-bell"></i> &nbsp; Apply Discount</button>
+        <button id="btn_createProduct" type="button" class="btn btn-outline btn-primary float-right margin-right-10" onclick="openCreateForm()"><i class="fa fa-plus-square"></i> &nbsp; Create new Product</button>
+        <button id="btn_export" type="button" class="btn btn-outline btn-primary float-right float-right margin-right-10" onclick="window.location.href = '/Product/ExportToExcel';"><i class="fa fa-file-excel-o"></i> &nbsp; Export to Excel</button>
+        <button id="btn_generateQRCode" type="button" class="btn btn-outline btn-primary float-right float-right margin-right-10" onclick="window.location.href = '/Product/GenerateQRCode';"><i class="fa fa-qrcode"></i> &nbsp; Generate QR Code</button>
+    </div>
+    <div class="hidden-lg hidden-md col-sm-12 col-xs-12">
+        <div class="row">
+            <div class="col-sm-12 col-xs-12">
+                <button id="btn_export" type="button" class="btn btn-outline btn-primary width_100" onclick="window.location.href = '/Product/GenerateQRCode';"><i class="fa fa-qrcode"></i> &nbsp; Generate QR Code</button>
+            </div>
+            <div class="col-sm-12 col-xs-12"><br /></div>
+            <div class="col-sm-12 col-xs-12">
+                <button id="btn_export" type="button" class="btn btn-outline btn-primary width_100" onclick="window.location.href = '/Product/ExportToExcel';"><i class="fa fa-file-excel-o"></i> &nbsp; Export to Excel</button>
+            </div>
+            <div class="col-sm-12 col-xs-12"><br /></div>
+            <div class="col-sm-12 col-xs-12">
+                <button id="btn_applyDiscount" type="button" class="btn btn-outline btn-primary width_100" data-toggle="modal" data-target="#form_applyDiscount" onclick="resetDiscountForm()"><i class="fa fa-bell"></i> &nbsp; Apply Discount</button>
+            </div>
+            <div class="col-sm-12 col-xs-12"><br /></div>
+            <div class="col-sm-12 col-xs-12">
+                <button id="btn_createProduct" type="button" class="btn btn-outline btn-primary width_100" onclick="openCreateForm()"><i class="fa fa-plus-square"></i> &nbsp; Create new Product</button>
+            </div>
+        </div>
+    </div>
+</div>
+<br />
+<div class="row">
+    <div class="col-lg-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <span class="float_right">@Model.ProductList.Data.Count out of @Model.ProductList.TotalItems items &nbsp;|&nbsp; Page @(Model.ProductList.TotalPages < Model.ProductList.CurrenPage ? 0 : Model.ProductList.CurrenPage) of @Model.ProductList.TotalPages</span>
+            </div>
+            <!-- /.panel-heading -->
+            <div class="panel-body">
+                <div class="dataTable_wrapper">
+                    <table class="table table-striped table-bordered table-hover hidden-sm hidden-xs" id="dataTables-example">
+                        <thead>
+                            <tr>
+                                <th class="text-center text-primary">Id</th>
+                                <th class="text-center text-primary">QR</th>
+                                <th class="text-center text-primary">Category</th>
+                                <th class="text-center text-primary">Original PC</th>
+                                <th class="text-center text-primary">Name Key</th>
+                                <th class="text-center text-primary">Name</th>
+                                <th class="text-center text-primary">Original Price</th>
+                                <th class="text-center text-primary">Discount Price</th>
+                                <th class="text-center text-primary">Stock Level</th>
+                                <th class="text-center text-primary">Is Live</th>
+                                <th class="text-center text-primary">Created At</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody id="bodyTable">
+                            @foreach (var m in Model.ProductList.Data)
+                            {
+                                <tr id="row_@m.Id">
+                                    <td class="text-center">@m.Id</td>
+                                    <td class="text-center"><a id="qrCode_@m.Id" class="zoomQRCode"><img src="@m.QRCode" style="height: 18px;" /></a></td>
+                                    <td class="text-center">@m.CategoryName</td>
+                                    <td class="text-center">@m.OriginalProductCode</td>
+                                    <td class="text-center">@m.Namekey</td>
+                                    <td class="text-center">@m.Name</td>
+                                    <td class="text-center">$@m.OriginalPrice @m.UnitOfPrice per @m.Unit</td>
+
+                                    @if (m.OriginalPrice == m.DiscountPrice)
+                                    {
+                                        <td class="text-center">N/A</td>
+                                    }
+                                    else
+                                    {
+                                        <td class="text-center">$@m.DiscountPrice @m.UnitOfPrice per @m.Unit</td>
+                                    }
+
+                                    @if (m.InStock.Equals(Constant.CommonValue.InStock))
+                                    {
+                                        <td class="text-center text-primary"><i class="	fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i> &nbsp;|&nbsp; @m.StockLevel items</td>
+                                    }
+                                    else if (m.InStock.Equals(Constant.CommonValue.LowStock))
+                                    {
+                                        <td class="text-center text-warning"><i class="fa fa-star"></i><i class="fa fa-star-half-empty"></i><i class="fa fa-star-o"></i> &nbsp;|&nbsp; @m.StockLevel item</td>
+                                    }
+                                    else
+                                    {
+                                        <td class="text-center text-danger"><i class="fa fa-star-o"></i><i class="fa fa-star-o"></i><i class="fa fa-star-o"></i> &nbsp;|&nbsp; @m.StockLevel item</td>
+                                    }
+
+                                    @if (m.IsLive)
+                                    {
+                                        <td class="text-center"><i class='fa fa-check text-primary'></i></td>
+                                    }
+                                    else
+                                    {
+                                        <td class="text-center"><i class='fa fa-times text-danger'></i></td>
+                                    }
+                                    <td class="text-center">@m.CreatedAt</td>
+                                    <td class="text-center">
+                                        <a onclick="openViewProduct(@m.Id)"><i class="glyphicon glyphicon-eye-open cusor_pointer"></i></a>
+                                        @Html.Raw("&nbsp;")
+                                        <a href="/Admin/ProductDetail?productId=@m.Id"><i class="fa fa-pencil-square-o cusor_pointer"></i></a>
+                                        @Html.Raw("&nbsp;")
+                                        @if (m.CategoryId != 1033)
+                                        {
+                                            <a onclick="confirmDeleteProduct(@m.Id, '@m.Name')"><i class="fa fa-trash-o cusor_pointer"></i></a>
+                                        }
+                                        else
+                                        {
+                                            <a style="color: darkgray;"><i class="fa fa-trash-o cusor_pointer"></i></a>
+                                        }
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                    <div class="hidden-lg hidden-md">
+                        @foreach (var m in Model.ProductList.Data)
+                        {
+                            <div class="panel panel-default" id="row_@m.Id">
+                                <div class="panel-heading">@m.Id - @m.Name</div>
+                                <table class="table table-striped table-bordered table-hover">
+                                    <tbody>
+                                        <tr>
+                                            <td class="font-bold width_50">Category Name</td>
+                                            <td class="text-center">@m.CategoryName</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="font-bold width_50">Original PC</td>
+                                            <td class="text-center">@m.OriginalProductCode</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="font-bold width_50">Name Key</td>
+                                            <td class="text-center">@m.Namekey</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="font-bold width_50">Original Price</td>
+                                            <td class="text-center">$@m.OriginalPrice @m.UnitOfPrice per @m.Unit</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="font-bold width_50"> Discount Price</td>
+                                            @if (m.OriginalPrice == m.DiscountPrice)
+                                            {
+                                                <td class="text-center">N/A</td>
+                                            }
+                                            else
+                                            {
+                                                <td class="text-center">$@m.DiscountPrice @m.UnitOfPrice per @m.Unit</td>
+                                            }
+                                        </tr>
+                                        <tr>
+                                            <td class="font-bold width_50">Stock Level</td>
+                                            @if (m.InStock.Equals(Constant.CommonValue.InStock))
+                                            {
+                                                <td class="text-center text-primary"><i class="	fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i> &nbsp;|&nbsp; @m.StockLevel items</td>
+                                            }
+                                            else if (m.InStock.Equals(Constant.CommonValue.LowStock))
+                                            {
+                                                <td class="text-center text-warning"><i class="fa fa-star"></i><i class="fa fa-star-half-empty"></i><i class="fa fa-star-o"></i> &nbsp;|&nbsp; @m.StockLevel item</td>
+                                            }
+                                            else
+                                            {
+                                                <td class="text-center text-danger"><i class="fa fa-star-o"></i><i class="fa fa-star-o"></i><i class="fa fa-star-o"></i> &nbsp;|&nbsp; @m.StockLevel item</td>
+                                            }
+                                        </tr>
+                                        <tr>
+                                            <td class="font-bold width_50">Is Live</td>
+                                            @if (m.IsLive)
+                                            {
+                                                <td class="text-center"><i class='fa fa-check text-primary'></i></td>
+                                            }
+                                            else
+                                            {
+                                                <td class="text-center"><i class='fa fa-times text-danger'></i></td>
+                                            }
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <div class="panel-footer">
+                                    <div class="row">
+                                        <div class="col-xs-2">
+                                            <a id="qrCode_@m.Id" class="zoomQRCode"><img src="@m.QRCode" style="height: 20px;" /></a>
+                                        </div>
+                                        <div class="col-xs-10">
+                                            <div class="row">
+                                                <div class="col-xs-12">
+                                                    <span class="text-muted pull-right small">Created at @m.CreatedAt by @m.CreatedBy</span>
+                                                </div>
+                                                @if (!string.IsNullOrEmpty(m.UpdatedAt))
+                                                {
+                                                    <div class="col-xs-12">
+                                                        <span class="text-muted pull-right small">Updated at @m.UpdatedAt by @m.UpdatedBy</span>
+                                                    </div>
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <br />
+                                    <div class="row">
+                                        <div class="col-xs-4"><a onclick="openViewProduct(@m.Id)" class="pull-left"><i class="glyphicon glyphicon-eye-open cusor_pointer"></i>&nbsp;View</a></div>
+                                        <div class="col-xs-4 text-center"><a href="/Admin/ProductDetail?productId=@m.Id"><i class="fa fa-pencil-square-o cusor_pointer"></i>&nbsp;Update</a></div>
+                                        <div class="col-xs-4">
+                                            @if (m.CategoryId != 1033)
+                                            {
+                                                <a onclick="confirmDeleteProduct(@m.Id, '@m.Name')" class="pull-right"><i class="fa fa-trash-o cusor_pointer"></i>&nbsp;Remove</a>
+                                            }
+                                            else
+                                            {
+                                                <a style="color: darkgray;" class="pull-right"><i class="fa fa-trash-o cusor_pointer"></i>&nbsp;Remove</a>
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                    <nav aria-label="paging" class="text-center">
+                        <div class="dataTables_paginate paging_simple_numbers" id="dataTables-example_paginate">
+                            <ul class="pagination">
+                                @{
+                                    if (Model.ProductList.IsFirstPage)
+                                    {
+                                        <li class="paginate_button previous disabled" aria-controls="dataTables-example" tabindex="0" id="dataTables-example_previous">
+                                            <a>Previous</a>
+                                        </li>
+                                        <li class="paginate_button previous disabled" aria-controls="dataTables-example" tabindex="0" id="dataTables-example_previous">
+                                            <a>First</a>
+                                        </li>
+                                    }
+                                    else
+                                    {
+                                        <li class="paginate_button previous" aria-controls="dataTables-example" tabindex="0" id="dataTables-example_previous">
+                                            @Html.ActionLink("Previous", "Product", new { PageNo = Model.ProductList.CurrenPage - 1, CurrentSearch = ViewBag.CurrentSearch, SearchByLive = ViewBag.SearchByLive, SearchByStockLevel = ViewBag.SearchByStockLevel })
+                                        </li>
+                                        <li class="paginate_button previous" aria-controls="dataTables-example" tabindex="0" id="dataTables-example_previous">
+                                            @Html.ActionLink("First", "Product", new { PageNo = 1, CurrentSearch = ViewBag.CurrentSearch, SearchByLive = ViewBag.SearchByLive, SearchByStockLevel = ViewBag.SearchByStockLevel })
+                                        </li>
+                                    }
+
+                                    for (int i = 1; i <= Model.ProductList.TotalPages; i++)
+                                    {
+                                        if (Model.ProductList.TotalPages <= 6)
+                                        {
+                                            if (Model.ProductList.CurrenPage == i)
+                                            {
+                                                <li class="paginate_button active" aria-controls="dataTables-example" tabindex="0">
+                                                    @Html.ActionLink(i.ToString(), "Product", new { PageNo = i, CurrentSearch = ViewBag.CurrentSearch, SearchByLive = ViewBag.SearchByLive, SearchByStockLevel = ViewBag.SearchByStockLevel })
+                                                </li>
+                                            }
+                                            else
+                                            {
+                                                <li class="paginate_button" aria-controls="dataTables-example" tabindex="0">
+                                                    @Html.ActionLink(i.ToString(), "Product", new { PageNo = i, CurrentSearch = ViewBag.CurrentSearch, SearchByLive = ViewBag.SearchByLive, SearchByStockLevel = ViewBag.SearchByStockLevel })
+                                                </li>
+                                            }
+                                        }
+                                        else
+                                        {
+                                            if (Model.ProductList.CurrenPage == i)
+                                            {
+                                                <li class="paginate_button active" aria-controls="dataTables-example" tabindex="0">
+                                                    @Html.ActionLink(i.ToString(), "Product", new { PageNo = i, CurrentSearch = ViewBag.CurrentSearch, SearchByLive = ViewBag.SearchByLive, SearchByStockLevel = ViewBag.SearchByStockLevel })
+                                                </li>
+                                            }
+                                            else if (Model.ProductList.CurrenPage - 1 == i)
+                                            {
+                                                <li class="paginate_button" aria-controls="dataTables-example" tabindex="0">
+                                                    @Html.ActionLink(i.ToString(), "Product", new { PageNo = i, CurrentSearch = ViewBag.CurrentSearch, SearchByLive = ViewBag.SearchByLive, SearchByStockLevel = ViewBag.SearchByStockLevel })
+                                                </li>
+                                            }
+                                            else if (Model.ProductList.CurrenPage + 1 == i)
+                                            {
+                                                <li class="paginate_button" aria-controls="dataTables-example" tabindex="0">
+                                                    @Html.ActionLink(i.ToString(), "Product", new { PageNo = i, CurrentSearch = ViewBag.CurrentSearch, SearchByLive = ViewBag.SearchByLive, SearchByStockLevel = ViewBag.SearchByStockLevel })
+                                                </li>
+                                            }
+                                            else if (Model.ProductList.CurrenPage - 2 == i)
+                                            {
+                                                <li class="paginate_button" aria-controls="dataTables-example" tabindex="0">
+                                                    @Html.ActionLink(i.ToString(), "Product", new { PageNo = i, CurrentSearch = ViewBag.CurrentSearch, SearchByLive = ViewBag.SearchByLive, SearchByStockLevel = ViewBag.SearchByStockLevel })
+                                                </li>
+                                            }
+                                            else if (Model.ProductList.CurrenPage + 2 == i)
+                                            {
+                                                <li class="paginate_button" aria-controls="dataTables-example" tabindex="0">
+                                                    @Html.ActionLink(i.ToString(), "Product", new { PageNo = i, CurrentSearch = ViewBag.CurrentSearch, SearchByLive = ViewBag.SearchByLive, SearchByStockLevel = ViewBag.SearchByStockLevel })
+                                                </li>
+                                            }
+                                            else if (Model.ProductList.CurrenPage - 3 == i)
+                                            {
+                                                <li class="paginate_button disabled" aria-controls="dataTables-example" tabindex="0">
+                                                    @Html.ActionLink("...", "Product", new { PageNo = i, CurrentSearch = ViewBag.CurrentSearch, SearchByLive = ViewBag.SearchByLive, SearchByStockLevel = ViewBag.SearchByStockLevel })
+                                                </li>
+                                            }
+                                            else if (Model.ProductList.CurrenPage + 3 == i)
+                                            {
+                                                <li class="paginate_button disabled" aria-controls="dataTables-example" tabindex="0">
+                                                    @Html.ActionLink("...", "Product", new { PageNo = i, CurrentSearch = ViewBag.CurrentSearch, SearchByLive = ViewBag.SearchByLive, SearchByStockLevel = ViewBag.SearchByStockLevel })
+                                                </li>
+                                            }
+                                        }
+                                    }
+
+                                    if (Model.ProductList.IsLastPage || !Model.ProductList.Data.Any())
+                                    {
+                                        <li class="paginate_button next disabled" aria-controls="dataTables-example" tabindex="0" id="dataTables-example_next">
+                                            <a>Last</a>
+                                        </li>
+                                        <li class="paginate_button next disabled" aria-controls="dataTables-example" tabindex="0" id="dataTables-example_next">
+                                            <a>Next</a>
+                                        </li>
+                                    }
+                                    else
+                                    {
+                                        <li class="paginate_button next" aria-controls="dataTables-example" tabindex="0" id="dataTables-example_next">
+                                            @Html.ActionLink("Last", "Product", new { PageNo = Model.ProductList.TotalPages, CurrentSearch = ViewBag.CurrentSearch, SearchByLive = ViewBag.SearchByLive, SearchByStockLevel = ViewBag.SearchByStockLevel })
+                                        </li>
+                                        <li class="paginate_button next" aria-controls="dataTables-example" tabindex="0" id="dataTables-example_next">
+                                            @Html.ActionLink("Next", "Product", new { PageNo = Model.ProductList.CurrenPage + 1, CurrentSearch = ViewBag.CurrentSearch, SearchByLive = ViewBag.SearchByLive, SearchByStockLevel = ViewBag.SearchByStockLevel })
+                                        </li>
+                                    }
+                                }
+                            </ul>
+                        </div>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="form_viewProduct" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title" id="viewProductName"></h4>
+            </div>
+            <div class="modal-body" id="body_viewProduct">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="hoverImage" class="modal fade" role="dialog">
+    <div class="modal-overlay"></div>
+    <div class="modal-wrapper">
+        <div class="modal-content-image">
+            <div class="modal-text text-center">
+                <br /><br />
+                <img id="imageZoom" />
+                <br /><br />
+                <div class="text-center">
+                    <input type="submit" value="Close" name="close" id="btnCloseMessage" class="purple_button" onclick="closeImage()">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@using (Html.BeginForm("Delete", "Product", FormMethod.Post, new { @id = "form_deleteProduct", @class = "modal fade", @role = "dialog" }))
+{
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Delete Product</h4>
+            </div>
+            <div class="modal-body">
+                @Html.Hidden("productIdForDelete")
+                <div id="message_confirm" style="padding-top: 5px;">Are you sure you want to delete "<b id="delete_nameProduct"></b>"?</div>
+            </div>
+            <div class="modal-footer">
+                <button id="delete_Product" type="submit" class="btn btn-primary"><i class="fa fa-trash"></i>&nbsp;Delete</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+}
+
+@using (Html.BeginForm("ApplyDiscount", "Product", FormMethod.Post, new { @id = "form_applyDiscount", @class = "modal fade", @role = "dialog" }))
+{
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Apply Discount</h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>Category</label>
+                    <select id="categoryForDiscount" name="categoryDiscountId" class="form-control" required>
+                        <option value="">Please choose category</option>
+                        <option value="0">All Categories</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Percentage for Discount</label>
+                    <input id="amountForDiscount" name="amountForDiscount" type="text" class="form-control" placeholder="Percentage for Discount" required />
+                </div>
+                <div class="form-group">
+                    <label>Apply for the product has sub selected category</label>
+                    <label class="checkbox-inline">
+                        &nbsp;<input id="applyForSubCategory" name="applyForSubCategory" type="checkbox" checked>
+                    </label>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button id="submit_Category" type="submit" class="btn btn-primary"><i class="fa fa-check"></i>&nbsp;Save</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+}
+
+<script type="text/javascript">
+     $(document).ready(function () {
+        $.ajax({
+            cache: false,
+            type: "GET",
+            url: '@Url.Action("GetAllCategoriesForAdmin", "Category")',
+            async: false,
+            dataType: "json",
+            timeout: 5000,
+            success: function (response) {
+                if (response.success === true) {
+                    var options;
+                    $.each(response.data, function (index, value) {
+                        options += "<option value='" + value.Id + "'>" + value.Name + "</option>";
+                    });
+                    $("#categoryForDiscount").append(options);
+                }
+            },
+        });
+    });
+
+    $(".zoomQRCode").click(function () {
+        var id = "#" + this.id;
+        var url = $(id + ' > img').attr('src');
+        zoomImage(url);
+    });
+
+    function zoomImage(url) {
+        var modal = $('#hoverImage');
+        $("#imageZoom").attr("src", "");
+        $("#imageZoom").attr("src", url);
+        modal.modal('toggle');
+    };
+
+    function closeImage() {
+        var modal = $('#hoverImage');
+        modal.modal('hide');
+        isShowModal = false;
+    };
+
+    function resetDiscountForm() {
+        $("#amountForDiscount").val(null);
+    }
+
+    function openViewProduct(id) {
+        $.ajax({
+            cache: false,
+            type: "GET",
+            url: '@Url.Action("Details", "Product")',
+            async: false,
+            data: { productId: id },
+            dataType: "json",
+            timeout: 5000,
+            success: function (response) {
+                if (response.success == true) {
+                    $('#viewProductName').text(response.data.Name);
+
+                    var images = '<div class="row"><div class="col-md-12" ><div class="form-group"><label>Additional Images</label><br />';
+
+                    if (response.data.SubImage1 !== null) {
+                        images += '<div class="col-md-2"><img class="productImage" src="' + response.data.SubImage1+'" /></div>';
+                    }
+                    if (response.data.SubImage2 !== null) {
+                        images += '<div class="col-md-2"><img class="productImage" src="' + response.data.SubImage2 + '" /></div>';
+                    }
+                    if (response.data.SubImage3 !== null) {
+                        images += '<div class="col-md-2"><img class="productImage" src="' + response.data.SubImage3 + '" /></div>';
+                    }
+                    if (response.data.SubImage4 !== null) {
+                        images += '<div class="col-md-2"><img class="productImage" src="' + response.data.SubImage4 + '" /></div>';
+                    }
+                    if (response.data.SubImage5 !== null) {
+                        images += '<div class="col-md-2"><img class="productImage" src="' + response.data.SubImage5 + '" /></div>';
+                    }
+
+                    images += '</div></div></div>';
+
+                    var rating = "";
+
+                    for (var i = 1; i <= 5; i++) {
+                        if (i <= response.data.AverageRating) {
+                            rating += '<i class="fa fa-star checked"></i>';
+                        }
+                        else if (i > response.data.AverageRating && (response.data.AverageRating > (i - 1))) {
+                            if (response.data.AverageRating <= i - 0.5) {
+                                rating += '<i class="fa fa-star-half-full checked"></i>';
+                            }
+                            else {
+                                rating += '<i class="fa fa-star checked"></i>';
+                            }
+                        }
+                        else {
+                            rating += '<i class="fa fa-star-o checked"></i>';
+                        }
+                    }
+
+                    var description = response.data.Description != null ? response.data.Description : "";
+                    var moreInfo = response.data.MoreInfo != null ? response.data.MoreInfo : "";
+                    var originalProductCode = response.data.OriginalProductCode != null ? response.data.OriginalProductCode : "";
+                    var content = '<div class="row"><div class="col-md-4" ><img class="productImage" src="' + response.data.PrimaryImage + '" /></div>' +
+                        '<div class="col-md-8"><div class="row"><div class="col-md-6"><div class="form-group"><label>Category</label><p class="help-block">' + response.data.CategoryName + '</p></div></div>' +
+                        '<div class="col-md-6"><div class="form-group"><label>Original Price</label><p class="help-block">$' + response.data.OriginalPrice + ' per ' + response.data.Unit + '</p></div></div></div>' +
+                        '<div class="row"><div class="col-md-6"><div class="form-group"><label>Name</label><p class="help-block">' + response.data.Name + '</p></div></div>' +
+                        '<div class="col-md-6"><div class="form-group"><label>Discount Price</label><p class="help-block">$' + response.data.DiscountPrice + ' per ' + response.data.Unit + '</p></div></div></div>' +
+                        '<div class="row"><div class="col-md-6"><div class="form-group"><label>Namekey</label><p class="help-block">' + response.data.Namekey + '</p></div></div>' +
+                        '<div class="col-md-6"><div class="form-group"><label>Dimensions</label><p class="help-block">Height: ' + response.data.Height + ' Width: ' + response.data.Width + ' Length: ' + response.data.Length + ' Weigth: ' + response.data.Weight + '</p></div></div></div>' +
+                        '<div class="row"><div class="col-md-6"><div class="form-group"><label>Original Product Code</label><p class="help-block">' + originalProductCode + '</p></div></div>' +
+                        '<div class="col-md-6"><div class="form-group"><label>Primary Color Code</label><p class="help-block">' + response.data.ColorCode + '</p></div></div></div>' +
+                        '<div class="row"><div class="col-md-12"><div class="form-group"><label>Evaluation</label><p class="help-block"><i class="fa fa-thumbs-o-up"></i>&nbsp;' + response.data.NumberOfLiked + ' Liked&nbsp;&nbsp;-&nbsp;&nbsp;' + rating + '&nbsp;' + response.data.AverageRating + ' average based on ' + response.data.NumberOfReviewed + ' reviews</p></div></div></div></div></div>' +
+                        '<div class="row"><div class="col-md-12" ><div class="form-group"><label>Description</label><p class="help-block text-justify">' + description + '</p></div></div ></div>' +
+                        '<div class="row"><div class="col-md-12" ><div class="form-group"><label>More Info</label><p class="help-block text-justify">' + moreInfo + '</p></div></div></div>' + images;
+
+                    $("#body_viewProduct").html(null);
+                    $("#body_viewProduct").append(content);
+                    $('#form_viewProduct').modal('toggle');
+                }
+            },
+        });
+    };
+
+    function confirmDeleteProduct(id, name) {
+        $("#delete_nameProduct").text(name);
+        $("#productIdForDelete").val(id);
+        $('#form_deleteProduct').modal('toggle');
+    };
+
+    function openCreateForm() {
+        window.location.href = "/Admin/ProductDetail?productId=0";
+    }
+</script>

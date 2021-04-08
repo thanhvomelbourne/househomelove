@@ -1,0 +1,14 @@
+CREATE TABLE OurEvents (
+    Id int IDENTITY(1,1) PRIMARY KEY,
+    EventName nvarchar(200) NOT NULL,
+    Brief nvarchar(200) NOT NULL,
+	Description nvarchar(MAX),
+	Location nvarchar(200),
+	Time datetime,
+	IsLive bit NOT NULL,
+	CreatedAt datetime NULL,
+	Avatar nvarchar(MAX),
+	CreatedBy nvarchar(50),
+	UpdatedAt datetime NULL,
+	UpdatedBy nvarchar(50),
+);

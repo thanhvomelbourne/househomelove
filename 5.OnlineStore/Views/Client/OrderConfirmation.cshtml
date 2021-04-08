@@ -1,0 +1,118 @@
+﻿@model BusinessService.Models.Common.HomePageModel
+@{
+    ViewBag.Title = "Order Confirmation";
+}
+<!-- PAGE BANNER SECTION -->
+<div class="page-banner-section section">
+    <div class="container hidden-xs">
+        <div class="row">
+            <div class="page-banner-content col-xs-12">
+                <h2>
+                    <img src="~/images/app/invoice.svg" class="icon_svg_title pb-10"/>&nbsp;Order Confirmation
+                </h2>
+                <ul class="breadcrumb">
+                    <li><a class="blur-primary-text"><span class="badge blur-primary-background">1</span> Shop</a></li>
+                    <li><a class="blur-primary-text"><span class="badge blur-primary-background">2</span> Your Shopping Cart</a></li>
+                    <li><a class="blur-primary-text"><span class="badge blur-primary-background">3</span>Checkout</a></li>
+                    <li class="active"><b><span class="badge primary-background">4</span> Order Confirmation</b></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid hidden-sm hidden-md hidden-lg">
+        <div class="row">
+            <div class="page-banner-content col-xs-12">
+                <h2>Your Shopping Cart</h2>
+                <ul class="breadcrumb">
+                    <li><a class="blur-primary-text"><span class="badge blur-primary-background">1</span> Shop</a></li>
+                    <li><a class="blur-primary-text"><span class="badge blur-primary-background">2</span> Your Shopping Cart</a></li>
+                    <br />
+                    <li><a class="blur-primary-text"><span class="badge blur-primary-background">3</span>Checkout</a></li>
+                    <li class="active"><b><span class="badge primary-background">4</span> Order Confirmation</b></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- END PAGE BANNER SECTION -->
+<!-- PAGE SECTION START -->
+<div class="page-section section pt-30 pb-30">
+    <div class="container">
+        <div class="row">
+            <h3 id="helloOrderConfirmation"></h3>
+            <span id="thankyouPayment" style="margin-left: 12px;"></span>
+            <br /><br />
+            <form action="#">
+                <div class="col-xs-12">
+                    <div class="cart-table table-responsive mb-40">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th class="pro-thumbnail"></th>
+                                    <th class="pro-title">Product</th>
+                                    <th class="pro-price">Price</th>
+                                    <th class="pro-quantity">Quantity</th>
+                                    <th class="pro-subtotal">Total</th>
+                                </tr>
+                            </thead>
+                            <tbody id="productListOrderConfirmation"></tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-6 col-xs-12">
+                    <div class="cart-buttons mb-30">
+                        <h3>Billing</h3>
+                        <div id="billingOrderConfirmation"></div>
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-6 col-xs-12">
+                    <div class="cart-buttons mb-30">
+                        <h3>Delivery</h3>
+                        <div id="deliveryOrderConfirmation"></div>
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-12 col-xs-12">
+                    <div class="cart-total mb-40">
+                        <h3>Cart Totals</h3>
+                        <table>
+                            <tbody>
+                                <tr class="cart-subtotal">
+                                    <th>Subtotal</th>
+                                    <td><span class="amount" id="subTotalOrderConfirmation"></span></td>
+                                </tr>
+                                <tr class="cart-subtotal">
+                                    <th>GST</th>
+                                    <td><span class="amount" id="gstOrderConfirmation"></span></td>
+                                </tr>
+                                <tr class="cart-subtotal">
+                                    <th>Shipping Fee</th>
+                                    <td><span class="amount" id="shippingFeeOrderConfirmation"></span></td>
+                                </tr>
+                                <tr class="cart-subtotal">
+                                    <th class="text-muted">Discount</th>
+                                    <td><span class="amount text-muted" id="cartDiscountOrderConfirmation"></span></td>
+                                </tr>
+                                <tr class="order-total">
+                                    <th>Total</th>
+                                    <td>
+                                        <strong><span class="amount" id="totalOrderConfirmation"></span></strong>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div class="proceed-to-checkout section mt-30">
+                            <a href="/">Return to Homepage</a>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- PAGE SECTION END -->
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        loadOrderConfirmation();
+    });
+</script>

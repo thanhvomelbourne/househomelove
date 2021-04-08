@@ -1,0 +1,161 @@
+﻿@model BusinessService.Models.Common.HomePageModel
+@{
+    ViewBag.Title = "Your Shopping Cart";
+}
+<!-- PAGE BANNER SECTION -->
+<div class="page-banner-section section">
+    <div class="container hidden-xs">
+        <div class="row">
+            <div class="page-banner-content col-xs-12">
+                <h2>
+                    <img src="~/images/app/yourcart.svg" class="icon_svg_title pb-10" />&nbsp; Shopping Cart
+                </h2>
+                <ul class="breadcrumb">
+                    <li><a href="/shop" class="blur-primary-text"><span class="badge blur-primary-background">1</span> Shop</a></li>
+                    <li class="active"><b><span class="badge primary-background">2</span> Your Shopping Cart</b></li>
+                    <li><span class="badge">3</span> Checkout</li>
+                    <li><span class="badge">4</span> Order Confirmation</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid hidden-sm hidden-md hidden-lg">
+        <div class="row">
+            <div class="page-banner-content col-xs-12">
+                <h2>
+                    <img src="~/images/app/yourcart.svg" class="icon_svg_title pb-10" />&nbsp; Shopping Cart
+                </h2>
+                <ul class="breadcrumb">
+                    <li><a href="/shop" class="blur-primary-text"><span class="badge blur-primary-background">1</span> Shop</a></li>
+                    <li class="active"><b><span class="badge primary-background">2</span> Your Shopping Cart</b></li>
+                    <br />
+                    <li><span class="badge">3</span> Checkout</li>
+                    <li><span class="badge">4</span> Order Confirmation</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- END PAGE BANNER SECTION -->
+<!-- PAGE SECTION START -->
+<div class="page-section section pt-30">
+    <div class="container hidden-xs">
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="cart-table table-responsive mb-40">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th class="pro-thumbnail">Image</th>
+                                <th class="pro-title">Product</th>
+                                <th class="pro-price">Price</th>
+                                <th class="pro-quantity">Quantity</th>
+                                <th class="pro-subtotal">Total</th>
+                                <th class="pro-quantity">Update Quantity</th>
+                                <th class="pro-remove">Remove</th>
+                            </tr>
+                        </thead>
+                        <tbody id="productListShoppingCart"></tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="col-md-8 col-sm-7 col-xs-12">
+                <div class="cart-buttons mb-30">
+                    @*<input type="submit" value="Update Cart" />*@
+                    <a href="/shop">Continue Shopping</a>
+                </div>
+                <div class="cart-coupon mb-40">
+                    <h4 class="pt-10"><img src="/images/app/coupon.svg" width="40">&nbsp; Coupon</h4>
+                    <p>Enter your coupon code if you have one.</p>
+                    <div class="promotionAppliedDisplay">
+                    </div>
+                    <input type="text" placeholder="Coupon code" class="promotionCode" />
+                    <input type="submit" value="Apply Coupon" onclick="applyPromotionCode(false)" />
+
+                </div>
+            </div>
+            <div class="col-md-4 col-sm-5 col-xs-12">
+                <div class="cart-total mb-40">
+                    <h3><img src="/images/app/cart.svg" width="40">&nbsp; Cart Totals</h3>
+                    <table>
+                        <tbody>
+                            <tr class="cart-subtotal">
+                                <th>Subtotal</th>
+                                <td><span class="amount" id="subTotalShoppingCart"></span></td>
+                            </tr>
+                            <tr class="cart-subtotal">
+                                <th>Shipping Fee</th>
+                                <td><span class="amount" id="shippingFeeShoppingCart"></span></td>
+                            </tr>
+                            <tr class="order-total">
+                                <th>Total</th>
+                                <td>
+                                    <strong><span class="amount" id="totalShoppingCart"></span></strong>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="proceed-to-checkout section mt-30">
+                        <a href="/shop/checkout">Proceed to Checkout</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid hidden-sm hidden-md hidden-lg">
+        <form action="#">
+            <div class="row">
+                <div class="col-xs-12">
+                    <div id="productListShoppingCartMobile" class="container-fluid">
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-8 col-sm-7 col-xs-12">
+                    <div class="cart-buttons mt-15 mb-30">
+                        <a class="mb-5 mr-5" href="/shop" style="float: none; margin-right: auto; text-align: center">Continue Shopping</a>
+                    </div>
+                    <div class="cart-coupon mb-40">
+                        <h4 class="mt-10"><img src="/images/app/coupon.svg" width="40">&nbsp; Coupon</h4>
+                        <p>Enter your coupon code if you have one.</p>
+                        <div class="promotionAppliedDisplay">
+                        </div>
+                        <input type="text" placeholder="Coupon code" class="promotionCode_mobile" />
+                        <input class="mt-10" type="submit" value="Apply Coupon" onclick="applyPromotionCode(false, true)" />
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-5 col-xs-12">
+                    <div class="cart-total mb-40">
+                        <h3><img src="/images/app/cart.svg" width="40">&nbsp; Cart Totals</h3>
+                        <table>
+                            <tbody>
+                                <tr class="cart-subtotal">
+                                    <th>Subtotal</th>
+                                    <td>
+                                        <span class="amount" id="subTotalShoppingCartMobile"></span>
+                                    </td>
+                                </tr>
+                                <tr class="cart-subtotal">
+                                    <th>Shipping Fee</th>
+                                    <td>
+                                        <span class="amount" id="shippingFeeShoppingCartMobile"></span>
+                                    </td>
+                                </tr>
+                                <tr class="order-total">
+                                    <th>Total</th>
+                                    <td>
+                                        <strong><span class="amount" id="totalShoppingCartMobile"></span></strong>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div class="proceed-to-checkout section mt-30 mb-15">
+                            <a href="/shop/checkout">Proceed to Checkout</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<!-- PAGE SECTION END -->

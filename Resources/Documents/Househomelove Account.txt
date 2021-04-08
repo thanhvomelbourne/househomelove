@@ -1,0 +1,53 @@
+Godaddy
+UserId: thanhvo.melbourne2017 / King29061992
+
+Customer Number: 
+153809361 
+
+Username: 
+ph12402081859
+
+Nameservers: 
+ns43.domaincontrol.com
+ns44.domaincontrol.com 
+
+admin@househomelove.com.au
+King123$
+
+
+===========================================
+Database SQL Server:
+Database name: househomelove
+184.168.194.55:1433
+househomelove/King123$
+
+Remove All table on database:
+exec sp_MSforeachtable @command1 = "DROP TABLE ?"
+
+===========================================
+AusPost API Token:
+111e64ba-66aa-4b25-948c-3bdfd06d56ac
+
+===========================================
+Email:
+admin@househomelove.com.au
+Househomelove123$
+
+===========================================
+Paypal/AdminWeb:
+admin@househomelove.com.au
+Househomelove123$
+
+===========================================
+ABN:
+72724297882
+
+===========================================
+SendGrid Email:
+azure_7e06237d98aa32af031b56c94180bd41@azure.com
+King123$
+
+===========================================
+Amazon
+admin@househomelove.com.au
+Househomelove123$

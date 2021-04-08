@@ -1,0 +1,10 @@
+﻿[
+  {
+    "outputFile": "Scripts/checkout.es5.js",
+    "inputFile": "Scripts/checkout.js"
+  },
+  {
+    "outputFile": "Scripts/commonApp.es5.js",
+    "inputFile": "Scripts/commonApp.js"
+  }
+]

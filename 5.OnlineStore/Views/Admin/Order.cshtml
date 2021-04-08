@@ -1,0 +1,405 @@
+﻿@using CoreLibrary.Data
+@model BusinessService.Models.Common.AdminModel
+@{
+    ViewBag.Title = "Orders";
+    Layout = "~/Views/Shared/_Admin.cshtml";
+}
+
+<div class="row">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <h2 class="page-header color_blue"><i class="fa fa-shopping-cart fa-fw"></i> Orders</h2>
+    </div>
+</div>
+
+<div class="row">
+    @using (Html.BeginForm("Order", "Admin", FormMethod.Get))
+    {
+        <div class="col-lg-3 col-md-3 col-sm-7 col-xs-7">
+            <div class="input-group">
+                @Html.TextBox("Search", ViewBag.CurrentSearch as string, new { @class = "form-control" })
+                <span class="input-group-addon">
+                    <i type="submit" class="fa fa-search"></i>
+                </span>
+            </div>
+        </div>
+        <div class="col-lg-2 col-md-2 col-sm-5 col-xs-5 text-center">
+            <div class="form-group">
+                <select class="form-control" id="searchByShippingMethod" name="SearchByShippingMethod" onchange="this.form.submit()">
+                    @if (ViewBag.SearchByShippingMethod == Constant.ShippingMethod.AustraliaPost)
+                    {
+                        <option value="@Constant.CommonValue.All">All</option>
+                        <option value="@Constant.ShippingMethod.AustraliaPost" selected>Australia Post</option>
+                        <option value="@Constant.ShippingMethod.ClickAndCollect">Click and Collect</option>
+                        <option value="@Constant.ShippingMethod.HomeMail">Home Mail</option>
+                    }
+                    else if (ViewBag.SearchByShippingMethod == Constant.ShippingMethod.ClickAndCollect)
+                    {
+                        <option value="@Constant.CommonValue.All">All</option>
+                        <option value="@Constant.ShippingMethod.AustraliaPost">Australia Post</option>
+                        <option value="@Constant.ShippingMethod.ClickAndCollect" selected>Click and Collect</option>
+                        <option value="@Constant.ShippingMethod.HomeMail">Home Mail</option>
+                    }
+                    else if (ViewBag.SearchByShippingMethod == Constant.ShippingMethod.HomeMail)
+                    {
+                        <option value="@Constant.CommonValue.All">All</option>
+                        <option value="@Constant.ShippingMethod.AustraliaPost">Australia Post</option>
+                        <option value="@Constant.ShippingMethod.ClickAndCollect">Click and Collect</option>
+                        <option value="@Constant.ShippingMethod.HomeMail" selected>Home Mail</option>
+                    }
+                    else
+                    {
+                        <option value="@Constant.CommonValue.All" selected>All</option>
+                        <option value="@Constant.ShippingMethod.AustraliaPost">Australia Post</option>
+                        <option value="@Constant.ShippingMethod.ClickAndCollect">Click and Collect</option>
+                        <option value="@Constant.ShippingMethod.HomeMail">Home Mail</option>
+                    }
+                </select>
+            </div>
+        </div>
+        <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 text-center">
+            <div class="form-group">
+                <select class="form-control" id="searchByConfirmedStatus" name="SearchByConfirmedStatus" onchange="this.form.submit()">
+                    @if (ViewBag.SearchByConfirmedStatus == Constant.ConfirmedStatus.Succeed)
+                    {
+                        <option value="@Constant.CommonValue.All">All</option>
+                        <option value="@Constant.ConfirmedStatus.Succeed" selected>Succeed</option>
+                        <option value="@Constant.ConfirmedStatus.SucceedAndConfirmed">Succeed And Confirmed</option>
+                        <option value="@Constant.ConfirmedStatus.Failed">Failed</option>
+                        <option value="@Constant.ConfirmedStatus.Processing">Processing</option>
+                        <option value="@Constant.ConfirmedStatus.Paidapart">Paid A Part</option>
+                    }
+                    else if (ViewBag.SearchByConfirmedStatus == Constant.ConfirmedStatus.SucceedAndConfirmed)
+                    {
+                        <option value="@Constant.CommonValue.All">All</option>
+                        <option value="@Constant.ConfirmedStatus.Succeed">Succeed</option>
+                        <option value="@Constant.ConfirmedStatus.SucceedAndConfirmed" selected>Succeed And Confirmed</option>
+                        <option value="@Constant.ConfirmedStatus.Failed">Failed</option>
+                        <option value="@Constant.ConfirmedStatus.Processing">Processing</option>
+                        <option value="@Constant.ConfirmedStatus.Paidapart">Paid A Part</option>
+                    }
+                    else if (ViewBag.SearchByConfirmedStatus == Constant.ConfirmedStatus.Failed)
+                    {
+                        <option value="@Constant.CommonValue.All">All</option>
+                        <option value="@Constant.ConfirmedStatus.Succeed">Succeed</option>
+                        <option value="@Constant.ConfirmedStatus.SucceedAndConfirmed">Succeed And Confirmed</option>
+                        <option value="@Constant.ConfirmedStatus.Failed" selected>Failed</option>
+                        <option value="@Constant.ConfirmedStatus.Processing">Processing</option>
+                        <option value="@Constant.ConfirmedStatus.Paidapart">Paid A Part</option>
+                    }
+                    else if (ViewBag.SearchByConfirmedStatus == Constant.ConfirmedStatus.Processing)
+                    {
+                        <option value="@Constant.CommonValue.All">All</option>
+                        <option value="@Constant.ConfirmedStatus.Succeed">Succeed</option>
+                        <option value="@Constant.ConfirmedStatus.SucceedAndConfirmed">Succeed And Confirmed</option>
+                        <option value="@Constant.ConfirmedStatus.Failed">Failed</option>
+                        <option value="@Constant.ConfirmedStatus.Processing" selected>Processing</option>
+                        <option value="@Constant.ConfirmedStatus.Paidapart">Paid A Part</option>
+                    }
+                    else if (ViewBag.SearchByConfirmedStatus == Constant.ConfirmedStatus.Paidapart)
+                    {
+                        <option value="@Constant.CommonValue.All">All</option>
+                        <option value="@Constant.ConfirmedStatus.Succeed">Succeed</option>
+                        <option value="@Constant.ConfirmedStatus.SucceedAndConfirmed">Succeed And Confirmed</option>
+                        <option value="@Constant.ConfirmedStatus.Failed">Failed</option>
+                        <option value="@Constant.ConfirmedStatus.Processing">Processing</option>
+                        <option value="@Constant.ConfirmedStatus.Paidapart" selected>Paid A Part</option>
+                    }
+                    else
+                    {
+                        <option value="@Constant.CommonValue.All" selected>All</option>
+                        <option value="@Constant.ConfirmedStatus.Succeed">Succeed</option>
+                        <option value="@Constant.ConfirmedStatus.SucceedAndConfirmed">Succeed And Confirmed</option>
+                        <option value="@Constant.ConfirmedStatus.Failed">Failed</option>
+                        <option value="@Constant.ConfirmedStatus.Processing">Processing</option>
+                        <option value="@Constant.ConfirmedStatus.Paidapart">Paid A Part</option>
+                    }
+                </select>
+            </div>
+        </div>
+    }
+    <div class="col-lg-1 col-md-1 hidden-sm hidden-xs">&nbsp;</div>
+    <div class="col-lg-4 col-md-4 hidden-sm hidden-xs">
+        <button id="btn_export" type="button" class="btn btn-outline btn-primary float-right" onclick="window.location.href = '/Order/ExportToExcel';"><i class="fa fa-file-excel-o"></i> &nbsp; Export to Excel</button>
+    </div>
+    <div class="hidden-lg hidden-md col-sm-12 col-xs-12">
+        <button id="btn_export" type="button" class="btn btn-outline btn-primary float-right width_100" onclick="window.location.href = '/Order/ExportToExcel';"><i class="fa fa-file-excel-o"></i> &nbsp; Export to Excel</button>
+    </div>
+</div>
+<br />
+<div class="row">
+    <div class="col-lg-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <span class="float_right">Total: @Model.OrderList.TotalItems items &nbsp;|&nbsp; Page @(Model.OrderList.TotalPages < Model.OrderList.CurrenPage ? 0 : Model.OrderList.CurrenPage) of @Model.OrderList.TotalPages</span>
+            </div>
+            <!-- /.panel-heading -->
+            <div class="panel-body">
+                <div class="dataTable_wrapper">
+                    <table class="table table-striped table-bordered table-hover hidden-sm hidden-xs" id="dataTables-example">
+                        <thead>
+                            <tr>
+                                <th class="text-center text-primary">Order Id</th>
+                                <th class="text-center text-primary">First Name</th>
+                                <th class="text-center text-primary">Last Name</th>
+                                <th class="text-center text-primary">Email</th>
+                                <th class="text-center text-primary">Total Amount</th>
+                                <th class="text-center text-primary">Phone</th>
+                                <th class="text-center text-primary">Confirmed Status</th>
+                                <th class="text-center text-primary">Completed At</th>
+                                <th class="text-center text-primary">Shipping Method</th>
+                                <th class="text-center text-primary">Shipped</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody id="bodyTable">
+                            @foreach (var m in Model.OrderList.Data)
+                            {
+                                <tr id="row_@m.Checkout.Id">
+                                    <td class="text-center">@m.Checkout.Id</td>
+                                    <td class="text-center">@m.Checkout.FirstName</td>
+                                    <td class="text-center">@m.Checkout.LastName</td>
+                                    <td class="text-center">@m.Checkout.Email</td>
+                                    <td class="text-center">$@m.ShoppingCart.TotalFinalPrice</td>
+                                    <td class="text-center">@m.Checkout.Phone</td>
+
+                                    @if (m.Checkout.ConfirmedStatus.Equals(Constant.ConfirmedStatus.Succeed))
+                                    {
+                                        <td class="text-center"><i class='fa fa-bell text-primary'></i>&nbsp;@m.Checkout.ConfirmedStatus</td>
+                                    }
+                                    else if (m.Checkout.ConfirmedStatus.Equals(Constant.ConfirmedStatus.SucceedAndConfirmed))
+                                    {
+                                        <td class="text-center"><i class='fa fa-check-square-o text-success'></i>&nbsp;@m.Checkout.ConfirmedStatus</td>
+                                    }
+                                    else if (m.Checkout.ConfirmedStatus.Equals(Constant.ConfirmedStatus.Processing))
+                                    {
+                                        <td class="text-center"><i class='fa fa-circle-o-notch text-danger'></i>&nbsp;@m.Checkout.ConfirmedStatus</td>
+                                    }
+                                    else if (m.Checkout.ConfirmedStatus.Equals(Constant.ConfirmedStatus.Paidapart))
+                                    {
+                                        <td class="text-center"><i class='fa fa-bell text-danger'></i>&nbsp;@m.Checkout.ConfirmedStatus</td>
+                                    }
+                                    else
+                                    {
+                                        <td class="text-center"><i class='fa fa-meh-o text-danger'></i>&nbsp;@m.Checkout.ConfirmedStatus</td>
+                                    }
+
+                                    <td class="text-center">@m.Checkout.CompletedAt</td>
+                                    @if (@m.Checkout.ShippingMethod == Constant.ShippingMethod.HomeMail)
+                                    {
+                                        <td class="text-center"><img src="~/images/app/homemail.svg" style="width: 69px" /></td>
+                                    }
+                                    else if (@m.Checkout.ShippingMethod == Constant.ShippingMethod.AustraliaPost)
+                                    {
+                                        <td class="text-center"><img src="~/images/app/auspost_logo.png" style="width: 52px" /></td>
+                                    }
+                                    else
+                                    {
+                                        <td class="text-center"><img src="~/images/app/clickandcollect.svg" style="width: 74px" /></td>
+                                    }
+
+                                    @if (m.Checkout.ConfirmedStatus.Equals(Constant.ConfirmedStatus.Succeed))
+                                    {
+                                        <td class="text-center"><i class="fa fa-cubes text-primary"></i>&nbsp;Waiting</td>
+                                    }
+                                    else if (m.Checkout.ConfirmedStatus.Equals(Constant.ConfirmedStatus.SucceedAndConfirmed))
+                                    {
+                                        <td class="text-center"><i class="fa fa-truck text-success"></i>&nbsp;Shipped</td>
+                                    }
+                                    else if (m.Checkout.ConfirmedStatus.Equals(Constant.ConfirmedStatus.Processing))
+                                    {
+                                        <td class="text-center"><i class='fa fa-shopping-cart text-danger'></i>&nbsp;In cart</td>
+                                    }
+                                    else if (m.Checkout.ConfirmedStatus.Equals(Constant.ConfirmedStatus.Paidapart))
+                                    {
+                                        <td class="text-center"><i class='glyphicon glyphicon-usd text-danger'></i>&nbsp;In Payment</td>
+                                    }
+                                    else
+                                    {
+                                        <td class="text-center"><i class='glyphicon glyphicon-bell text-danger'></i>&nbsp;Failed</td>
+                                    }
+
+                                    <td class="text-center">
+                                        <a href="/Admin/OrderDetail?orderId=@m.Checkout.Id"><i class="glyphicon glyphicon-eye-open cusor_pointer"></i></a>
+                                        &nbsp;
+                                        <a onclick="confirmDeleteOrder(@m.Checkout.Id)"><i class="fa fa-trash-o cusor_pointer"></i></a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                    <div class="hidden-lg hidden-md">
+                        @foreach (var m in Model.OrderList.Data)
+                        {
+                            <div class="panel panel-default" id="row_@m.Checkout.Id">
+                                <div class="panel-heading">
+                                    <a href="/Admin/OrderDetail?orderId=@m.Checkout.Id">@m.Checkout.Id - @m.Checkout.FirstName @m.Checkout.LastName</a> &nbsp;| &nbsp;
+                                    @if (m.Checkout.ConfirmedStatus.Equals(Constant.ConfirmedStatus.Succeed))
+                                    {
+                                        <a href="/Admin/OrderDetail?orderId=@m.Checkout.Id"><i class="fa fa-cubes text-primary"></i>&nbsp;Waiting</a>
+                                    }
+                                    else if (m.Checkout.ConfirmedStatus.Equals(Constant.ConfirmedStatus.SucceedAndConfirmed))
+                                    {
+                                        <a href="/Admin/OrderDetail?orderId=@m.Checkout.Id"><i class="fa fa-truck text-success"></i>&nbsp;Shipped</a>
+                                    }
+                                    else if (m.Checkout.ConfirmedStatus.Equals(Constant.ConfirmedStatus.Processing))
+                                    {
+                                        <a href="/Admin/OrderDetail?orderId=@m.Checkout.Id"><i class='fa fa-shopping-cart text-danger'></i>&nbsp;In Cart</a>
+                                    }
+                                    else if (m.Checkout.ConfirmedStatus.Equals(Constant.ConfirmedStatus.Paidapart))
+                                    {
+                                        <a href="/Admin/OrderDetail?orderId=@m.Checkout.Id"><i class='glyphicon glyphicon-usd text-danger'></i>&nbsp;In Payment</a>
+                                    }
+                                    else
+                                    {
+                                        <a href="/Admin/OrderDetail?orderId=@m.Checkout.Id"><i class='glyphicon glyphicon-bell text-danger'></i>&nbsp;Failed</a>
+                                    }
+                                </div>
+                                <table class="table table-striped table-bordered table-hover">
+                                    <tbody>
+                                        <tr>
+                                            <td class="font-bold width_30">Email</td>
+                                            <td class="text-center">@m.Checkout.Email</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="font-bold width_30">Phone</td>
+                                            <td class="text-center">@m.Checkout.Phone</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="font-bold width_30">Amount</td>
+                                            <td class="text-center">$@m.ShoppingCart.TotalFinalPrice</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="font-bold">Status</td>
+                                            @if (m.Checkout.ConfirmedStatus.Equals(Constant.ConfirmedStatus.Succeed))
+                                            {
+                                                <td class="text-center"><i class='fa fa-bell text-primary'></i>&nbsp;@m.Checkout.ConfirmedStatus</td>
+                                            }
+                                            else if (m.Checkout.ConfirmedStatus.Equals(Constant.ConfirmedStatus.SucceedAndConfirmed))
+                                            {
+                                                <td class="text-center"><i class='fa fa-check-square-o text-success'></i>&nbsp;@m.Checkout.ConfirmedStatus</td>
+                                            }
+                                            else if (m.Checkout.ConfirmedStatus.Equals(Constant.ConfirmedStatus.Processing))
+                                            {
+                                                <td class="text-center"><i class='fa fa-circle-o-notch text-danger'></i>&nbsp;@m.Checkout.ConfirmedStatus</td>
+                                            }
+                                            else if (m.Checkout.ConfirmedStatus.Equals(Constant.ConfirmedStatus.Paidapart))
+                                            {
+                                                <td class="text-center"><i class='fa fa-bell text-danger'></i>&nbsp;@m.Checkout.ConfirmedStatus</td>
+                                            }
+                                            else
+                                            {
+                                                <td class="text-center"><i class='fa fa-meh-o text-danger'></i>&nbsp;@m.Checkout.ConfirmedStatus</td>
+                                            }
+                                        </tr>
+                                        <tr>
+                                            <td class="font-bold">Completed</td>
+                                            <td class="text-center">@m.Checkout.CompletedAt</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="font-bold">Shipping</td>
+                                            @if (@m.Checkout.ShippingMethod == Constant.ShippingMethod.HomeMail)
+                                            {
+                                                <td class="text-center"><img src="~/images/app/homemail.svg" style="width: 69px" /></td>
+                                            }
+                                            else if (@m.Checkout.ShippingMethod == Constant.ShippingMethod.AustraliaPost)
+                                            {
+                                                <td class="text-center"><img src="~/images/app/auspost_logo.png" style="width: 52px" /></td>
+                                            }
+                                            else
+                                            {
+                                                <td class="text-center"><img src="~/images/app/clickandcollect.svg" style="width: 74px" /></td>
+                                            }
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <div class="panel-footer">
+                                    <div class="row">
+                                        <div class="col-xs-6"><a href="/Admin/OrderDetail?orderId=@m.Checkout.Id" class="pull-left"><i class="glyphicon glyphicon-eye-open cusor_pointer center"></i>&nbsp;View details</a></div>
+                                        <div class="col-xs-6"><a class="pull-right" onclick="confirmDeleteOrder(@m.Checkout.Id)"><i class="fa fa-trash-o cusor_pointer"></i>&nbsp;Remove</a></div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                    <nav aria-label="paging" class="text-center">
+                        <div class="dataTables_paginate paging_simple_numbers" id="dataTables-example_paginate">
+                            <ul class="pagination">
+                                @{
+                                    if (Model.OrderList.IsFirstPage)
+                                    {
+                                        <li class="paginate_button previous disabled" aria-controls="dataTables-example" tabindex="0" id="dataTables-example_previous">
+                                            <a>Previous</a>
+                                        </li>
+                                    }
+                                    else
+                                    {
+                                        <li class="paginate_button previous" aria-controls="dataTables-example" tabindex="0" id="dataTables-example_previous">
+                                            @Html.ActionLink("Previous", "Order", new { PageNo = Model.OrderList.CurrenPage - 1, CurrentSearch = ViewBag.CurrentSearch })
+                                        </li>
+                                    }
+
+                                    for (int i = 1; i <= Model.OrderList.TotalPages; i++)
+                                    {
+                                        if (Model.OrderList.CurrenPage == i)
+                                        {
+                                            <li class="paginate_button active" aria-controls="dataTables-example" tabindex="0">
+                                                @Html.ActionLink(i.ToString(), "Order", new { PageNo = i, CurrentSearch = ViewBag.CurrentSearch })
+                                            </li>
+                                        }
+                                        else
+                                        {
+                                            <li class="paginate_button" aria-controls="dataTables-example" tabindex="0">
+                                                @Html.ActionLink(i.ToString(), "Order", new { PageNo = i, CurrentSearch = ViewBag.CurrentSearch })
+                                            </li>
+                                        }
+                                    }
+
+                                    if (Model.OrderList.IsLastPage || !Model.OrderList.Data.Any())
+                                    {
+                                        <li class="paginate_button next disabled" aria-controls="dataTables-example" tabindex="0" id="dataTables-example_next">
+                                            <a>Next</a>
+                                        </li>
+                                    }
+                                    else
+                                    {
+                                        <li class="paginate_button next" aria-controls="dataTables-example" tabindex="0" id="dataTables-example_next">
+                                            @Html.ActionLink("Next", "Order", new { PageNo = Model.OrderList.CurrenPage + 1, CurrentSearch = ViewBag.CurrentSearch })
+                                        </li>
+                                    }
+                                }
+                            </ul>
+                        </div>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@using (Html.BeginForm("Delete", "Order", FormMethod.Post, new { @id = "form_deleteOrder", @class = "modal fade", @role = "dialog" }))
+{
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Delete Order</h4>
+            </div>
+            <div class="modal-body">
+                @Html.Hidden("orderIdForDelete")
+                <div id="message_confirm" style="padding-top: 5px;">Are you sure you want to delete "<b id="delete_orderId"></b>"?</div>
+            </div>
+            <div class="modal-footer">
+                <button id="delete_Order" type="submit" class="btn btn-primary"><i class="fa fa-trash"></i>&nbsp;Delete</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+}
+
+<script type="text/javascript">
+    function confirmDeleteOrder(id) {
+        $("#delete_orderId").text(id);
+        $("#orderIdForDelete").val(id);
+        $('#form_deleteOrder').modal('toggle');
+    };
+</script>
